@@ -19,13 +19,14 @@ public class TargetBreak : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, rotation));
     }
 
-    public void destroyObject()
+    public void destroyObject(int gunColor)
     {
         var random = new System.Random();
         var min = -5;
         var max = 5;
         gameObject.GetComponentsInChildren<Rigidbody>().ToList().ForEach(r => {
             r.isKinematic = false;
+            r.AddForce(2 * Physics.gravity, ForceMode.Impulse);
             r.transform.SetParent(null);
             r.gameObject.AddComponent<AutoDestroy>().time = 2f;
             r.gameObject.layer = 6;
@@ -37,7 +38,7 @@ public class TargetBreak : MonoBehaviour
         {
             Hit = true;
             Debug.Log("Hit");
-            _manager.HitTarget(_info.num, _info.color, _info.size); //当たったことを伝える
+            _manager.HitTarget(_info.num, _info.color, _info.size, gunColor); //当たったことを伝える
         }
         Destroy(gameObject);
     }
@@ -47,7 +48,7 @@ public class TargetBreak : MonoBehaviour
     {
         if (collision.gameObject.layer != 0) return;//的でないならreturn
         TargetBreak tb = collision.gameObject.GetComponentInParent<TargetBreak>();
-        tb.destroyObject();//ここをinterfaceにするかも?
+        tb.destroyObject(1/*ここにプレイヤーの銃の色情報を入れる*/);//ここをinterfaceにするかも?
     }
 
 }

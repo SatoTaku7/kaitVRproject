@@ -428,6 +428,8 @@ MonoBehaviour:
   TartgetGray: {fileID: 572450906413194784, guid: a5d892a3e46b9ad4895731c856fd8d02, type: 3}
   d: 75
   n: 64
+  comboNum: 0
+  level: 1
 --- !u!4 &1076049617
 Transform:
   m_ObjectHideFlags: 0
