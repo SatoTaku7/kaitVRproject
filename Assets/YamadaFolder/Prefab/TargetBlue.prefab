@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   num: 0
-  color: 2
+  color: 1
   size: 20
 --- !u!114 &1406239954205269747
 MonoBehaviour:
