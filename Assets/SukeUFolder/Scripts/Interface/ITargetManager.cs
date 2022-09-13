@@ -1,7 +1,7 @@
-
+ï»¿
 public interface ITargetManager
 {
-    //‰ó‚ê‚½“I‚Ì”
+    //å£Šã‚ŒãŸçš„ã®æ•°
     int breakTargetCount { get; }
 
 }
