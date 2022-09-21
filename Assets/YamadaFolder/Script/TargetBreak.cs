@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TargetBreak : MonoBehaviour
+public class TargetBreak : MonoBehaviour,IGunBreakTarget
 {
     private bool Hit = false;
     private TargetManager _manager;
@@ -19,7 +19,7 @@ public class TargetBreak : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, rotation));
     }
 
-    public void destroyObject(int gunColor)
+    public void BreakTarget(int gunColor)
     {
         var random = new System.Random();
         var min = -5;
@@ -48,7 +48,7 @@ public class TargetBreak : MonoBehaviour
     {
         if (collision.gameObject.layer != 0) return;//的でないならreturn
         TargetBreak tb = collision.gameObject.GetComponentInParent<TargetBreak>();
-        tb.destroyObject(1/*ここにプレイヤーの銃の色情報を入れる*/);//ここをinterfaceにするかも?
+        tb.BreakTarget(1/*ここにプレイヤーの銃の色情報を入れる*/);//ここをinterfaceにするかも?
     }
 
 }

@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetManager : MonoBehaviour
+public class TargetManager : MonoBehaviour,ITargetManager
 {
+    public int breakTargetCount { get; private set; }
+
     [SerializeField] GameObject TartgetRed;
     [SerializeField] GameObject TartgetBlue;
     [SerializeField] GameObject TartgetGray;
 
     public int d = 60;//生成距離
     public int n = 40;//生成位置のバラつき　大きいほど中央寄り
+
+    public int targetSize = 10;//的のサイズ
+    public float minusSize = 1f;
 
     public int comboNum = 0;//コンボ数
     private bool comboPlus = false;
@@ -28,7 +33,7 @@ public class TargetManager : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            GenerateTartget(i, 2, 20);
+            GenerateTartget(i, 2, targetSize);
         }
     }
 
@@ -39,7 +44,7 @@ public class TargetManager : MonoBehaviour
             var g = GameObject.FindWithTag("Target").GetComponentsInChildren<TargetBreak>();
             int ran = Random.Range(0, g.Length);
             int ranGun = Random.Range(0, 2);
-            g[ran].destroyObject(ranGun);
+            g[ran].BreakTarget(ranGun);
         }
         level = 1 + breakNum / 10;
     }
@@ -56,13 +61,13 @@ public class TargetManager : MonoBehaviour
     {
         if (color == 2) return;
         //同色なら
-        if (color == 0 && gunColor == 0)
+        if (color == 0 && gunColor == 1)
         {
             Debug.Log("コンボを増やします");
             comboPlus = true;
             comboNum++;
         }
-        if (color == 1 && gunColor == 1)
+        if (color == 1 && gunColor == 2)
         {
             Debug.Log("コンボを増やします");
             comboPlus = true;
@@ -114,7 +119,7 @@ public class TargetManager : MonoBehaviour
 
 
         //レベルに応じたサイズの変更
-        size = 22.5f - Mathf.Min(level, 3) * 2.5f;
+        size = targetSize + minusSize - Mathf.Min(level, 3) * minusSize;
 
         //レベルに応じた色レベルの設定
         level = Mathf.Min(level, 5);
