@@ -95,7 +95,7 @@ public class VRGameManager : MonoBehaviour, ICombo, IStateChanger, IBreakTargetC
     {
         //ゲームオーバーになったときの処理
         ChangeState(IStateChanger.GameState.Result);
-        resultManager.SetRecord(0,0,0);//リザルトに受け渡す
+        //resultManager.SetRecord(0,0,0);//リザルトに受け渡す
     }
 
 
