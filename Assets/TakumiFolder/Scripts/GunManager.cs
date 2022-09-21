@@ -14,6 +14,7 @@ public class GunManager : MonoBehaviour, IGunManager
     [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
     int bullet_countL, bullet_countR;//左右それぞれの残弾数
     int hit;
+    int layerMask=1<<7|1<<6;
     
     [SerializeField] GameObject Ob;
     
@@ -62,17 +63,22 @@ public class GunManager : MonoBehaviour, IGunManager
         //当たった的の種類を確認する用のスクリプト
         Ray ray = new Ray(LGun_trans.position, LGun_trajectory.position- LGun_trans.position);
         RaycastHit hitobj;
-        if (Physics.Raycast(ray, out hitobj, 10f))
+        if (Physics.Raycast(ray, out hitobj, 100, layerMask))
         {
             if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
             {
-                if (hitobj.collider.name == "Button")
+                if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
                     Ob.SetActive(false);
                     Debug.Log("UIを確認");
                 }
+                if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
+                {
+                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
+                    Reload();
+                    Debug.Log(hitobj.collider.gameObject.name+"オブジェ");
+                }
             }
-            
             //else Ob.SetActive(false);
             Debug.Log(hitobj.collider.gameObject.name);
         }
@@ -80,23 +86,22 @@ public class GunManager : MonoBehaviour, IGunManager
 
 
         //的に命中した際のリロード機能　今はXボタンで左ヒット　Aボタンで右ヒットを仮においている
-        if (OVRInput.GetDown(OVRInput.RawButton.X))//左当たった場合
-        {
-            hit = 1;
-            Reload(); 
-        }
-        if (OVRInput.GetDown(OVRInput.RawButton.A)) //右当たった場合
-        {
-            hit = 2;
-            Reload(); 
-        } 
+        //if (OVRInput.GetDown(OVRInput.RawButton.X))//左当たった場合
+        //{
+        //    hit = 1;
+        //    Reload(); 
+        //}
+        //if (OVRInput.GetDown(OVRInput.RawButton.A)) //右当たった場合
+        //{
+        //    hit = 2;
+        //    Reload(); 
+        //} 
         
 
     }
     public  void Reload()
-    {
-        if(hit == 1) bullet_countL = 1;
-        if (hit == 2) bullet_countR = 1;
+    { 
+        bullet_countL = 1;
         hit = 0;
     }
     public void PowerUp()
