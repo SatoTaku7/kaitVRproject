@@ -30,6 +30,7 @@ public class VRGameManager : MonoBehaviour, ICombo, IStateChanger, IBreakTargetC
     public void DebugTest()
     {
         Debug.Log($"現在の状態:{currentState}");
+        
     }
     // Update is called once per frame
     void Update()
