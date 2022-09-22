@@ -356,7 +356,7 @@ MonoBehaviour:
   EndWidth: 0.0001
   textbullet_countL: {fileID: 122075257}
   textbullet_countR: {fileID: 1894972197}
-  Ob: {fileID: 333331794}
+  InfiniteMode: 1
 --- !u!65 &33205871
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -888,7 +888,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &57483086
 Transform:
   m_ObjectHideFlags: 0
@@ -1959,7 +1959,7 @@ GameObject:
   - component: {fileID: 425486438}
   - component: {fileID: 425486437}
   - component: {fileID: 425486436}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2275,6 +2275,11 @@ MonoBehaviour:
   firstBreak2: 1
   firstBreak3: 1
   firstBreak4: 1
+  PopUpScoreText: {fileID: 0}
+  BreakEffectObj:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &478216903
 Transform:
   m_ObjectHideFlags: 0
@@ -2757,7 +2762,7 @@ MonoBehaviour:
   EndWidth: 0
   textbullet_countL: {fileID: 0}
   textbullet_countR: {fileID: 0}
-  Ob: {fileID: 0}
+  InfiniteMode: 0
 --- !u!120 &778054385
 LineRenderer:
   m_ObjectHideFlags: 0
