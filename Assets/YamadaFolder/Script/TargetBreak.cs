@@ -28,7 +28,7 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
             r.isKinematic = false;
             r.AddForce(2 * Physics.gravity, ForceMode.Impulse);
             r.transform.SetParent(null);
-            r.gameObject.AddComponent<AutoDestroy>().time = 2f;
+            r.gameObject.AddComponent<AutoDestroy>().time = 0.2f;
             r.gameObject.layer = 6;
             var vect = new Vector3(random.Next(min, max), random.Next(0, max), random.Next(min, max));
             r.AddForce(vect, ForceMode.Impulse);
@@ -38,7 +38,7 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
         {
             Hit = true;
             Debug.Log("Hit");
-            _manager.HitTarget(_info.num, _info.color, _info.size, gunColor); //“–‚½‚Á‚½‚±‚Æ‚ð“`‚¦‚é
+            _manager.HitTarget(_info.num, _info.color, _info.size, gunColor, transform.position); //“–‚½‚Á‚½‚±‚Æ‚ð“`‚¦‚é
         }
         Destroy(gameObject);
     }
