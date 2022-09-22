@@ -16,12 +16,17 @@ public class VR_UI : MonoBehaviour
 
     void Update()
     {
-        if (gunManager.ButtonClicked)
+        if (gunManager.ButtonClicked)//スタートボタンが押されたらCanvasが消える
         {
             if (Button.gameObject.name == gunManager.ButtonName)
             {
-                this.gameObject.SetActive(false);
+                Button.gameObject.SetActive(false);
             }
+        }
+        if (gunManager.is_game_over)//ゲームオーバーが呼ばれたらスタートボタンを出現
+        {
+            Button.gameObject.SetActive(true);
+            gunManager.ButtonClicked = false;
         }
     }
 }
