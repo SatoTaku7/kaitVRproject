@@ -29,6 +29,12 @@ public class TargetManager : MonoBehaviour,ITargetManager
     [SerializeField] bool firstBreak3 = true;
     [SerializeField] bool firstBreak4 = true;
 
+    //ポップアップするスコアテキスト
+    [SerializeField] GameObject PopUpScoreText;
+
+    //ポップアップするスコアテキスト
+    [SerializeField] GameObject[] BreakEffectObj = new GameObject[3];
+
     private void Start()
     {
         for (int i = 0; i < 4; i++)
@@ -49,43 +55,87 @@ public class TargetManager : MonoBehaviour,ITargetManager
         level = 1 + breakNum / 10;
     }
 
-    public void HitTarget(int num, int color, float size,int gunColor)
+    public void HitTarget(int num, int color, float size,int gunColor, Vector3 pos)
     {
         breakNum++;
         GenerateTartget(num, color, size);
-        CalculateScore(color, gunColor);
+        CalculateScore(color, gunColor, pos);
+        BreakEffect(pos);
     }
 
     //当たった的と銃の情報からスコアの算出
-    private void CalculateScore(int color, int gunColor)
+    private void CalculateScore(int color, int gunColor, Vector3 pos)
     {
-        if (color == 2) return;
-        //同色なら
-        if (color == 0 && gunColor == 1)
+        //コンボ判定用
+        if (color != 2)
         {
-            Debug.Log("コンボを増やします");
-            comboPlus = true;
-            comboNum++;
-        }
-        if (color == 1 && gunColor == 2)
-        {
-            Debug.Log("コンボを増やします");
-            comboPlus = true;
-            comboNum++;
+            //同色なら
+            if (color == 0 && gunColor == 1)
+            {
+                Debug.Log("コンボを増やします");
+                comboPlus = true;
+                comboNum++;
+            }
+            if (color == 1 && gunColor == 2)
+            {
+                Debug.Log("コンボを増やします");
+                comboPlus = true;
+                comboNum++;
+            }
+
+            //色が違う場合
+            if (color == 0 && gunColor == 1)
+            {
+                Debug.Log("コンボ数をリセット");
+                comboPlus = false;
+                comboNum = 0;
+            }
+            if (color == 1 && gunColor == 0)
+            {
+                Debug.Log("コンボ数をリセット");
+                comboPlus = false;
+                comboNum = 0;
+            }
         }
 
-        //色が違う場合
-        if (color == 0 && gunColor == 1)
+        //現在のコンボ数を取得
+        int conbo = 0;
+
+        //スコアの算出
+        int score = 100 + (conbo * 30);
+
+        //スコアをポップアップ
+        PopUpScore(color, score, pos);
+    }
+
+    //スコアをポップアップさせる
+    private void PopUpScore(int color,int score,Vector3 pos)
+    {
+        GameObject ins;
+        PopUpTextController info;
+        ins = Instantiate(PopUpScoreText, pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+        info = ins.GetComponent<PopUpTextController>();
+        info.Init(score, color);
+    }
+
+    //的が壊れた際のエフェクト
+    private void BreakEffect(Vector3 pos)
+    {
+        //コンボ数を取得
+        int combo = 0;
+
+        //コンボ数に応じた演出
+        if (combo > 4)
         {
-            Debug.Log("コンボ数をリセット");
-            comboPlus = false;
-            comboNum = 0;
+            Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
-        if (color == 1 && gunColor == 0)
+        else if (combo > 9)
         {
-            Debug.Log("コンボ数をリセット");
-            comboPlus = false;
-            comboNum = 0;
+            Instantiate(BreakEffectObj[2], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+        }
+        else
+        {
+            Instantiate(BreakEffectObj[0], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
     }
 
@@ -151,7 +201,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
         }
 
         //レベルに応じた色の設定
-        var c = GetComponentsInChildren<TargetInformation>();
         switch (colorLevel)
         {
             case 1:
@@ -170,6 +219,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 }
                 break;
             case 3:
+                var c = GetComponentsInChildren<TargetInformation>();
                 if (firstBreak2 && color == 2)
                 {
                     for (int i = 0; i < 3; i++)
@@ -196,6 +246,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 }
                 break;
             case 5:
+                c = GetComponentsInChildren<TargetInformation>();
                 if (firstBreak4 && color == 2)
                 {
                     int red = 0;

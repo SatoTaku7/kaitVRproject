@@ -6,15 +6,10 @@ public class PopUpTextController : MonoBehaviour
 {
     private TextMesh _mesh;
 
-    // Start is called before the first frame update
-    private void Start()
+    public void Init(int score,int color)
     {
         _mesh = GetComponent<TextMesh>();
         StartCoroutine(Fadeout());
-    }
-
-    public void Init(int score,int color)
-    {
         _mesh.text = "+" + score.ToString();
         switch (color)
         {
