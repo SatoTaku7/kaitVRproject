@@ -122,7 +122,7 @@ public class GunManager : MonoBehaviour, IGunManager
                 }
                 if (hitobj.collider.gameObject.layer == 6 )//的に当たったとき
                 {
-                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
+                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
                     Reload();
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
@@ -142,7 +142,7 @@ public class GunManager : MonoBehaviour, IGunManager
                 }
                 if (hitobj.collider.gameObject.layer == 6 )//的に当たったとき
                 {
-                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
+                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
                     Reload();
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
