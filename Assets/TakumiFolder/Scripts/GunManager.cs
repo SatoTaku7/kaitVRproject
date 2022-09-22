@@ -91,36 +91,40 @@ public class GunManager : MonoBehaviour, IGunManager
         RaycastHit hitobj;
         if (Physics.Raycast(ray_L, out hitobj, 200, layerMask))
         {
-            
+            if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
+            {
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
                     ButtonName = hitobj.collider.gameObject.name;
                     ButtonClicked = true;
                     //Debug.Log("UIを確認");
                 }
-                if (hitobj.collider.gameObject.layer == 6&&(bullet_countL == 1|| InfiniteMode == true))//的に当たったとき
+                if (hitobj.collider.gameObject.layer == 6 && (bullet_countL == 1 || InfiniteMode == true))//的に当たったとき
                 {
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
                     Reload();
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
+            }
             //Debug.Log(hitobj.collider.gameObject.name);
         }
         if (Physics.Raycast(ray_R, out hitobj, 200, layerMask))
         {
-            
+            if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
+            {
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
-                     ButtonName = hitobj.collider.gameObject.name;
-                     ButtonClicked = true;
-                     //Debug.Log("UIを確認");
+                    ButtonName = hitobj.collider.gameObject.name;
+                    ButtonClicked = true;
+                    //Debug.Log("UIを確認");
                 }
-                if (hitobj.collider.gameObject.layer == 6&&( bullet_countR == 1|| InfiniteMode==true))//的に当たったとき
+                if (hitobj.collider.gameObject.layer == 6 && (bullet_countR == 1 || InfiniteMode == true))//的に当たったとき
                 {
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
                     Reload();
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
+            }
             //Debug.Log(hitobj.collider.gameObject.name);
         }
         //Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
