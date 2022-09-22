@@ -12,12 +12,14 @@ public class GunManager : MonoBehaviour, IGunManager
     LineRenderer lineRenderer_L,lineRenderer_R;//レイザーポインター左右
     [SerializeField] float StartWidth, EndWidth;//レイザーポインター左右　太さ
     [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
-    int bullet_countL, bullet_countR;//左右それぞれの残弾数
-    int hit;
-    int layerMask=1<<7|1<<6;
-    
-    [SerializeField] GameObject Ob;
-    
+    private int bullet_countL, bullet_countR;//左右それぞれの残弾数
+    private int hit;
+    private int layerMask=1<<7|1<<6;
+    [SerializeField] bool InfiniteMode;
+
+    public  string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
+    public  bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
+
     void Start()
     {
         lineRenderer_L =LGun.GetComponent<LineRenderer>();
@@ -29,79 +31,105 @@ public class GunManager : MonoBehaviour, IGunManager
         lineRenderer_L.endWidth = EndWidth;
         lineRenderer_R.startWidth = StartWidth;
         lineRenderer_R.endWidth = EndWidth;
-        Ob.SetActive(true);
+        ButtonClicked = false;
+        //InfiniteMode = false;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        textbullet_countL.text = bullet_countL.ToString();
-        textbullet_countR.text = bullet_countR.ToString();
+        if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
+        {
+            textbullet_countL.text = bullet_countL.ToString();
+            textbullet_countR.text = bullet_countR.ToString();
+        }
+        else
+        {
+            textbullet_countL.text = "∞";
+            textbullet_countR.text = "∞";
+        }
+        
         lineRenderer_L.SetPosition(0, LGun_trans.position);
         lineRenderer_L.SetPosition(1, LGun_trajectory.position) ;
         lineRenderer_R.SetPosition(0, RGun_trans.position);
         lineRenderer_R.SetPosition(1, RGun_trajectory.position);
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
-            bullet_countL = 0;
+            if (InfiniteMode == false)
+            {
+                bullet_countL = 0;
+            }   
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            Ray();
         }
         if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))//左トリガーを戻したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            ButtonClicked = false;
         }
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
         {
-            bullet_countR = 0;
+            if (InfiniteMode == false)
+            {
+                bullet_countL = 0;
+            }
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            Ray();
         }
         if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))//右トリガーを戻したとき
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
-
+            ButtonClicked = false;
+        } 
+    }
+    public void Ray()
+    {
         //当たった的の種類を確認する用のスクリプト
-        Ray ray = new Ray(LGun_trans.position, LGun_trajectory.position- LGun_trans.position);
+        Ray ray_L = new Ray(LGun_trans.position, LGun_trajectory.position - LGun_trans.position);
+        Ray ray_R = new Ray(RGun_trans.position, RGun_trajectory.position - RGun_trans.position);
         RaycastHit hitobj;
-        if (Physics.Raycast(ray, out hitobj, 100, layerMask))
+        if (Physics.Raycast(ray_L, out hitobj, 200, layerMask))
         {
-            if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
-            {
+            
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
-                    Ob.SetActive(false);
-                    Debug.Log("UIを確認");
+                    ButtonName = hitobj.collider.gameObject.name;
+                    ButtonClicked = true;
+                    //Debug.Log("UIを確認");
                 }
-                if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
+                if (hitobj.collider.gameObject.layer == 6&&(bullet_countL == 1|| InfiniteMode == true))//的に当たったとき
                 {
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
                     Reload();
-                    Debug.Log(hitobj.collider.gameObject.name+"オブジェ");
+                    Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
-            }
-            //else Ob.SetActive(false);
-            Debug.Log(hitobj.collider.gameObject.name);
+            //Debug.Log(hitobj.collider.gameObject.name);
         }
-        Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
-
-
-        //的に命中した際のリロード機能　今はXボタンで左ヒット　Aボタンで右ヒットを仮においている
-        //if (OVRInput.GetDown(OVRInput.RawButton.X))//左当たった場合
-        //{
-        //    hit = 1;
-        //    Reload(); 
-        //}
-        //if (OVRInput.GetDown(OVRInput.RawButton.A)) //右当たった場合
-        //{
-        //    hit = 2;
-        //    Reload(); 
-        //} 
-        
-
+        if (Physics.Raycast(ray_R, out hitobj, 200, layerMask))
+        {
+            
+                if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
+                {
+                     ButtonName = hitobj.collider.gameObject.name;
+                     ButtonClicked = true;
+                     //Debug.Log("UIを確認");
+                }
+                if (hitobj.collider.gameObject.layer == 6&&( bullet_countR == 1|| InfiniteMode==true))//的に当たったとき
+                {
+                    hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
+                    Reload();
+                    Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
+                }
+            //Debug.Log(hitobj.collider.gameObject.name);
+        }
+        //Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
     }
+
     public  void Reload()
     { 
         bullet_countL = 1;
+        bullet_countR = 1;
         hit = 0;
     }
     public void PowerUp()
