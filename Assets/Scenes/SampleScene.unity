@@ -4047,9 +4047,7 @@ MonoBehaviour:
   EndWidth: 0.0001
   textbullet_countL: {fileID: 795058481}
   textbullet_countR: {fileID: 505000097}
-  InfiniteMode: 0
-  ButtonName: 
-  ButtonClicked: 0
+  Ob: {fileID: 0}
 --- !u!114 &955519972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5208,9 +5206,7 @@ MonoBehaviour:
   EndWidth: 0
   textbullet_countL: {fileID: 0}
   textbullet_countR: {fileID: 0}
-  InfiniteMode: 0
-  ButtonName: 
-  ButtonClicked: 0
+  Ob: {fileID: 0}
 --- !u!120 &1272582786
 LineRenderer:
   m_ObjectHideFlags: 0
