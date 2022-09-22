@@ -35,8 +35,13 @@ public class TargetManager : MonoBehaviour,ITargetManager
     //ポップアップするスコアテキスト
     [SerializeField] GameObject[] BreakEffectObj = new GameObject[3];
 
+    private GameObject GameManager;
+    private ComboManager _combo;
+
     private void Start()
     {
+        GameManager = GameObject.FindGameObjectWithTag("GameController");
+        _combo = GameManager.GetComponent<ComboManager>();
         for (int i = 0; i < 4; i++)
         {
             GenerateTartget(i, 2, targetSize);
@@ -49,7 +54,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
         {
             var g = GameObject.FindWithTag("Target").GetComponentsInChildren<TargetBreak>();
             int ran = Random.Range(0, g.Length);
-            int ranGun = Random.Range(0, 2);
+            int ranGun = Random.Range(1, 3);
             g[ran].BreakTarget(ranGun);
         }
         level = 1 + breakNum / 10;
@@ -75,34 +80,19 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 Debug.Log("コンボを増やします");
                 comboPlus = true;
                 comboNum++;
+                _combo.ContinuousCombo();
             }
             if (color == 1 && gunColor == 2)
             {
                 Debug.Log("コンボを増やします");
                 comboPlus = true;
                 comboNum++;
-            }
-
-            //色が違う場合
-            if (color == 0 && gunColor == 1)
-            {
-                Debug.Log("コンボ数をリセット");
-                comboPlus = false;
-                comboNum = 0;
-            }
-            if (color == 1 && gunColor == 0)
-            {
-                Debug.Log("コンボ数をリセット");
-                comboPlus = false;
-                comboNum = 0;
+                _combo.ContinuousCombo();
             }
         }
 
-        //現在のコンボ数を取得
-        int conbo = 0;
-
         //スコアの算出
-        int score = 100 + (conbo * 30);
+        int score = _combo.ScoreCal(_combo.combo);
 
         //スコアをポップアップ
         PopUpScore(color, score, pos);
