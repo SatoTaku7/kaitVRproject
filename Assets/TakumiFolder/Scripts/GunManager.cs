@@ -15,10 +15,11 @@ public class GunManager : MonoBehaviour, IGunManager
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int hit;
     private int layerMask=1<<7|1<<6;
-    [SerializeField] bool InfiniteMode;
+    [SerializeField] bool InfiniteMode,LongRayMode;
 
     public  string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
     public  bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
+    public bool is_game_over;
 
     void Start()
     {
@@ -27,18 +28,21 @@ public class GunManager : MonoBehaviour, IGunManager
         bullet_countL = 1;
         bullet_countR = 1;
         hit = 0;
-        lineRenderer_L.startWidth = StartWidth;
-        lineRenderer_L.endWidth = EndWidth;
-        lineRenderer_R.startWidth = StartWidth;
-        lineRenderer_R.endWidth = EndWidth;
         ButtonClicked = false;
-        //InfiniteMode = false;
-        
+        InfiniteMode = true;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
+        LongRayMode = true;//レイザーポイントを長くする
+        is_game_over = false;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        lineRenderer_L.startWidth = StartWidth;
+        lineRenderer_L.endWidth = EndWidth;
+        lineRenderer_R.startWidth = StartWidth;
+        lineRenderer_R.endWidth = EndWidth;
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
         {
             textbullet_countL.text = bullet_countL.ToString();
@@ -48,6 +52,16 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             textbullet_countL.text = "∞";
             textbullet_countR.text = "∞";
+        }
+        if (LongRayMode == false)
+        {
+            StartWidth = 0.001f;
+            EndWidth = 0.0001f;
+        }
+        else
+        {
+            StartWidth = 0.01f;
+            EndWidth = 0.01f;
         }
         
         lineRenderer_L.SetPosition(0, LGun_trans.position);
@@ -72,7 +86,7 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             if (InfiniteMode == false)
             {
-                bullet_countL = 0;
+                bullet_countR = 0;
             }
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
             Ray();
@@ -81,7 +95,13 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
             ButtonClicked = false;
-        } 
+        }
+
+        if(bullet_countL==0&& bullet_countR == 0)
+        {
+            GameOver();
+        }
+        
     }
     public void Ray()
     {
@@ -95,11 +115,12 @@ public class GunManager : MonoBehaviour, IGunManager
             {
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
+                    bullet_countL = 1;//UIをタッチしたときは弾数を1にする、ノーカンの処理を代理でおいといた。バグの元になりそうなのでので後で直します
                     ButtonName = hitobj.collider.gameObject.name;
                     ButtonClicked = true;
                     //Debug.Log("UIを確認");
                 }
-                if (hitobj.collider.gameObject.layer == 6 && (bullet_countL == 1 || InfiniteMode == true))//的に当たったとき
+                if (hitobj.collider.gameObject.layer == 6 )//的に当たったとき
                 {
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
                     Reload();
@@ -114,11 +135,12 @@ public class GunManager : MonoBehaviour, IGunManager
             {
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
+                    bullet_countR = 1;//UIをタッチしたときは弾数を1にする、ノーカンの処理を代理でおいといた。バグの元になりそうなのでので後で直します
                     ButtonName = hitobj.collider.gameObject.name;
                     ButtonClicked = true;
                     //Debug.Log("UIを確認");
                 }
-                if (hitobj.collider.gameObject.layer == 6 && (bullet_countR == 1 || InfiniteMode == true))//的に当たったとき
+                if (hitobj.collider.gameObject.layer == 6 )//的に当たったとき
                 {
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(hit);
                     Reload();
@@ -127,7 +149,8 @@ public class GunManager : MonoBehaviour, IGunManager
             }
             //Debug.Log(hitobj.collider.gameObject.name);
         }
-        //Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
+        Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
+        Debug.DrawRay(RGun_trans.position, RGun_trajectory.position - RGun_trans.position, Color.red);
     }
 
     public  void Reload()
@@ -142,7 +165,9 @@ public class GunManager : MonoBehaviour, IGunManager
     }
     public void GameOver()
     {
-
+        is_game_over = true;
+        bullet_countL = 1;
+        bullet_countR = 1;
     }
 }
 
