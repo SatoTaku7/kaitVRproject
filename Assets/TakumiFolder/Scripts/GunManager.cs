@@ -106,12 +106,14 @@ public class GunManager : MonoBehaviour, IGunManager
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
             }
+            Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
             //Debug.Log(hitobj.collider.gameObject.name);
         }
         if (Physics.Raycast(ray_R, out hitobj, 200, layerMask))
         {
             if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
             {
+
                 if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
                 {
                     ButtonName = hitobj.collider.gameObject.name;
@@ -125,9 +127,10 @@ public class GunManager : MonoBehaviour, IGunManager
                     Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                 }
             }
+            Debug.DrawRay(RGun_trans.position, RGun_trajectory.position - RGun_trans.position, Color.red);
             //Debug.Log(hitobj.collider.gameObject.name);
         }
-        //Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
+       
     }
 
     public  void Reload()

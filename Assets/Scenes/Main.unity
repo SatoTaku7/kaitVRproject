@@ -4047,7 +4047,9 @@ MonoBehaviour:
   EndWidth: 0.0001
   textbullet_countL: {fileID: 795058481}
   textbullet_countR: {fileID: 505000097}
-  Ob: {fileID: 0}
+  InfiniteMode: 0
+  ButtonName: 
+  ButtonClicked: 0
 --- !u!114 &955519972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5206,7 +5208,9 @@ MonoBehaviour:
   EndWidth: 0
   textbullet_countL: {fileID: 0}
   textbullet_countR: {fileID: 0}
-  Ob: {fileID: 0}
+  InfiniteMode: 0
+  ButtonName: 
+  ButtonClicked: 0
 --- !u!120 &1272582786
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -7546,6 +7550,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9809c5e8418bb047bf2c8ba1d1a2cec, type: 3}
+--- !u!1 &1779674139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779674140}
+  m_Layer: 0
+  m_Name: Stage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1779674140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779674139}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.902468, y: 20.803894, z: 412.99844}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1826027466 stripped
 CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 136729439212157496, guid: 0242aa8515b4bc947a945a5c6df83ee9, type: 3}
