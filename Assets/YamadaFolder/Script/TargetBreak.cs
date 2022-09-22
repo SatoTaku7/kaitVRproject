@@ -21,10 +21,24 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
 
     public void BreakTarget(int gunColor)
     {
+        //銃の色と同じかどうかの判定
+        if (_info.color != 2 && _info.color != (gunColor - 1))
+        {
+            //色が違う
+            Debug.Log("銃の色と的の色が異なります！");
+            //コンボをリセット
+            var GameManager = GameObject.FindGameObjectWithTag("GameController");
+            var _combo = GameManager.GetComponent<ComboManager>();
+            _combo.ResetCombo();
+            return;
+        }
+
         var random = new System.Random();
         var min = -5;
         var max = 5;
         gameObject.GetComponentsInChildren<Rigidbody>().ToList().ForEach(r => {
+            var c = r.gameObject.GetComponent<MeshCollider>();
+            c.isTrigger = true;
             r.isKinematic = false;
             r.AddForce(2 * Physics.gravity, ForceMode.Impulse);
             r.transform.SetParent(null);
