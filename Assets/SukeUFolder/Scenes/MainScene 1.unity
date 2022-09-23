@@ -825,6 +825,7 @@ GameObject:
   - component: {fileID: 475766870}
   - component: {fileID: 475766869}
   - component: {fileID: 475766868}
+  - component: {fileID: 475766872}
   m_Layer: 0
   m_Name: AllManager
   m_TagString: GameController
@@ -885,6 +886,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &475766872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475766867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12811ac54deccee4da3f9c21ebc1e87b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TartgetRed: {fileID: 4317886390081602144, guid: 1b136be09ac8c7644a2157e2dd20fda2, type: 3}
+  TartgetBlue: {fileID: 1406239954205269748, guid: b46d98bfc7d77ae4782f69f26f89fbfa, type: 3}
+  TartgetGray: {fileID: 572450906413194784, guid: a5d892a3e46b9ad4895731c856fd8d02, type: 3}
+  d: 40
+  n: 64
+  targetSize: 10
+  minusSize: 1
+  comboNum: 0
+  level: 1
+  breakNum: 0
+  firstBreak1: 1
+  firstBreak2: 1
+  firstBreak3: 1
+  firstBreak4: 1
+  PopUpScoreText: {fileID: 8682507335872344981, guid: 9315b06461e994f4dbbe9cc334884e89, type: 3}
+  BreakEffectObj:
+  - {fileID: 6417756483810659471, guid: 6ea8dac7658961e45a3770f7a856e402, type: 3}
+  - {fileID: 8830523559572869024, guid: 7765e39619d84ea49aec3b6384f5ffe9, type: 3}
+  - {fileID: 8921722629840748422, guid: 9faed95f5ff1c034c9635d609284bd03, type: 3}
 --- !u!1 &495196751
 GameObject:
   m_ObjectHideFlags: 0
@@ -2869,6 +2901,10 @@ PrefabInstance:
     - target: {fileID: 1701158972134937833, guid: 3c2338b831f07a34fbaa20f01920950e, type: 3}
       propertyPath: m_Name
       value: TargetManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1701158972134937833, guid: 3c2338b831f07a34fbaa20f01920950e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1701158972134937847, guid: 3c2338b831f07a34fbaa20f01920950e, type: 3}
       propertyPath: m_RootOrder
