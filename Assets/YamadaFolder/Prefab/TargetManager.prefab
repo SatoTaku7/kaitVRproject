@@ -65,7 +65,7 @@ MonoBehaviour:
   BreakEffectObj:
   - {fileID: 6417756483810659471, guid: 6ea8dac7658961e45a3770f7a856e402, type: 3}
   - {fileID: 8830523559572869024, guid: 7765e39619d84ea49aec3b6384f5ffe9, type: 3}
-  - {fileID: 8531999390863519414, guid: c386c94fa5610c349a7f8da95f7b8f14, type: 3}
+  - {fileID: 8921722629840748422, guid: 9faed95f5ff1c034c9635d609284bd03, type: 3}
 --- !u!1001 &630297389520385287
 PrefabInstance:
   m_ObjectHideFlags: 0
