@@ -1,25 +1,45 @@
-public interface ITimer
+ï»¿public interface ITimer
 {
+    public bool IsPlaying { get; }
+    public float playTime { get; }
+    float startTime { get; }
+    float endTime { get; }
+    /// <summary>
+    /// ã‚«ã‚¦ãƒ³ãƒˆã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
+    /// </summary>
     bool IsCounting { get; }
     /// <summary>
-    /// ƒJƒEƒ“ƒgƒ_ƒEƒ“ƒ^ƒCƒ}[
+    /// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚¿ã‚¤ãƒãƒ¼
     /// </summary>
-    float countDownTimer { get; }
+    float timer { get; }
     /// <summary>
-    /// ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ÌãŒÀ‚ğİ’è‚·‚é
+    /// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã®ä¸Šé™ã‚’è¨­å®šã™ã‚‹
     /// </summary>
-    void SetTimer();
+    void SetTimer(float upperlimitTime);
     /// <summary>
-    /// ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğƒŠƒZƒbƒg‚·‚é
+    /// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
     /// </summary>
-    void ResetTimer(float ResetCount);
+    void ResetTimer();
     /// <summary>
-    /// ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğn‚ß‚é
+    /// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’å§‹ã‚ã‚‹
     /// </summary>
     void StartTimer();
     /// <summary>
-    /// ƒJƒEƒ“ƒgƒ_ƒEƒ“‚ğ~‚ß‚é
+    /// ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã‚’æ­¢ã‚ã‚‹
     /// </summary>
     void StopTimer();
+
+    /// <summary>
+    /// ã‚¿ã‚¤ãƒãƒ¼ã®é–‹å§‹å‡¦ç†
+    /// </summary>
+    void StartPlay();
+    /// <summary>
+    /// ã‚¿ã‚¤ãƒãƒ¼ã®åœæ­¢å‡¦ç†
+    /// </summary>
+    void StopPlay();
+    /// <summary>
+    ///  ã‚²ãƒ¼ãƒ ã®çµŒéæ™‚é–“ã‚’åˆæœŸåŒ–ã™ã‚‹
+    /// </summary>
+    void ResetPlayTime();
 
 }

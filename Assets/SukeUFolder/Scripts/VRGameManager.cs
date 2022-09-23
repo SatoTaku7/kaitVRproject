@@ -7,9 +7,8 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
 {
     //銃のマネージャーを参照して取得する必要がある。
     IGunManager gunManager;
-    IResultManager resultManager;
     private int score = 0;
-   
+    ITimer timer;
     public float countDownTimer { get; private set; }
     public IStateChanger.GameState currentState { get; private set; }
     public event System.Action OnChangeState;
@@ -20,25 +19,36 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
     public void ChangeState(IStateChanger.GameState nextState)
     {
         currentState = nextState;
-        if (OnChangeState != null) OnChangeState.Invoke();
+       // if (OnChangeState != null) OnChangeState.Invoke();
+       if(nextState== IStateChanger.GameState.Game)
+        {
+            //ゲーム開始時の初期化処理はここに書く
+            timer.StartPlay();
+        }else if(nextState == IStateChanger.GameState.Result)
+        {
+            //ゲーム終了時の処理はここに書く
+            timer.StopPlay();
+        }else if (nextState == IStateChanger.GameState.Title)
+        {
+            //タイトルに戻った時の処理はここに書く
+        }
     }
     void Start()
     {
-        OnChangeState += DebugTest;
+        timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<ITimer>();
         ChangeState(IStateChanger.GameState.Title);
     }
 
-    public void DebugTest()
-    {
-        Debug.Log($"現在の状態:{currentState}");
-
-    }
     // Update is called once per frame
     void Update()
     {
         if (currentState == IStateChanger.GameState.Title)
         {
-
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                Debug.Log("ゲーム始めます。");
+                ChangeState(IStateChanger.GameState.Game);
+            }
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
@@ -47,7 +57,11 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         }
         else if (currentState == IStateChanger.GameState.Result)
         {
-
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                Debug.Log("タイトル戻ります。");
+                ChangeState(IStateChanger.GameState.Title);
+            }
         }
     }
 
