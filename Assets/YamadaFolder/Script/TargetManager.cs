@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,29 +10,29 @@ public class TargetManager : MonoBehaviour,ITargetManager
     [SerializeField] GameObject TartgetBlue;
     [SerializeField] GameObject TartgetGray;
 
-    public int d = 60;//¶¬‹——£
-    public int n = 40;//¶¬ˆÊ’u‚Ìƒoƒ‰‚Â‚«@‘å‚«‚¢‚Ù‚Ç’†‰›Šñ‚è
+    public int d = 60;//ç”Ÿæˆè·é›¢
+    public int n = 40;//ç”Ÿæˆä½ç½®ã®ãƒãƒ©ã¤ãã€€å¤§ãã„ã»ã©ä¸­å¤®å¯„ã‚Š
 
-    public int targetSize = 10;//“I‚ÌƒTƒCƒY
+    public int targetSize = 10;//çš„ã®ã‚µã‚¤ã‚º
     public float minusSize = 1f;
 
-    public int comboNum = 0;//ƒRƒ“ƒ{”
+    public int comboNum = 0;//ã‚³ãƒ³ãƒœæ•°
     private bool comboPlus = false;
 
-    public int level;//ƒfƒoƒbƒO—p‚ÌƒŒƒxƒ‹
-    public int breakNum = 0;//ƒfƒoƒbƒO—p‚Ì”j‰ó“I”
+    public int level;//ãƒ‡ãƒãƒƒã‚°ç”¨ã®ãƒ¬ãƒ™ãƒ«
+    public int breakNum = 0;//ãƒ‡ãƒãƒƒã‚°ç”¨ã®ç ´å£Šçš„æ•°
 
-    private int colorLevel;//ƒJƒ‰[—p‚ÌƒŒƒxƒ‹->ŠDF‚ğ‰ó‚³‚È‚¢‚Ü‚ÜŸ‚ÌƒŒƒxƒ‹‚És‚Á‚½—p
-    //ƒŒƒxƒ‹‚ª•Ï‚í‚Á‚Ä‚©‚çÅ‰‚Ì”j‰ó‚ÉŒÄ‚Ô—p
+    private int colorLevel;//ã‚«ãƒ©ãƒ¼ç”¨ã®ãƒ¬ãƒ™ãƒ«->ç°è‰²ã‚’å£Šã•ãªã„ã¾ã¾æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã«è¡Œã£ãŸæ™‚ç”¨
+    //ãƒ¬ãƒ™ãƒ«ãŒå¤‰ã‚ã£ã¦ã‹ã‚‰æœ€åˆã®ç ´å£Šæ™‚ã«å‘¼ã¶ç”¨
     [SerializeField] bool firstBreak1 = true;
     [SerializeField] bool firstBreak2 = true;
     [SerializeField] bool firstBreak3 = true;
     [SerializeField] bool firstBreak4 = true;
 
-    //ƒ|ƒbƒvƒAƒbƒv‚·‚éƒXƒRƒAƒeƒLƒXƒg
+    //ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚¹ã‚³ã‚¢ãƒ†ã‚­ã‚¹ãƒˆ
     [SerializeField] GameObject PopUpScoreText;
 
-    //ƒ|ƒbƒvƒAƒbƒv‚·‚éƒXƒRƒAƒeƒLƒXƒg
+    //ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã™ã‚‹ã‚¹ã‚³ã‚¢ãƒ†ã‚­ã‚¹ãƒˆ
     [SerializeField] GameObject[] BreakEffectObj = new GameObject[3];
 
     private GameObject GameManager;
@@ -42,12 +42,20 @@ public class TargetManager : MonoBehaviour,ITargetManager
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         _combo = GameManager.GetComponent<ComboManager>();
+       
+    }
+
+    public void TargetInit()
+    {
         for (int i = 0; i < 4; i++)
         {
             GenerateTartget(i, 2, targetSize);
         }
     }
-
+    public void AllTargetDestroy()
+    {
+        //ç”Ÿæˆæ¸ˆã¿ã®çš„ãŒå…¨éƒ¨æ¶ˆãˆã‚‹å‡¦ç†ã‚ˆã‚ã—ããŠé¡˜ã„ã—ã¾ã™ã€‚
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -68,37 +76,37 @@ public class TargetManager : MonoBehaviour,ITargetManager
         BreakEffect(pos);
     }
 
-    //“–‚½‚Á‚½“I‚Æe‚Ìî•ñ‚©‚çƒXƒRƒA‚ÌZo
+    //å½“ãŸã£ãŸçš„ã¨éŠƒã®æƒ…å ±ã‹ã‚‰ã‚¹ã‚³ã‚¢ã®ç®—å‡º
     private void CalculateScore(int color, int gunColor, Vector3 pos)
     {
-        //ƒRƒ“ƒ{”»’è—p
+        //ã‚³ãƒ³ãƒœåˆ¤å®šç”¨
         if (color != 2)
         {
-            //“¯F‚È‚ç
+            //åŒè‰²ãªã‚‰
             if (color == 0 && gunColor == 1)
             {
-                Debug.Log("ƒRƒ“ƒ{‚ğ‘‚â‚µ‚Ü‚·");
+                Debug.Log("ã‚³ãƒ³ãƒœã‚’å¢—ã‚„ã—ã¾ã™");
                 comboPlus = true;
                 comboNum++;
                 _combo.ContinuousCombo();
             }
             if (color == 1 && gunColor == 2)
             {
-                Debug.Log("ƒRƒ“ƒ{‚ğ‘‚â‚µ‚Ü‚·");
+                Debug.Log("ã‚³ãƒ³ãƒœã‚’å¢—ã‚„ã—ã¾ã™");
                 comboPlus = true;
                 comboNum++;
                 _combo.ContinuousCombo();
             }
         }
 
-        //ƒXƒRƒA‚ÌZo
+        //ã‚¹ã‚³ã‚¢ã®ç®—å‡º
         int score = _combo.ScoreCal(_combo.combo);
 
-        //ƒXƒRƒA‚ğƒ|ƒbƒvƒAƒbƒv
+        //ã‚¹ã‚³ã‚¢ã‚’ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—
         PopUpScore(color, score, pos);
     }
 
-    //ƒXƒRƒA‚ğƒ|ƒbƒvƒAƒbƒv‚³‚¹‚é
+    //ã‚¹ã‚³ã‚¢ã‚’ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã•ã›ã‚‹
     private void PopUpScore(int color,int score,Vector3 pos)
     {
         GameObject ins;
@@ -108,13 +116,13 @@ public class TargetManager : MonoBehaviour,ITargetManager
         info.Init(score, color);
     }
 
-    //“I‚ª‰ó‚ê‚½Û‚ÌƒGƒtƒFƒNƒg
+    //çš„ãŒå£Šã‚ŒãŸéš›ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
     private void BreakEffect(Vector3 pos)
     {
-        //ƒRƒ“ƒ{”‚ğæ“¾
+        //ã‚³ãƒ³ãƒœæ•°ã‚’å–å¾—
         int combo = 0;
 
-        //ƒRƒ“ƒ{”‚É‰‚¶‚½‰‰o
+        //ã‚³ãƒ³ãƒœæ•°ã«å¿œã˜ãŸæ¼”å‡º
         if (combo > 4)
         {
             Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
@@ -129,10 +137,10 @@ public class TargetManager : MonoBehaviour,ITargetManager
         }
     }
 
-    //V‚½‚È“I‚Ì¶¬
+    //æ–°ãŸãªçš„ã®ç”Ÿæˆ
     public void GenerateTartget(int num, int color, float size)
     {
-        //À•W‚ÌŒˆ’è ‹…ó¶¬‚Ìê‡A’†‰›‚ÉŠñ‚Á‚Ä‚µ‚Ü‚¤
+        //åº§æ¨™ã®æ±ºå®š çƒçŠ¶ç”Ÿæˆã®å ´åˆã€ä¸­å¤®ã«å¯„ã£ã¦ã—ã¾ã†
         /*
         var theta = Random.Range(-Mathf.PI, Mathf.PI);
         var p = Random.Range(0f, 1f);
@@ -148,20 +156,20 @@ public class TargetManager : MonoBehaviour,ITargetManager
         var Rotation = Quaternion.identity;
         */
 
-        //‹…ó‚Å‚Í‚È‚­•½–Êã‚É¶¬‚·‚éƒpƒ^[ƒ“
+        //çƒçŠ¶ã§ã¯ãªãå¹³é¢ä¸Šã«ç”Ÿæˆã™ã‚‹ãƒ‘ã‚¿ãƒ¼ãƒ³
         var x = Random.Range(-100f, 100f);
         var y = Random.Range(-20f, 60f);
 
         var Transform = new Vector3(x, y, d + num * 20);
         var Rotation = Quaternion.identity;
 
-        //ƒŒƒxƒ‹‚Ìæ“¾
+        //ãƒ¬ãƒ™ãƒ«ã®å–å¾—
 
 
-        //ƒŒƒxƒ‹‚É‰‚¶‚½ƒTƒCƒY‚Ì•ÏX
+        //ãƒ¬ãƒ™ãƒ«ã«å¿œã˜ãŸã‚µã‚¤ã‚ºã®å¤‰æ›´
         size = targetSize + minusSize - Mathf.Min(level, 3) * minusSize;
 
-        //ƒŒƒxƒ‹‚É‰‚¶‚½FƒŒƒxƒ‹‚Ìİ’è
+        //ãƒ¬ãƒ™ãƒ«ã«å¿œã˜ãŸè‰²ãƒ¬ãƒ™ãƒ«ã®è¨­å®š
         level = Mathf.Min(level, 5);
         if (level == 1 || level == 2)
             colorLevel = level;
@@ -190,11 +198,11 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 colorLevel = level;
         }
 
-        //ƒŒƒxƒ‹‚É‰‚¶‚½F‚Ìİ’è
+        //ãƒ¬ãƒ™ãƒ«ã«å¿œã˜ãŸè‰²ã®è¨­å®š
         switch (colorLevel)
         {
             case 1:
-                color = 2;//ŠDF
+                color = 2;//ç°è‰²
                 break;
             case 2:
                 if (color == 0)
@@ -203,9 +211,9 @@ public class TargetManager : MonoBehaviour,ITargetManager
                     color = 0;
                 if (firstBreak1)
                 {
-                    color = Random.Range(0, 2);//Â‚©Ô
+                    color = Random.Range(0, 2);//é’ã‹èµ¤
                     firstBreak1 = false;
-                    Debug.Log("F•t‚«“I‚ğ1–‡‘‚â‚µ‚Ü‚·");
+                    Debug.Log("è‰²ä»˜ãçš„ã‚’1æšå¢—ã‚„ã—ã¾ã™");
                 }
                 break;
             case 3:
@@ -224,15 +232,15 @@ public class TargetManager : MonoBehaviour,ITargetManager
                         }
                     }
                     firstBreak2 = false;
-                    Debug.Log("F•t‚«“I‚ğ1–‡‘‚â‚µ‚Ü‚·");
+                    Debug.Log("è‰²ä»˜ãçš„ã‚’1æšå¢—ã‚„ã—ã¾ã™");
                 }
                 break;
             case 4:
                 if (firstBreak3 && color == 2)
                 {
-                    color = Random.Range(0, 2);//Â‚©Ô
+                    color = Random.Range(0, 2);//é’ã‹èµ¤
                     firstBreak3 = false;
-                    Debug.Log("F•t‚«“I‚ğ1–‡‘‚â‚µ‚Ü‚·");
+                    Debug.Log("è‰²ä»˜ãçš„ã‚’1æšå¢—ã‚„ã—ã¾ã™");
                 }
                 break;
             case 5:
@@ -257,15 +265,15 @@ public class TargetManager : MonoBehaviour,ITargetManager
                     }
                     if (red != 1 && red != 2) return;
                     firstBreak4 = false;
-                    Debug.Log("F•t‚«“I‚ğ1–‡‘‚â‚µ‚Ü‚·");
+                    Debug.Log("è‰²ä»˜ãçš„ã‚’1æšå¢—ã‚„ã—ã¾ã™");
                 }
                 break;
             default:
-                Debug.Log(level+ "->level‚Ì”š‚ª‚¨‚©‚µ‚¢‚Å‚·");
+                Debug.Log(level+ "->levelã®æ•°å­—ãŒãŠã‹ã—ã„ã§ã™");
                 break;
         }
 
-        //“I‚Ì¶¬A”Ô†‚Ìİ’è
+        //çš„ã®ç”Ÿæˆã€ç•ªå·ã®è¨­å®š
         GameObject ins;
         TargetInformation info;
         switch (color)
@@ -289,7 +297,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 info.num = num;
                 break;
             default:
-                Debug.Log("Target‚ÌcolorŒˆ‚ß‚ªo—ˆ‚Ä‚Ü‚¹‚ñ");
+                Debug.Log("Targetã®coloræ±ºã‚ãŒå‡ºæ¥ã¦ã¾ã›ã‚“");
                 break;
         }
     }

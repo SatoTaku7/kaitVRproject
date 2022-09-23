@@ -9,6 +9,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
     IGunManager gunManager;
     private int score = 0;
     ITimer timer;
+    ITargetManager targetManager;
     public float countDownTimer { get; private set; }
     public IStateChanger.GameState currentState { get; private set; }
     public event System.Action OnChangeState;
@@ -23,10 +24,12 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
        if(nextState== IStateChanger.GameState.Game)
         {
             //ゲーム開始時の初期化処理はここに書く
-            timer.StartPlay();
+            targetManager.TargetInit();
+            StartCoroutine("StartInterval");
         }else if(nextState == IStateChanger.GameState.Result)
         {
             //ゲーム終了時の処理はここに書く
+            targetManager.AllTargetDestroy();
             timer.StopPlay();
         }else if (nextState == IStateChanger.GameState.Title)
         {
@@ -36,6 +39,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
     void Start()
     {
         timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<ITimer>();
+        targetManager = GetComponent<ITargetManager>();
         ChangeState(IStateChanger.GameState.Title);
     }
 
@@ -98,6 +102,12 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
     public void GoTitle()
     {
         //タイトルへ移動する処理
+    }
+    IEnumerator StartInterval()
+    {
+        yield return new WaitForSeconds(3f);
+        timer.StartPlay();
+
     }
 }
 
