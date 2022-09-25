@@ -62,14 +62,15 @@ public class GunManager : MonoBehaviour, IGunManager
             StartWidth = 0.01f;
             EndWidth = 0.01f;
         }
-
         lineRenderer_L.SetPosition(0, LGun_trans.position);
         lineRenderer_L.SetPosition(1, LGun_trajectory.position);
         lineRenderer_R.SetPosition(0, RGun_trans.position);
         lineRenderer_R.SetPosition(1, RGun_trajectory.position);
+           
+        
+        ///ここから下はプレイヤーがコントローラーで操作したときの処理///
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
-
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
             ButtonClicked = true;
             Ray(1);
@@ -91,13 +92,34 @@ public class GunManager : MonoBehaviour, IGunManager
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
             ButtonClicked = false;
         }
-
-        if (bullet_countL == 0 && bullet_countR == 0)
+        if (bullet_countL == 0 && bullet_countR == 0)//両方の弾が0になったとき
         {
             GameOver();
         }
-        Debug.Log("is_playmode");
-
+        PlayerRotate();//プレイヤーの回転
+    }
+    public void PlayerRotate()
+    {
+        if (OVRInput.GetDown(OVRInput.RawButton.LThumbstickLeft))
+        {
+            this.gameObject.transform.Rotate(0, -45f, 0);
+            Debug.Log("左のジョイスティックを左へ回す");
+        }
+        if (OVRInput.GetDown(OVRInput.RawButton.LThumbstickRight))
+        {
+            this.gameObject.transform.Rotate(0, 45f, 0);
+            Debug.Log("左のジョイスティックを右へ回す");
+        }
+        if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
+        {
+            this.gameObject.transform.Rotate(0, -45f, 0);
+            Debug.Log("右のジョイスティックを左へ回す");
+        }
+        if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight))
+        {
+            this.gameObject.transform.Rotate(0, 45f, 0);
+            Debug.Log("右のジョイスティックを右へ回す");
+        }
     }
     public void Ray(int LorR)//トリガーが押されたとき 引数は左か右か
     {
@@ -139,7 +161,11 @@ public class GunManager : MonoBehaviour, IGunManager
                     }
                 }
             }
-            else bullet_countL = 0;
+            else//左が外した場合
+            {
+                bullet_countL = 0;
+                ResetCombo();
+            }
 
         }
         if (LorR == 2)//右トリガーを押したとき
@@ -160,7 +186,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
+                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
                             Reload();
                             Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                         }
@@ -169,14 +195,18 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//的に当たったとき
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
+                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
                             Reload();
                             Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                         }
                     }
                 }
             }
-            else bullet_countR = 0;
+            else//右が外した場合
+            {
+                bullet_countR = 0;
+                ResetCombo();
+            }
         }
         Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
         Debug.DrawRay(RGun_trans.position, RGun_trajectory.position - RGun_trans.position, Color.red);
@@ -188,6 +218,10 @@ public class GunManager : MonoBehaviour, IGunManager
         bullet_countR = 1;
     }
     public void PowerUp()
+    {
+
+    }
+    public void ResetCombo()
     {
 
     }
