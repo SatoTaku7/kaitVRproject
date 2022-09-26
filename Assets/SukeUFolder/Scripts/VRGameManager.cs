@@ -7,7 +7,11 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
 {
     //銃のマネージャーを参照して取得する必要がある。
     IGunManager gunManager;
+    IResultManager resultManager;
     private int score = 0;
+    private int combo = 0;
+    private int maxCombo = 0;
+    IPerformanceManager performanceManager;
     ITimer timer;
     ITargetManager targetManager;
     public float countDownTimer { get; private set; }
@@ -39,7 +43,12 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
     void Start()
     {
         timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<ITimer>();
+        if (GetComponent<IResultManager>() != null)
+        {
+            resultManager = GetComponent<IResultManager>();
+        }
         targetManager = GetComponent<ITargetManager>();
+        performanceManager = GetComponent<IPerformanceManager>();
         ChangeState(IStateChanger.GameState.Title);
     }
 
@@ -56,14 +65,16 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
-            
+
 
         }
         else if (currentState == IStateChanger.GameState.Result)
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
+               
                 Debug.Log("タイトル戻ります。");
+                resultManager?.SetRecord(score, maxCombo, (int)timer.playTime);
                 ChangeState(IStateChanger.GameState.Title);
             }
         }

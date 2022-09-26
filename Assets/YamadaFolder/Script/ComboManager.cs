@@ -8,10 +8,14 @@ public class ComboManager : MonoBehaviour,ICombo
     public int score { get; private set; }
     public int allScore { get; private set; }
 
+    IPerformanceManager performanceManager;
+    IStateChanger stateChanger;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        performanceManager = GetComponent<IPerformanceManager>();
+        stateChanger = GetComponent<IStateChanger>();
     }
 
     //全体のスコアを更新
