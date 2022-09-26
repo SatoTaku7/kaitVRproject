@@ -15,10 +15,8 @@ public interface IPerformanceManager
     /// </summary>
     event System.Action OnChangeState;
     void ChangeState(ComboState nextState);
-    //コンボ回数が一定値を上回った時の処理
-    void ComboLevelUp();
-    //コンボ回数がリセットされる処理
-    void ComboReset();
+    //コンボ回数に応じた処理
+    void ComboPerformance(int combo);
     //ゲームオーバーになったときの処理
     void GameOver();
 }
