@@ -42,7 +42,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         _combo = GameManager.GetComponent<ComboManager>();
-       
     }
 
     public void TargetInit()
@@ -55,6 +54,11 @@ public class TargetManager : MonoBehaviour,ITargetManager
     public void AllTargetDestroy()
     {
         //生成済みの的が全部消える処理よろしくお願いします。
+        foreach (Transform child in this.gameObject.transform)
+        {
+            GameObject childObject = child.gameObject;
+            Destroy(childObject);
+        }
     }
     private void Update()
     {
