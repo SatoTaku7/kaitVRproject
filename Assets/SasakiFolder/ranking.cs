@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ranking : MonoBehaviour
 {
+    public GameObject rank_object = null; // Textオブジェクト
+
+    public int[] higher = { 0, 0, 0, 0 };
     // Start is called before the first frame update
     void Start()
     {
-        
+        rankscore();
+    }
+
+    public void uketori(ref int sco)
+    {
+        //スコアを受け取り
     }
 
     public void rankscore()
     {
-        int[] higher = { 0, 0, 0, 0 };
+        
         //スコアをもらう
         //higher[3]=playerScript.BulletCount;
 
@@ -49,6 +58,9 @@ public class ranking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // オブジェクトからTextコンポーネントを取得
+        Text rank_text = rank_object.GetComponent<Text>();
+        // テキストの表示を入れ替える
+        rank_text.text = "1位" + higher[0] + "\n２位" + higher[1] + "\n３位" + higher[2];
     }
 }

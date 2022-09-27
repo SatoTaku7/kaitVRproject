@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class score : MonoBehaviour//, IResultManager
 {
-    //public GameObject score_object = null; // Textオブジェクト
-    //public int[] rankingScore = new int[4];
+    public GameObject score_object = null; // Textオブジェクト
+    public int score_num = 0; // スコア変数
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class score : MonoBehaviour//, IResultManager
         Debug.Log("スコア"+mysc+"点");
     }
 
-    public void rankscore()
+    /*public void rankscore()
     {
         int[] higher = { 0, 0, 0, 0 };
         //スコアをもらう
@@ -51,16 +51,16 @@ public class score : MonoBehaviour//, IResultManager
         //任意の数字を配列に代入して
         //バブルソートする
         //帰ってきた配列をデバックログに表示させる
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
     {
 
         // オブジェクトからTextコンポーネントを取得
-       // Text score_text = score_object.GetComponent<Text>();
+        Text score_text = score_object.GetComponent<Text>();
         // テキストの表示を入れ替える
-        //score_text.text = "000000";
+       // score_text.text = "Score:" +;
 
     }
 }
