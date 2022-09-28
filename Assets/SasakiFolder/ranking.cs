@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ranking : MonoBehaviour
 {
-    //public GameObject rank_object = null; // Textオブジェクト
+    public GameObject rank_object = null; // Textオブジェクト
 
     public int[] higher = new int[4];
     //public int[] higher = { 0, 0, 0, 0 };
@@ -62,8 +63,8 @@ public class ranking : MonoBehaviour
     void Update()
     {
         // オブジェクトからTextコンポーネントを取得
-        //Text rank_text = rank_object.GetComponent<Text>();
+        TextMeshProUGUI rank_text = rank_object.GetComponent<TextMeshProUGUI>();
         // テキストの表示を入れ替える
-        //rank_text.text = "1位" + higher[0] + "\n２位" + higher[1] + "\n３位" + higher[2];
+        rank_text.text = "First:" + higher[0] + "\nSecond:" + higher[1] + "\nThird:" + higher[2];
     }
 }
