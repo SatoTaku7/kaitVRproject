@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PerformanceManager : MonoBehaviour, IPerformanceManager
 {
- 
+    ILevelState levelState;
     //Œ»İ‚ÌƒRƒ“ƒ{ó‘Ô
     public IPerformanceManager.ComboState currentComboState { get; private set; }
     /// <summary>
@@ -39,7 +39,8 @@ public class PerformanceManager : MonoBehaviour, IPerformanceManager
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelState = GetComponent<ILevelState>();
+
     }
 
 }

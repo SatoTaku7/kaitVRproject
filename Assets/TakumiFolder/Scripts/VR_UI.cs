@@ -7,10 +7,12 @@ public class VR_UI : MonoBehaviour
     [SerializeField] GameObject Player;
     private GunManager gunManager;
     [SerializeField] GameObject Button;
+    IStateChanger stateChanger;
 
     void Start()
     {
         gunManager = Player.GetComponent<GunManager>();
+        stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
     }
 
 
@@ -28,7 +30,7 @@ public class VR_UI : MonoBehaviour
             }
         }
 
-        if (gunManager.is_game_over)//ゲームオーバーが呼ばれたらスタートボタンを出現
+        if (stateChanger.currentState == IStateChanger.GameState.Title)//ゲームオーバーが呼ばれたらスタートボタンを出現
         {
             Button.gameObject.SetActive(true);
             gunManager.is_playmode = false;

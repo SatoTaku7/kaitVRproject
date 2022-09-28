@@ -13,11 +13,8 @@ public class TargetManager : MonoBehaviour,ITargetManager
     public int d = 60;//生成距離
     public int n = 40;//生成位置のバラつき　大きいほど中央寄り
 
-    public int targetSize = 10;//的のサイズ
-    public float minusSize = 1f;
-
-    public int comboNum = 0;//コンボ数
-    private bool comboPlus = false;
+    public int targetSize = 15;//的のサイズ
+    public float minusSize = 4f;
 
     public int level;//デバッグ用のレベル
     public int breakNum = 0;//デバッグ用の破壊的数
@@ -36,12 +33,12 @@ public class TargetManager : MonoBehaviour,ITargetManager
     [SerializeField] GameObject[] BreakEffectObj = new GameObject[3];
 
     private GameObject GameManager;
-    private ComboManager _combo;
+    private ICombo _combo;
 
     private void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
-        _combo = GameManager.GetComponent<ComboManager>();
+        _combo = GameManager.GetComponent<ICombo>();
     }
 
     public void TargetInit()
@@ -90,21 +87,18 @@ public class TargetManager : MonoBehaviour,ITargetManager
             if (color == 0 && gunColor == 1)
             {
                 Debug.Log("コンボを増やします");
-                comboPlus = true;
-                comboNum++;
                 _combo.ContinuousCombo();
             }
             if (color == 1 && gunColor == 2)
             {
                 Debug.Log("コンボを増やします");
-                comboPlus = true;
-                comboNum++;
                 _combo.ContinuousCombo();
             }
         }
 
         //スコアの算出
         int score = _combo.ScoreCal(_combo.combo);
+        _combo.UpdateAllScore();
 
         //スコアをポップアップ
         PopUpScore(color, score, pos);
@@ -161,8 +155,8 @@ public class TargetManager : MonoBehaviour,ITargetManager
         */
 
         //球状ではなく平面上に生成するパターン
-        var x = Random.Range(-100f, 100f);
-        var y = Random.Range(-20f, 60f);
+        var x = Random.Range(-70f, 70f);
+        var y = Random.Range(-10f, 40f);
 
         var Transform = new Vector3(x, y, d + num * 20);
         var Rotation = Quaternion.identity;

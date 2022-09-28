@@ -14,5 +14,6 @@ public interface ITargetManager
     /// 全ての的を消す処理
     /// </summary>
     void AllTargetDestroy();
+
 }
 
