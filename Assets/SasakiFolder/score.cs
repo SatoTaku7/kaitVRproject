@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class score : MonoBehaviour//, IResultManager
+public class Score : MonoBehaviour, IResultManager
 {
     public GameObject score_object = null; // Textオブジェクト
     public int score_num = 0; // スコア変数
+    public int score { get; private set; }
+    public int maxCombo { get; private set; }
+    public int elapsedTime { get; private set; }
+
 
     // Start is called before the first frame update
     void Start()
     {
+        score_object = GameObject.FindWithTag("scoreUI");
         //スコアをもらう
         int mysc;
         mysc = 99;//playerScript.BulletCount;
@@ -56,15 +62,14 @@ public class score : MonoBehaviour//, IResultManager
     // Update is called once per frame
     void Update()
     {
+        //SetRecord(100,00,1);
+    }
 
+    public void SetRecord(int score, int maxCombo, int elapsedTime)
+    {
         // オブジェクトからTextコンポーネントを取得
-        Text score_text = score_object.GetComponent<Text>();
+        TextMeshProUGUI score_text = score_object.GetComponent<TextMeshProUGUI>();
         // テキストの表示を入れ替える
-       // score_text.text = "Score:" +;
-
+        score_text.text = "Score:" + score;
     }
 }
-
-   // void SetRecord(int score, int maxCombo, int elapsedTime)
-    //{
-    //}

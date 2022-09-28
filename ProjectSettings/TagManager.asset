@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Target
   - Timer
+  - rankUI
+  - scoreUI
   layers:
   - Default
   - TransparentFX
