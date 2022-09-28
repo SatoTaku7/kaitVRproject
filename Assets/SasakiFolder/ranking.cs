@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class ranking : MonoBehaviour
 {
-    public GameObject rank_object = null; // Textオブジェクト
+    //public GameObject rank_object = null; // Textオブジェクト
 
-    public int[] higher = { 0, 0, 0, 0 };
+    public int[] higher = new int[4];
+    //public int[] higher = { 0, 0, 0, 0 };
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +22,17 @@ public class ranking : MonoBehaviour
 
     public void rankscore()
     {
-        
-        //スコアをもらう
-        //higher[3]=playerScript.BulletCount;
 
-        if (higher[3] >= higher[2])
+        higher[0] = 10;
+        higher[1] = 8;
+        higher[2] = 5;
+        higher[3] = 9;
+
+        if (higher[3] >= higher[0])
         {
-            higher[2] = higher[3];
+            higher[2] = higher[1];
+            higher[1] = higher[0];
+            higher[0] = higher[3];
         }
 
         else if (higher[3] >= higher[1])
@@ -36,11 +41,9 @@ public class ranking : MonoBehaviour
             higher[1] = higher[3];
         }
 
-        else if (higher[3] >= higher[0])
+        else if (higher[3] >= higher[2])
         {
-            higher[2] = higher[1];
-            higher[1] = higher[0];
-            higher[0] = higher[3];
+            higher[2] = higher[3];
         }
         else { };
 
@@ -59,8 +62,8 @@ public class ranking : MonoBehaviour
     void Update()
     {
         // オブジェクトからTextコンポーネントを取得
-        Text rank_text = rank_object.GetComponent<Text>();
+        //Text rank_text = rank_object.GetComponent<Text>();
         // テキストの表示を入れ替える
-        rank_text.text = "1位" + higher[0] + "\n２位" + higher[1] + "\n３位" + higher[2];
+        //rank_text.text = "1位" + higher[0] + "\n２位" + higher[1] + "\n３位" + higher[2];
     }
 }
