@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
+public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
 {
-    //銃のマネージャーを参照して取得する必要がある。
+    #region Interface
     IGunManager gunManager;
     IResultManager resultManager;
-    private int score = 0;
-    private int combo = 0;
-    private int maxCombo = 0;
     IPerformanceManager performanceManager;
     ITimer timer;
+    ICombo comboManager;
     ITargetManager targetManager;
+    #endregion  
+    public int scoreSum { get; private set; }
+    public int maxCombo { get; private set; }
     public float countDownTimer { get; private set; }
     public IStateChanger.GameState currentState { get; private set; }
+    public int currentLevel { get; private set; }
     public event System.Action OnChangeState;
     /// <summary>
     /// ステータスを変更するときに呼び出す
@@ -39,6 +41,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         {
             //タイトルに戻った時の処理はここに書く
         }
+
     }
     void Start()
     {
@@ -47,6 +50,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         {
             resultManager = GetComponent<IResultManager>();
         }
+        gunManager = GameObject.FindGameObjectWithTag("Player").GetComponent<IGunManager>();
         targetManager = GetComponent<ITargetManager>();
         performanceManager = GetComponent<IPerformanceManager>();
         ChangeState(IStateChanger.GameState.Title);
@@ -65,21 +69,51 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
-
+            Debug.Log(scoreSum);
+            if (scoreSum >= 22800)
+            {
+                ChangeLevel(7);
+            }
+            else if(scoreSum >= 16800)
+            {
+                ChangeLevel(6);
+            }
+            else if(scoreSum >= 11600)
+            {
+                ChangeLevel(5);
+            }
+            else if (scoreSum >= 8800)
+            {
+                ChangeLevel(4);
+            }
+            else if(scoreSum >= 4000)
+            {
+                ChangeLevel(3);
+            }
+            else if(scoreSum >= 1450)
+            {
+                ChangeLevel(2);
+            }
+            else if (scoreSum >= 700)
+            {
+                ChangeLevel(1);
+            }
+            else
+            {
+                ChangeLevel(0);
+            }
 
         }
         else if (currentState == IStateChanger.GameState.Result)
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-               
                 Debug.Log("タイトル戻ります。");
-                resultManager?.SetRecord(score, maxCombo, (int)timer.playTime);
+                resultManager?.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
                 ChangeState(IStateChanger.GameState.Title);
             }
         }
     }
-
     /// <summary>
     /// コンボじゃない場合の処理
     /// </summary>
@@ -100,7 +134,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
 
     public void GameStart()
     {
-        score = 0;
         ChangeState(IStateChanger.GameState.Game);
         //ゲーム開始処理
     }
@@ -120,5 +153,18 @@ public class VRGameManager : MonoBehaviour, IStateChanger, IBreakTargetChecker
         timer.StartPlay();
 
     }
+    void MaxCombo(int combo)
+    {
+        if (maxCombo < combo) maxCombo = combo;
+    }
+
+    public void ScoreUpdate(int addScore)
+    {
+        scoreSum += addScore;
+        timer.ResetTimer();
+    }
+
+    public void ChangeLevel(int num) => currentLevel=num;
+
 }
 

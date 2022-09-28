@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class GunManager : MonoBehaviour, IGunManager
 {
+    IStateChanger stateChanger;
     [SerializeField] GameObject LGun, RGun;
     [SerializeField] Transform LGun_trans, LGun_trajectory, LGun_Trigger;//左の銃の位置・軌道位置・トリガー
     [SerializeField] Transform RGun_trans, RGun_trajectory, RGun_Trigger;//右の銃の位置・軌道位置・トリガー
@@ -31,7 +32,7 @@ public class GunManager : MonoBehaviour, IGunManager
         LongRayMode = true;//レイザーポイントを長くする
         is_playmode = false;
         is_game_over = false;
-
+        stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
 
     }
 
@@ -94,7 +95,8 @@ public class GunManager : MonoBehaviour, IGunManager
         }
         if (bullet_countL == 0 && bullet_countR == 0)//両方の弾が0になったとき
         {
-            GameOver();
+            stateChanger.ChangeState(IStateChanger.GameState.Result);
+
         }
         PlayerRotate();//プレイヤーの回転
     }
@@ -145,7 +147,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
+                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(0);
                             Reload();
                             Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                         }
@@ -195,7 +197,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//的に当たったとき
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
+                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
                             Reload();
                             Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
                         }
@@ -231,6 +233,7 @@ public class GunManager : MonoBehaviour, IGunManager
         is_playmode = false;
     }
 }
+   
 
 
 
