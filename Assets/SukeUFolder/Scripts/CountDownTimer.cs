@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CountDownTimer : MonoBehaviour,ITimer
 {
     IStateChanger stateChanger;
     public bool IsPlaying { get; private set; }
     public float playTime { get; private set; }
-    Text text;
+    TextMeshProUGUI text;
     private float currentStartTime;
     public float startTime { get; private set; } = 10f;
     public float endTime { get; private set; } = 0f;
@@ -85,7 +86,7 @@ public class CountDownTimer : MonoBehaviour,ITimer
     {
         Canvas canvas = GetComponentInChildren<Canvas>();
         canvas.worldCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        text = transform.GetChild(0).GetComponentInChildren<Text>();
+        text = transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
         stateChanger= GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
     }
     private void Update()
