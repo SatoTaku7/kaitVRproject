@@ -77,6 +77,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
             else if(scoreSum >= 16800)
             {
                 ChangeLevel(6);
+                timer.SetTimer(4);
             }
             else if(scoreSum >= 11600)
             {
@@ -89,6 +90,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
             else if(scoreSum >= 4000)
             {
                 ChangeLevel(3);
+                timer.SetTimer(6);
             }
             else if(scoreSum >= 1450)
             {
@@ -113,23 +115,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
                 ChangeState(IStateChanger.GameState.Title);
             }
         }
-    }
-    /// <summary>
-    /// コンボじゃない場合の処理
-    /// </summary>
-    public void BreakTarget()
-    {
-        //リロードを呼び出す
-        gunManager.Reload();
-    }
-    /// <summary>
-    /// コンボがあるときの処理
-    /// </summary>
-    /// <param name="comb"></param>
-    public void BreakTarget(int comb)
-    {
-        //リロードを呼び出す
-        gunManager.Reload();
     }
 
     public void GameStart()
@@ -157,11 +142,12 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
     {
         if (maxCombo < combo) maxCombo = combo;
     }
-
+    //HACK:スコアが得られる==的が割れたとなるがScoreUpdateの中で的が割れた処理を入れるのは変
     public void ScoreUpdate(int addScore)
     {
         scoreSum += addScore;
         timer.ResetTimer();
+        gunManager.Reload();
     }
 
     public void ChangeLevel(int num) => currentLevel=num;
