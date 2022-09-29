@@ -6,8 +6,14 @@ public class PopUpTextController : MonoBehaviour
 {
     private TextMesh _mesh;
 
+    private GameObject Player;
+
     public void Init(int score,int color)
     {
+        Player = GameObject.FindGameObjectWithTag("Player");
+        transform.LookAt(Player.transform.position);
+        transform.Rotate(new Vector3(0, 180, 0));
+        transform.position -= new Vector3(10, 0, 0);
         _mesh = GetComponent<TextMesh>();
         StartCoroutine(Fadeout());
         _mesh.text = "+" + score.ToString();
