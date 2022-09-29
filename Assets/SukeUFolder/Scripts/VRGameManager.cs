@@ -25,21 +25,30 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
     /// <param name="nextState"></param>
     public void ChangeState(IStateChanger.GameState nextState)
     {
-        currentState = nextState;
-       // if (OnChangeState != null) OnChangeState.Invoke();
-       if(nextState== IStateChanger.GameState.Game)
+        if (currentState != nextState)
         {
-            //ゲーム開始時の初期化処理はここに書く
-            targetManager.TargetInit();
-            StartCoroutine("StartInterval");
-        }else if(nextState == IStateChanger.GameState.Result)
-        {
-            //ゲーム終了時の処理はここに書く
-            targetManager.AllTargetDestroy();
-            timer.StopPlay();
-        }else if (nextState == IStateChanger.GameState.Title)
-        {
-            //タイトルに戻った時の処理はここに書く
+            currentState = nextState;
+            // if (OnChangeState != null) OnChangeState.Invoke();
+            if (nextState == IStateChanger.GameState.Game)
+            {
+                //ゲーム開始時の初期化処理はここに書く
+                Debug.Log("ゲーム始めます。");
+                gunManager.Reload();
+                targetManager.TargetInit();
+                StartCoroutine("StartInterval");
+            }
+            else if (nextState == IStateChanger.GameState.Result)
+            {
+                //ゲーム終了時の処理はここに書く
+                targetManager.AllTargetDestroy();
+                timer.StopPlay();
+                Debug.Log("リザルト状態");
+            }
+            else if (nextState == IStateChanger.GameState.Title)
+            {
+                Debug.Log("タイトル戻ります。");
+                //タイトルに戻った時の処理はここに書く
+            }
         }
 
     }
@@ -63,13 +72,13 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                Debug.Log("ゲーム始めます。");
+               
                 ChangeState(IStateChanger.GameState.Game);
             }
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
-            Debug.Log(scoreSum);
+           // Debug.Log(scoreSum);
             if (scoreSum >= 22800)
             {
                 ChangeLevel(7);
@@ -110,7 +119,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                Debug.Log("タイトル戻ります。");
+              
                 resultManager?.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
                 ChangeState(IStateChanger.GameState.Title);
             }

@@ -29,7 +29,7 @@ public class GunManager : MonoBehaviour, IGunManager
         bullet_countR = 1;
         ButtonClicked = false;
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
-        LongRayMode = true;//レイザーポイントを長くする
+        LongRayMode = false;//レイザーポイントを長くする
         is_playmode = false;
         is_game_over = false;
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
@@ -93,7 +93,7 @@ public class GunManager : MonoBehaviour, IGunManager
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
             ButtonClicked = false;
         }
-        if (bullet_countL == 0 && bullet_countR == 0)//両方の弾が0になったとき
+        if (bullet_countL == 0 && bullet_countR == 0&&stateChanger.currentState==IStateChanger.GameState.Game)//両方の弾が0になったとき
         {
             stateChanger.ChangeState(IStateChanger.GameState.Result);
 
