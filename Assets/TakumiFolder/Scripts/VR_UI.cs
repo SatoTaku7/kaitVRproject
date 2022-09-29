@@ -20,20 +20,23 @@ public class VR_UI : MonoBehaviour
     {
         if (gunManager.ButtonClicked)//スタートボタンが押されたらボタンが消える
         {
-            Debug.Log("ボタンクリック:"+gunManager.ButtonClicked);
+           // Debug.Log("ボタンクリック:"+gunManager.ButtonClicked);
             if (Button.gameObject.name == gunManager.ButtonName)
             {
-                Debug.Log("ボタン名:" + gunManager.ButtonClicked);
+               // Debug.Log("ボタン名:" + gunManager.ButtonClicked);
                 Button.gameObject.SetActive(false);
-                gunManager.is_playmode = true;
-                gunManager.is_game_over = false;
+                stateChanger.ChangeState(IStateChanger.GameState.Game);
             }
         }
 
         if (stateChanger.currentState == IStateChanger.GameState.Title)//ゲームオーバーが呼ばれたらスタートボタンを出現
         {
             Button.gameObject.SetActive(true);
-            gunManager.is_playmode = false;
         }
+    }
+
+    void ButtonClicked()
+    {
+
     }
 }
