@@ -61,7 +61,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            var g = GameObject.FindWithTag("Target").GetComponentsInChildren<TargetBreak>();
+            var g = GameObject.FindWithTag("Target").GetComponentsInChildren<IGunBreakTarget>();
             int ran = Random.Range(0, g.Length);
             int ranGun = Random.Range(1, 3);
             g[ran].BreakTarget(ranGun);

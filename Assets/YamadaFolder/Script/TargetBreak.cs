@@ -9,12 +9,15 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
     private TargetManager _manager;
     private TargetInformation _info;
 
+    private GameObject Player;
+
     private void Start()
     {
         //プレイヤーの方向を向く　後で修正
         _manager = GetComponentInParent<TargetManager>();
         _info = GetComponent<TargetInformation>();
-        transform.LookAt(_manager.gameObject.transform.position);
+        Player = GameObject.FindGameObjectWithTag("Player");
+        transform.LookAt(Player.transform.position);
         var rotation = Random.Range(0, 360);
         transform.Rotate(new Vector3(0, 0, rotation));
     }
@@ -56,13 +59,4 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
         }
         Destroy(gameObject);
     }
-
-    //ぶつかった時に銃側にして欲しいこと例
-    void OnCollisionEnter(Collision collision)//レイに当たったなら
-    {
-        if (collision.gameObject.layer != 0) return;//的でないならreturn
-        TargetBreak tb = collision.gameObject.GetComponentInParent<TargetBreak>();
-        tb.BreakTarget(1/*ここにプレイヤーの銃の色情報を入れる*/);//ここをinterfaceにするかも?
-    }
-
 }
