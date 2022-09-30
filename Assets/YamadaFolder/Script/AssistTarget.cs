@@ -1,21 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class AssistTarget : MonoBehaviour, IGunBreakTarget
 {
+    private Image _image;
+
     private AssistManager _manager;
     private bool Hit = false;
+
+    private GameObject Player;
     // Start is called before the first frame update
     void Start()
     {
+        _image = GetComponentInChildren<Image>();
         _manager = GetComponentInParent<AssistManager>();
+        Player = GameObject.FindGameObjectWithTag("Player");
+        transform.LookAt(Player.transform.position);
+
+        StartCoroutine(limitTime());
     }
 
-    private void Update()
+    //©•ª‚Ì§ŒÀŠÔ‚ÌŠÇ—
+    private IEnumerator limitTime()
     {
-        //©•ª‚Ì§ŒÀŠÔ‚ÌŠÇ—
+        _image.fillAmount = 1f;
+        while (_image.fillAmount != 0)
+        {
+            _image.fillAmount -= 0.01f;
+            yield return new WaitForSeconds(0.05f);
+        }
+        Destroy(gameObject);
+        yield break;
     }
 
     //‚¨•‚¯“I‚Ì”j‰ó
@@ -39,7 +57,7 @@ public class AssistTarget : MonoBehaviour, IGunBreakTarget
         if (Hit == false)
         {
             Hit = true;
-            Debug.Log("Hit");
+            Debug.Log("AssistTargetHit");
             _manager.HitTarget();
         }
         Destroy(gameObject);
