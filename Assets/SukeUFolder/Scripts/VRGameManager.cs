@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
+public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTargetChecker
 {
     #region Interface
     IGunManager gunManager;
@@ -19,6 +19,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
     public IStateChanger.GameState currentState { get; private set; }
     public int currentLevel { get; private set; }
     public event System.Action OnChangeState;
+    [SerializeField]AssistManager assistManager;
     /// <summary>
     /// ステータスを変更するときに呼び出す
     /// </summary>
@@ -42,6 +43,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
                 //ゲーム終了時の処理はここに書く
                 targetManager.AllTargetDestroy();
                 timer.StopPlay();
+                gunManager.PowerDown();
                 Debug.Log("リザルト状態");
             }
             else if (nextState == IStateChanger.GameState.Title)
@@ -90,6 +92,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
             }
             else if(scoreSum >= 11600)
             {
+                if (currentLevel != 5)
+                {
+                    assistManager.GenerateAssistTarget();
+                }
                 ChangeLevel(5);
             }
             else if (scoreSum >= 8800)
@@ -98,6 +104,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
             }
             else if(scoreSum >= 4000)
             {
+                if (currentLevel != 3)
+                {
+                    assistManager.GenerateAssistTarget();
+                }
                 ChangeLevel(3);
                 timer.SetTimer(6);
             }
@@ -111,6 +121,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
             }
             else
             {
+               
                 ChangeLevel(0);
             }
 
@@ -119,7 +130,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
         {
             if (Input.GetKeyDown(KeyCode.N))
             {
-              
                 resultManager?.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
                 ChangeState(IStateChanger.GameState.Title);
             }
@@ -151,15 +161,30 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState
     {
         if (maxCombo < combo) maxCombo = combo;
     }
-    //HACK:スコアが得られる==的が割れたとなるがScoreUpdateの中で的が割れた処理を入れるのは変
+    //Changed:スコアと割れた時の処理を分割した
     public void ScoreUpdate(int addScore)
     {
         scoreSum += addScore;
+    }
+
+    public void BreakTarget()
+    {
         timer.ResetTimer();
         gunManager.Reload();
     }
 
     public void ChangeLevel(int num) => currentLevel=num;
 
+    public void BreakAssistTarget()
+    {
+        StartCoroutine(PowerUpTime());
+    }
+    IEnumerator PowerUpTime()
+    {
+        gunManager.PowerUp();
+        yield return new WaitForSeconds(10f);
+        gunManager.PowerDown();
+    }
 }
+
 

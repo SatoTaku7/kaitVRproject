@@ -89,7 +89,7 @@ public class CountDownTimer : MonoBehaviour,ITimer
         text = transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
         stateChanger= GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (IsPlaying)
         {
