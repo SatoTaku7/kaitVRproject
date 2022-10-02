@@ -19,7 +19,7 @@ public class GunManager : MonoBehaviour, IGunManager
 
     public string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
     public bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
-    public bool is_playmode, is_game_over;//ゲーム中かどうか・ゲームオーバー判定
+
 
     void Start()
     {
@@ -30,8 +30,6 @@ public class GunManager : MonoBehaviour, IGunManager
         ButtonClicked = false;
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
         LongRayMode = false;//レイザーポイントを長くする
-        is_playmode = false;
-        is_game_over = false;
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
 
     }
@@ -43,30 +41,34 @@ public class GunManager : MonoBehaviour, IGunManager
         lineRenderer_L.endWidth = EndWidth;
         lineRenderer_R.startWidth = StartWidth;
         lineRenderer_R.endWidth = EndWidth;
+        lineRenderer_L.SetPosition(0, LGun_trans.position);
+        lineRenderer_R.SetPosition(0, RGun_trans.position);
+        lineRenderer_L.SetPosition(1, LGun_trajectory.position);
+        lineRenderer_R.SetPosition(1, RGun_trajectory.position);
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
         {
             textbullet_countL.text = bullet_countL.ToString();
             textbullet_countR.text = bullet_countR.ToString();
         }
-        else
+        else//弾無限モードで無限表記
         {
             textbullet_countL.text = "∞";
             textbullet_countR.text = "∞";
         }
-        if (LongRayMode == false)
-        {
+     　 if (LongRayMode == false)//レイザー長いモードじゃないときはレイザーの長さと太さが小さくなる
+     　 {
             StartWidth = 0.001f;
             EndWidth = 0.0001f;
-        }
-        else
+            LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x, 342f, LGun_trajectory.localPosition.z);
+            RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 342f, RGun_trajectory.localPosition.z);
+      　}
+      　else//レイザー長いモードのときはレイザーの長さと太さが大きくなる　
         {
             StartWidth = 0.01f;
             EndWidth = 0.01f;
+            LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x,8420f, LGun_trajectory.localPosition.z);
+            RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 8420f, RGun_trajectory.localPosition.z);
         }
-        lineRenderer_L.SetPosition(0, LGun_trans.position);
-        lineRenderer_L.SetPosition(1, LGun_trajectory.position);
-        lineRenderer_R.SetPosition(0, RGun_trans.position);
-        lineRenderer_R.SetPosition(1, RGun_trajectory.position);
            
         
         ///ここから下はプレイヤーがコントローラーで操作したときの処理///
@@ -123,58 +125,58 @@ public class GunManager : MonoBehaviour, IGunManager
             Debug.Log("右のジョイスティックを右へ回す");
         }
     }
-    public void Ray(int LorR)//トリガーが押されたとき 引数は左か右か
+    public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
     {
         //当たった的の種類を確認する用のスクリプト
         Ray ray_L = new Ray(LGun_trans.position, LGun_trajectory.position - LGun_trans.position);
         Ray ray_R = new Ray(RGun_trans.position, RGun_trajectory.position - RGun_trans.position);
         RaycastHit hitobj;
-        if (LorR == 1)//左トリガーを押したとき
+        if (LorR == 1)//左トリガーを押したとき(左銃を撃った時)
         {
-            if (Physics.Raycast(ray_L, out hitobj, 200, layerMask))//左が当たったとき
+            if (Physics.Raycast(ray_L, out hitobj, 200, layerMask))//左が的またはスタートボタンのUIに当たったとき
             {
-                if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
+                if (hitobj.collider.gameObject.layer == 7)//UIのボタンに当たったとき
                 {
-                    //bullet_countL = 1;//UIをタッチしたときは弾数を1にする、ノーカンの処理を代理でおいといた。バグの元になりそうなのでので後で直します
-                    ButtonName = hitobj.collider.gameObject.name;
+                    ButtonName = hitobj.collider.gameObject.name;//UIの名前を取得
                     bullet_countL = 1;
                     bullet_countR = 1;
                     Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
                 }//CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
-                    if (InfiniteMode == true)//無限モードだったとき
+                    
+                    if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
                     {
-                        if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
+                        var TargetColor = hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name;//検知したオブジェクトの親の名前を取得
+                        if ((TargetColor != "TargetBlue(Clone)"))//的の色が灰色・赤だったら的色1を返して的が壊れる
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(0);
-                            Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
-                        }
-                    }
-                    else//通常モードだったとき
-                    {
-                        if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//的に当たったとき
-                        {
+                           // Debug.Log(hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + ":衝突したオブジェクトの親");
                             hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
-                            Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
+                        }
+                        else//的の色が青だったら弾が0になる
+                        {
+                            bullet_countL = 0;
+                            ResetCombo();
                         }
                     }
                 }
             }
-            else//左が外した場合
+            else//左が何にも触れていない場合　弾数0&コンボリセット
             {
-                bullet_countL = 0;
-                ResetCombo();
-            }
-
-        }
-        if (LorR == 2)//右トリガーを押したとき
-        {
-            if (Physics.Raycast(ray_R, out hitobj, 200, layerMask))//右が当たったとき
-            {
-                if (hitobj.collider.gameObject.layer == 7)//UIのボタンの時
+                if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
-                    //bullet_countR = 1;//UIをタッチしたときは弾数を1にする、ノーカンの処理を代理でおいといた。バグの元になりそうなのでので後で直します
+                    bullet_countL = 0;
+                    ResetCombo();
+                }
+            }
+        }
+
+        if (LorR == 2)//右トリガーを押したとき(右銃を撃った時)
+        {
+            if (Physics.Raycast(ray_R, out hitobj, 200, layerMask))//右が的またはスタートボタンのUIに当たったとき
+            {
+                if (hitobj.collider.gameObject.layer == 7)//UIのボタンに当たったとき
+                {
                     ButtonName = hitobj.collider.gameObject.name;
                     bullet_countL = 1;
                     bullet_countR = 1;
@@ -183,34 +185,31 @@ public class GunManager : MonoBehaviour, IGunManager
                 //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
                 if (stateChanger.currentState==IStateChanger.GameState.Game)//プレイモードだったとき
                 {
-                    if (InfiniteMode == true)//無限モードだったとき
+                    if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//右銃で的を当てた時
                     {
-                        if (hitobj.collider.gameObject.layer == 6)//的に当たったとき
+                        var TargetColor = hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name;//検知したオブジェクトの親の名前を取得
+                        if ((TargetColor != "TargetRed(Clone)"))//的の色が灰色・青だったら的色1を返して的が壊れる
                         {
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
-                           // Reload();
-                            Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
-                        }
-                    }
-                    else//通常モードだったとき
-                    {
-                        if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//的に当たったとき
-                        {
+                            Debug.Log(hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + ":衝突したオブジェクトの親");
                             hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
-                           // Reload();
-                            Debug.Log(hitobj.collider.gameObject.name + ":衝突したオブジェクト");
+                        }
+                        else//的の色が赤だったら弾が0になる
+                        {
+                            bullet_countR = 0;
+                            ResetCombo();
                         }
                     }
                 }
             }
-            else//右が外した場合
+            else //右が何にも触れていない場合　弾数0 & コンボリセット
             {
-                bullet_countR = 0;
-                ResetCombo();
+                if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
+                {
+                    bullet_countR = 0;
+                    ResetCombo();
+                }
             }
         }
-        Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red);
-        Debug.DrawRay(RGun_trans.position, RGun_trajectory.position - RGun_trans.position, Color.red);
     }
 
     public void Reload()
@@ -228,8 +227,6 @@ public class GunManager : MonoBehaviour, IGunManager
     }
     public void GameOver()
     {
-        is_game_over = true;
-        is_playmode = false;
     }
 }
    
