@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AssistManager : MonoBehaviour
 {
+    IBreakTargetChecker breakTargetChecker;
     [SerializeField] GameObject AssistTargetObj;
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,6 @@ public class AssistManager : MonoBehaviour
     //‚¨•‚¯“I‚ª”j‰ó‚³‚ê‚½
     public void HitTarget()
     {
-        
+        GameObject.FindGameObjectWithTag("GameController").GetComponent<IBreakTargetChecker>().BreakAssistTarget();
     }
 }

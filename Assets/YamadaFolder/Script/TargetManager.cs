@@ -34,11 +34,13 @@ public class TargetManager : MonoBehaviour,ITargetManager
 
     private GameObject GameManager;
     private ICombo _combo;
+    private IBreakTargetChecker breakTargetChecker;
 
     private void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         _combo = GameManager.GetComponent<ICombo>();
+        breakTargetChecker= GameManager.GetComponent<IBreakTargetChecker>();
     }
 
     public void TargetInit()
@@ -99,7 +101,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
         //スコアの算出
         int score = _combo.ScoreCal(_combo.combo);
         _combo.UpdateAllScore();
-
+        breakTargetChecker.BreakTarget();
         //スコアをポップアップ
         PopUpScore(color, score, pos);
     }

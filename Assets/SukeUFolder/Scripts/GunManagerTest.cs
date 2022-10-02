@@ -94,8 +94,11 @@ public class GunManagerTest : MonoBehaviour,IGunManager　
         bullet_countL = 10;
         bullet_countR = 10;
     }
-     
-     
+    public void PowerDown() //インターフェースを継承するとパワーダウン処理が必要になるためここに記載してね(sukeU)
+    {
+
+    }
+
 
 }
 

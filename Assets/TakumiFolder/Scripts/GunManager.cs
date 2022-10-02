@@ -31,7 +31,6 @@ public class GunManager : MonoBehaviour, IGunManager
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
         LongRayMode = false;//レイザーポイントを長くする
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
-
     }
 
     // Update is called once per frame
@@ -95,6 +94,7 @@ public class GunManager : MonoBehaviour, IGunManager
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
             ButtonClicked = false;
         }
+        //FIXME:無限モード中に両方で弾を外すと的うちゲームが終了する
         if (bullet_countL == 0 && bullet_countR == 0&&stateChanger.currentState==IStateChanger.GameState.Game)//両方の弾が0になったとき
         {
             stateChanger.ChangeState(IStateChanger.GameState.Result);
@@ -146,7 +146,8 @@ public class GunManager : MonoBehaviour, IGunManager
                 {
                     
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
-                    {
+                    { 
+                        //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                         var TargetColor = hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name;//検知したオブジェクトの親の名前を取得
                         if ((TargetColor != "TargetBlue(Clone)"))//的の色が灰色・赤だったら的色1を返して的が壊れる
                         {
@@ -219,6 +220,16 @@ public class GunManager : MonoBehaviour, IGunManager
     }
     public void PowerUp()
     {
+        InfiniteMode = true;
+        LongRayMode = true;
+
+    }
+    public void PowerDown()
+    {
+        InfiniteMode = false;
+        LongRayMode = false;
+        bullet_countL = 1;
+        bullet_countR = 1;
 
     }
     public void ResetCombo()
