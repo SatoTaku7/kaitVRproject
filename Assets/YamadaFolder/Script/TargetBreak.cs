@@ -46,7 +46,7 @@ public class TargetBreak : MonoBehaviour,IGunBreakTarget
             r.AddForce(2 * Physics.gravity, ForceMode.Impulse);
             r.transform.SetParent(null);
             r.gameObject.AddComponent<AutoDestroy>().time = 0.2f;
-            r.gameObject.layer = 6;
+            r.gameObject.layer = 8;
             var vect = new Vector3(random.Next(min, max), random.Next(0, max), random.Next(min, max));
             r.AddForce(vect, ForceMode.Impulse);
             r.AddTorque(vect, ForceMode.Impulse);
