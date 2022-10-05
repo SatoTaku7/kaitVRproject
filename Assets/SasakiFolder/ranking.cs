@@ -17,11 +17,11 @@ public class ranking : MonoBehaviour
         higher[0] = PlayerPrefs.GetInt("First", 0);
         higher[1] = PlayerPrefs.GetInt("Second", 0);
         higher[2] = PlayerPrefs.GetInt("Third", 0);
+
         rankscore();
         PlayerPrefs.SetInt("First", higher[0]);
         PlayerPrefs.SetInt("Second", higher[1]);
         PlayerPrefs.SetInt("Third", higher[2]);
-        Debug.Log("1ˆÊ" + higher[0]);
     }
 
     public void uketori(ref int sco)
@@ -35,7 +35,8 @@ public class ranking : MonoBehaviour
         //higher[0] = 10;
         //higher[1] = 8;
         //higher[2] = 5;
-        higher[3] = 8;
+        //Score ScoreData = GetComponent<Score>();
+        higher[3] = Score.Sint;
 
         if (higher[3] >= higher[0])
         {
