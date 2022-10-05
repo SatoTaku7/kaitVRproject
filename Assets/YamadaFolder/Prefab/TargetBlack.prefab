@@ -269,7 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3875371336751149496}
   - component: {fileID: 4504660785501842180}
-  - component: {fileID: 4504660785501842181}
+  - component: {fileID: 2075555877}
   m_Layer: 6
   m_Name: TargetBlack
   m_TagString: Target
@@ -307,7 +307,7 @@ MonoBehaviour:
   num: 0
   color: 0
   size: 20
---- !u!114 &4504660785501842181
+--- !u!114 &2075555877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,7 +316,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4504660785501842178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06752a6ca26b4a4f95a053b900d67d6, type: 3}
+  m_Script: {fileID: 11500000, guid: efb7d9d7f4b0553499102c753d709407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5861363922340888642
