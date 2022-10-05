@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class GunManager : MonoBehaviour, IGunManager
 {
     IStateChanger stateChanger;
+    ICombo combo;
     [SerializeField] GameObject LGun, RGun;
     [SerializeField] Transform LGun_trans, LGun_trajectory, LGun_Trigger;//左の銃の位置・軌道位置・トリガー
     [SerializeField] Transform RGun_trans, RGun_trajectory, RGun_Trigger;//右の銃の位置・軌道位置・トリガー
@@ -20,6 +21,9 @@ public class GunManager : MonoBehaviour, IGunManager
     public string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
     public bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
 
+    //色の情報
+    TargetInformation targetInformation;
+
 
     void Start()
     {
@@ -31,6 +35,7 @@ public class GunManager : MonoBehaviour, IGunManager
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
         LongRayMode = false;//レイザーポイントを長くする
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
+        combo= GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
     }
 
     // Update is called once per frame
@@ -146,26 +151,32 @@ public class GunManager : MonoBehaviour, IGunManager
                 {
                     
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
-                    { 
-                        //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
-                        var TargetColor = hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name;//検知したオブジェクトの親の名前を取得
-                        if ((TargetColor != "TargetBlue(Clone)"))//的の色が灰色・赤だったら的色1を返して的が壊れる
+                    {
+                        var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
+                        //的の色　0が赤　1が青　2が灰色  3お助け的
+                        if(TargetColor == 1)
                         {
-                           // Debug.Log(hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + ":衝突したオブジェクトの親");
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
-                        }
-                        else//的の色が青だったら弾が0になる
-                        {
+                            if (InfiniteMode) return;
                             bullet_countL = 0;
                             ResetCombo();
                         }
+                        //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
+                        hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);//俺の銃の色が引数
                     }
+                    else
+                    {
+                        if (InfiniteMode) return;
+                        bullet_countL = 0;
+                        ResetCombo();
+                    }
+
                 }
             }
             else//左が何にも触れていない場合　弾数0&コンボリセット
             {
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
+                    if (InfiniteMode) return;
                     bullet_countL = 0;
                     ResetCombo();
                 }
@@ -188,17 +199,21 @@ public class GunManager : MonoBehaviour, IGunManager
                 {
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//右銃で的を当てた時
                     {
-                        var TargetColor = hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name;//検知したオブジェクトの親の名前を取得
-                        if ((TargetColor != "TargetRed(Clone)"))//的の色が灰色・青だったら的色1を返して的が壊れる
+                        var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
+                        if (TargetColor == 0)
                         {
-                            Debug.Log(hitobj.collider.gameObject.transform.parent.gameObject.transform.parent.gameObject.name + ":衝突したオブジェクトの親");
-                            hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);
-                        }
-                        else//的の色が赤だったら弾が0になる
-                        {
+                            if (InfiniteMode) return;
                             bullet_countR = 0;
                             ResetCombo();
                         }
+                        //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
+                        hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);//俺の銃の色が引数
+                    }
+                    else//的の色が青だったら弾が0になる
+                    {
+                        if (InfiniteMode) return;
+                        bullet_countR = 0;
+                        ResetCombo();
                     }
                 }
             }
@@ -206,6 +221,7 @@ public class GunManager : MonoBehaviour, IGunManager
             {
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
+                    if (InfiniteMode) return;
                     bullet_countR = 0;
                     ResetCombo();
                 }
@@ -234,7 +250,7 @@ public class GunManager : MonoBehaviour, IGunManager
     }
     public void ResetCombo()
     {
-
+        combo.ResetCombo();
     }
     public void GameOver()
     {
