@@ -171,6 +171,14 @@ public class GunManager : MonoBehaviour, IGunManager
                     }
 
                 }
+                else
+                {
+                    Reload();
+                    if(hitobj.collider.gameObject.layer == 6)
+                    {
+                        hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
+                    }
+                }
             }
             else//左が何にも触れていない場合　弾数0&コンボリセット
             {
@@ -214,6 +222,14 @@ public class GunManager : MonoBehaviour, IGunManager
                         if (InfiniteMode) return;
                         bullet_countR = 0;
                         ResetCombo();
+                    }
+                }
+                else
+                {
+                    Reload();
+                    if (hitobj.collider.gameObject.layer == 6)
+                    {
+                        hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
                     }
                 }
             }
