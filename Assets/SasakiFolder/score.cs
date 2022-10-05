@@ -12,15 +12,18 @@ public class Score : MonoBehaviour, IResultManager
     public int maxCombo { get; private set; }
     public int elapsedTime { get; private set; }
 
+    public static int Sint=10;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         score_object = GameObject.FindWithTag("scoreUI");
         //スコアをもらう
-        int mysc;
-        mysc = 99;//playerScript.BulletCount;
-        Debug.Log("スコア"+mysc+"点");
+        //int mysc;
+        //mysc = 99;
+        //Debug.Log("スコア"+mysc+"点");
+        Sint = PlayerPrefs.GetInt("ScData");
     }
 
     /*public void rankscore()
@@ -63,6 +66,8 @@ public class Score : MonoBehaviour, IResultManager
     void Update()
     {
         //SetRecord(100,00,1);
+        
+        //Debug.Log("スコア" + Sint + "点");
     }
 
     public void SetRecord(int score, int maxCombo, int elapsedTime)
@@ -71,5 +76,6 @@ public class Score : MonoBehaviour, IResultManager
         TextMeshProUGUI score_text = score_object.GetComponent<TextMeshProUGUI>();
         // テキストの表示を入れ替える
         score_text.text = "Score:" + score;
+        PlayerPrefs.SetInt("ScData", score);
     }
 }
