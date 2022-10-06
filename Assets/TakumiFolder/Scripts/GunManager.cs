@@ -14,7 +14,7 @@ public class GunManager : MonoBehaviour, IGunManager
     LineRenderer lineRenderer_L, lineRenderer_R;//レイザーポインター左右
     [SerializeField] float StartWidth, EndWidth;//レイザーポインター左右　太さ
     [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
-    private int bullet_countL, bullet_countR;//左右それぞれの残弾数
+    [SerializeField] private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int layerMask = 1 << 7 | 1 << 6;
     [SerializeField] bool InfiniteMode, LongRayMode;
 
@@ -35,20 +35,46 @@ public class GunManager : MonoBehaviour, IGunManager
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
         LongRayMode = false;//レイザーポイントを長くする
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
-        combo= GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
+        combo = GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
     }
 
-    // Update is called once per frame
     void Update()
+    {
+        //レイザーの出る条件や、パワーアップ状態で弾数とレイザーの長さが変化する処理
+        GunMode();
+
+        ///コントローラーで操作したときの処理///
+        Gun_Controller();//プレイヤーの回転とトリガーを押したときの処理
+    }
+
+
+    public void GunMode()
     {
         lineRenderer_L.startWidth = StartWidth;
         lineRenderer_L.endWidth = EndWidth;
         lineRenderer_R.startWidth = StartWidth;
         lineRenderer_R.endWidth = EndWidth;
-        lineRenderer_L.SetPosition(0, LGun_trans.position);
-        lineRenderer_R.SetPosition(0, RGun_trans.position);
-        lineRenderer_L.SetPosition(1, LGun_trajectory.position);
-        lineRenderer_R.SetPosition(1, RGun_trajectory.position);
+        if (bullet_countL == 1)//左の弾があればレイザーが出る
+        {
+            lineRenderer_L.SetPosition(0, LGun_trans.position);
+            lineRenderer_L.SetPosition(1, LGun_trajectory.position);
+        }
+        else//左の弾がなければレイザーが出る
+        {
+            lineRenderer_L.SetPosition(0, LGun_trans.position);
+            lineRenderer_L.SetPosition(1, LGun_trans.position);
+        }
+        if (bullet_countR == 1)//右の弾があればレイザーが出る
+        {
+            lineRenderer_R.SetPosition(0, RGun_trans.position);
+            lineRenderer_R.SetPosition(1, RGun_trajectory.position);
+        }
+        else//右の弾がなければレイザーが出る
+        {
+            lineRenderer_R.SetPosition(0, RGun_trans.position);
+            lineRenderer_R.SetPosition(1, RGun_trans.position);
+        }
+
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
         {
             textbullet_countL.text = bullet_countL.ToString();
@@ -59,23 +85,24 @@ public class GunManager : MonoBehaviour, IGunManager
             textbullet_countL.text = "∞";
             textbullet_countR.text = "∞";
         }
-     　 if (LongRayMode == false)//レイザー長いモードじゃないときはレイザーの長さと太さが小さくなる
-     　 {
+        if (LongRayMode == false)//レイザー長いモードじゃないときはレイザーの長さと太さが小さくなる
+        {
             StartWidth = 0.001f;
             EndWidth = 0.0001f;
             LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x, 342f, LGun_trajectory.localPosition.z);
             RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 342f, RGun_trajectory.localPosition.z);
-      　}
-      　else//レイザー長いモードのときはレイザーの長さと太さが大きくなる　
+        }
+        else//レイザー長いモードのときはレイザーの長さと太さが大きくなる　
         {
             StartWidth = 0.01f;
             EndWidth = 0.01f;
-            LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x,8420f, LGun_trajectory.localPosition.z);
+            LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x, 8420f, LGun_trajectory.localPosition.z);
             RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 8420f, RGun_trajectory.localPosition.z);
         }
-           
-        
-        ///ここから下はプレイヤーがコントローラーで操作したときの処理///
+    }
+    public void Gun_Controller()
+    {
+        //トリガーを押したときの処理
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
@@ -100,15 +127,12 @@ public class GunManager : MonoBehaviour, IGunManager
             ButtonClicked = false;
         }
         //FIXME:無限モード中に両方で弾を外すと的うちゲームが終了する
-        if (bullet_countL == 0 && bullet_countR == 0&&stateChanger.currentState==IStateChanger.GameState.Game)//両方の弾が0になったとき
+        if (bullet_countL == 0 && bullet_countR == 0 && stateChanger.currentState == IStateChanger.GameState.Game)//両方の弾が0になったとき
         {
             stateChanger.ChangeState(IStateChanger.GameState.Result);
-
         }
-        PlayerRotate();//プレイヤーの回転
-    }
-    public void PlayerRotate()
-    {
+
+        //スティックを回したときにプレイヤーが回転する処理
         if (OVRInput.GetDown(OVRInput.RawButton.LThumbstickLeft))
         {
             this.gameObject.transform.Rotate(0, -45f, 0);
@@ -130,6 +154,7 @@ public class GunManager : MonoBehaviour, IGunManager
             Debug.Log("右のジョイスティックを右へ回す");
         }
     }
+
     public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
     {
         //当たった的の種類を確認する用のスクリプト
@@ -149,12 +174,12 @@ public class GunManager : MonoBehaviour, IGunManager
                 }//CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
-                    
+
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
                     {
                         var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
                         //的の色　0が赤　1が青　2が灰色  3お助け的
-                        if(TargetColor == 1)
+                        if (TargetColor == 1)
                         {
                             if (InfiniteMode) return;
                             bullet_countL = 0;
@@ -174,7 +199,7 @@ public class GunManager : MonoBehaviour, IGunManager
                 else
                 {
                     Reload();
-                    if(hitobj.collider.gameObject.layer == 6)
+                    if (hitobj.collider.gameObject.layer == 6)
                     {
                         hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);
                     }
@@ -203,7 +228,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
                 }
                 //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
-                if (stateChanger.currentState==IStateChanger.GameState.Game)//プレイモードだったとき
+                if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//右銃で的を当てた時
                     {
@@ -272,7 +297,7 @@ public class GunManager : MonoBehaviour, IGunManager
     {
     }
 }
-   
+
 
 
 
