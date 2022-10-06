@@ -157,10 +157,10 @@ public class TargetManager : MonoBehaviour,ITargetManager
         */
 
         //球状ではなく平面上に生成するパターン
-        var x = Random.Range(-70f, 70f);
-        var y = Random.Range(-10f, 40f);
+        var x = Random.Range(-10f, 10f);
+        var y = Random.Range(-1f, 7.5f);
 
-        var Transform = new Vector3(x, y, d + num * 20);
+        var Transform = new Vector3(x, y, d + num * 2);
         var Rotation = Quaternion.identity;
 
         //レベルの取得
