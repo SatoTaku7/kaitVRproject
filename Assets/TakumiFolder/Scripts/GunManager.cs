@@ -17,13 +17,8 @@ public class GunManager : MonoBehaviour, IGunManager
     [SerializeField] private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int layerMask = 1 << 7 | 1 << 6;
     [SerializeField] bool InfiniteMode, LongRayMode;
-
     public string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
     public bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
-
-    //色の情報
-    TargetInformation targetInformation;
-
 
     void Start()
     {
@@ -42,7 +37,7 @@ public class GunManager : MonoBehaviour, IGunManager
     {
         //レイザーの出る条件や、パワーアップ状態で弾数とレイザーの長さが変化する処理
         GunMode();
-
+        
         ///コントローラーで操作したときの処理///
         Gun_Controller();//プレイヤーの回転とトリガーを押したときの処理
     }
@@ -87,7 +82,7 @@ public class GunManager : MonoBehaviour, IGunManager
         }
         if (LongRayMode == false)//レイザー長いモードじゃないときはレイザーの長さと太さが小さくなる
         {
-            StartWidth = 0.001f;
+            StartWidth = 0.0025f;
             EndWidth = 0.0001f;
             LGun_trajectory.localPosition = new Vector3(LGun_trajectory.localPosition.x, 342f, LGun_trajectory.localPosition.z);
             RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 342f, RGun_trajectory.localPosition.z);
@@ -102,10 +97,12 @@ public class GunManager : MonoBehaviour, IGunManager
     }
     public void Gun_Controller()
     {
+        
         //トリガーを押したときの処理
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            if (bullet_countL == 1) StartCoroutine("shoot", 0);
             ButtonClicked = true;
             Ray(1);
         }
@@ -118,6 +115,7 @@ public class GunManager : MonoBehaviour, IGunManager
         {
 
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            if (bullet_countR == 1) StartCoroutine("shoot", 1);
             ButtonClicked = true;
             Ray(2);
         }
@@ -153,6 +151,23 @@ public class GunManager : MonoBehaviour, IGunManager
             this.gameObject.transform.Rotate(0, 45f, 0);
             Debug.Log("右のジョイスティックを右へ回す");
         }
+    }
+    IEnumerator shoot(int LorR)
+    {
+        if (LorR == 0)
+        {
+            OVRInput.SetControllerVibration(1.0f, 0.6f, OVRInput.Controller.LTouch);
+            yield return new WaitForSeconds(0.1f);
+            OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
+        }
+        if(LorR == 1)
+        {
+            OVRInput.SetControllerVibration(1.0f, 0.6f, OVRInput.Controller.RTouch);
+            yield return new WaitForSeconds(0.1f);
+            OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+        }
+
+        
     }
 
     public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
