@@ -98,6 +98,7 @@ public class CountDownTimer : MonoBehaviour,ITimer
             {
                 timer = Mathf.Clamp(timer - Time.deltaTime, endTime, currentStartTime);
                 text.text = $"{timer:f1}";
+                DecreaseImage(timer, (int)startTime);
                 if (timer == 0)
                 {
                     stateChanger.ChangeState(IStateChanger.GameState.Result);
@@ -105,5 +106,11 @@ public class CountDownTimer : MonoBehaviour,ITimer
             }
 
         }
+    }
+
+    public void DecreaseImage(float current, int max)
+    {
+        //ImageというコンポーネントのfillAmountを取得して操作する
+        transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = current / max;
     }
 }
