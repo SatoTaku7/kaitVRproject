@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Blue_Gun
+  m_Name: rainbow
   m_Shader: {fileID: 4800000, guid: 231d95ff7213dd74f82af136b256fb32, type: 3}
-  m_ShaderKeywords: MOCHIE_PBR POI_LIGHT_DATA_ADDITIVE_DIRECTIONAL_ENABLE POI_LIGHT_DATA_ADDITIVE_ENABLE
-    POI_VERTEXLIGHT_ON POSTPROCESS VIGNETTE_MASKED _EMISSION _LIGHTINGMODE_FLAT _METALLICGLOSSMAP
-    _NORMALMAP _RIMSTYLE_POIYOMI
-  m_LightmapFlags: 1
+  m_ShaderKeywords: POI_LIGHT_DATA_ADDITIVE_DIRECTIONAL_ENABLE POI_LIGHT_DATA_ADDITIVE_ENABLE
+    POI_VERTEXLIGHT_ON VIGNETTE_MASKED _EMISSION _LIGHTINGMODE_FLAT _RIMSTYLE_POIYOMI
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
@@ -54,7 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 5dbf3432b21562140abe5602e3121e7d, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ClearCoatFallback:
@@ -162,8 +161,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 5f41d8699ad54934d9091a83b33c4997, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 1ff8ebef6b28683499c6fa04a4098e70, type: 3}
+        m_Scale: {x: 1, y: 0.4}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap1:
         m_Texture: {fileID: 0}
@@ -194,7 +193,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionScrollingCurve:
-        m_Texture: {fileID: 2800000, guid: 33aba98df7575b440aff2b38206acb76, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionScrollingCurve1:
@@ -214,7 +213,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FlipbookTexArray:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 18700000, guid: 62f71c77223960642a8b233ec07eb947, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GlitterColorMap:
@@ -274,7 +273,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f40a483c0d0df104c82014a08ca3cbbe, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Matcap:
@@ -326,7 +325,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 428a2133c659a47469cb791fa2098aac, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MirrorTexture:
@@ -334,7 +333,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MochieMetallicMaps:
-        m_Texture: {fileID: 2800000, guid: 428a2133c659a47469cb791fa2098aac, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MochieReflCube:
@@ -346,7 +345,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: aea6ccbf2a79fad4b8bab36c422e3c68, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PPMask:
@@ -841,7 +840,7 @@ Material:
     - _EmissionCenterOutEnabled1: 0
     - _EmissionCenterOutEnabled2: 0
     - _EmissionCenterOutEnabled3: 0
-    - _EmissionCenterOutSpeed: 5
+    - _EmissionCenterOutSpeed: 51.36
     - _EmissionCenterOutSpeed1: 5
     - _EmissionCenterOutSpeed2: 5
     - _EmissionCenterOutSpeed3: 5
@@ -857,7 +856,7 @@ Material:
     - _EmissionHueShiftEnabled1: 0
     - _EmissionHueShiftEnabled2: 0
     - _EmissionHueShiftEnabled3: 0
-    - _EmissionHueShiftSpeed: 0
+    - _EmissionHueShiftSpeed: 10
     - _EmissionHueShiftSpeed1: 0
     - _EmissionHueShiftSpeed2: 0
     - _EmissionHueShiftSpeed3: 0
@@ -873,7 +872,7 @@ Material:
     - _EmissionMaskInvert2: 0
     - _EmissionMaskInvert3: 0
     - _EmissionMaskUV: 0
-    - _EmissionReplace0: 1
+    - _EmissionReplace0: 0
     - _EmissionReplace1: 0
     - _EmissionReplace2: 0
     - _EmissionReplace3: 0
@@ -881,7 +880,7 @@ Material:
     - _EmissionScrollingOffset1: 0
     - _EmissionScrollingOffset2: 0
     - _EmissionScrollingOffset3: 0
-    - _EmissionScrollingUseCurve: 1
+    - _EmissionScrollingUseCurve: 0
     - _EmissionScrollingUseCurve1: 0
     - _EmissionScrollingUseCurve2: 0
     - _EmissionScrollingUseCurve3: 0
@@ -889,7 +888,7 @@ Material:
     - _EmissionScrollingVertexColor1: 0
     - _EmissionScrollingVertexColor2: 0
     - _EmissionScrollingVertexColor3: 0
-    - _EmissionStrength: 1
+    - _EmissionStrength: 1.5
     - _EmissionStrength1: 0
     - _EmissionStrength2: 0
     - _EmissionStrength3: 0
@@ -905,15 +904,15 @@ Material:
     - _EmissiveBlink_Velocity1: 4
     - _EmissiveBlink_Velocity2: 4
     - _EmissiveBlink_Velocity3: 4
-    - _EmissiveScroll_Interval: 2
+    - _EmissiveScroll_Interval: 50
     - _EmissiveScroll_Interval1: 20
     - _EmissiveScroll_Interval2: 20
     - _EmissiveScroll_Interval3: 20
-    - _EmissiveScroll_Velocity: 5
+    - _EmissiveScroll_Velocity: 8.5
     - _EmissiveScroll_Velocity1: 10
     - _EmissiveScroll_Velocity2: 10
     - _EmissiveScroll_Velocity3: 10
-    - _EmissiveScroll_Width: 1
+    - _EmissiveScroll_Width: 4
     - _EmissiveScroll_Width1: 10
     - _EmissiveScroll_Width2: 10
     - _EmissiveScroll_Width3: 10
@@ -949,7 +948,7 @@ Material:
     - _FXProximityColorMinColorThemeIndex: 0
     - _FXProximityColorMinDistance: 0
     - _FXProximityColorType: 1
-    - _FlipbookAdd: 0
+    - _FlipbookAdd: 0.1
     - _FlipbookAlphaControlsFinalAlpha: 0
     - _FlipbookChronoType: 0
     - _FlipbookChronotensityBand: 0
@@ -959,19 +958,19 @@ Material:
     - _FlipbookColorThemeIndex: 0
     - _FlipbookCrossfadeEnabled: 0
     - _FlipbookCurrentFrame: 0
-    - _FlipbookEmissionStrength: 0
+    - _FlipbookEmissionStrength: 0.1
     - _FlipbookEndFrame: 0
     - _FlipbookFPS: 30
     - _FlipbookHueShift: 0
-    - _FlipbookHueShiftEnabled: 0
-    - _FlipbookHueShiftSpeed: 0
+    - _FlipbookHueShiftEnabled: 1
+    - _FlipbookHueShiftSpeed: 5
     - _FlipbookIntensityControlsAlpha: 0
     - _FlipbookManualFrameControl: 0
     - _FlipbookMaskUV: 0
     - _FlipbookMultiply: 0
     - _FlipbookReplace: 1
-    - _FlipbookRotation: 0
-    - _FlipbookRotationSpeed: 0
+    - _FlipbookRotation: 45
+    - _FlipbookRotationSpeed: 10
     - _FlipbookStartAndEnd: 0
     - _FlipbookStartFrame: 0
     - _FlipbookTexArrayUV: 0
@@ -1231,7 +1230,7 @@ Material:
     - _Metallic: 0
     - _Mirror: 0
     - _MirrorTextureUV: 0
-    - _MochieBRDF: 1
+    - _MochieBRDF: 0
     - _MochieForceFallback: 0
     - _MochieGSAAEnabled: 1
     - _MochieLitFallback: 0
@@ -1259,7 +1258,7 @@ Material:
     - _PBRSplitMaskSample: 0
     - _PPBrightness: 1
     - _PPContrast: 1
-    - _PPEmissionMultiplier: 2.5
+    - _PPEmissionMultiplier: 1
     - _PPFinalColorMultiplier: 1
     - _PPHDR: 0
     - _PPHelp: 0
@@ -1328,7 +1327,7 @@ Material:
     - _PolarRadialScale: 1
     - _PolarSpiralPower: 0
     - _PolarUV: 0
-    - _PostProcess: 1
+    - _PostProcess: 0
     - _RGBBlendMultiplicative: 0
     - _RGBMaskEnabled: 0
     - _RGBMaskUV: 0
@@ -1610,10 +1609,10 @@ Material:
     - m_end_uvPanosphere: 0
     - m_end_uvPolar: 0
     - m_end_vertexManipulation: 0
-    - m_lightingCategory: 1
+    - m_lightingCategory: 0
     - m_mainCategory: 1
     - m_modifierCategory: 0
-    - m_postprocessing: 1
+    - m_postprocessing: 0
     - m_renderingCategory: 0
     - m_specialFXCategory: 1
     - m_start_ALDecalSpectrum: 0
@@ -1643,7 +1642,7 @@ Material:
     - m_start_Matcap3: 0
     - m_start_Matcap4: 0
     - m_start_PathAudioLink: 0
-    - m_start_PoiLightData: 1
+    - m_start_PoiLightData: 0
     - m_start_PoiShading: 0
     - m_start_RGBMask: 0
     - m_start_RimAudioLink: 0
@@ -1663,7 +1662,7 @@ Material:
     - m_start_audioLink: 0
     - m_start_backFace: 0
     - m_start_blending: 0
-    - m_start_brdf: 1
+    - m_start_brdf: 0
     - m_start_clearCoat: 0
     - m_start_depthFX: 0
     - m_start_dissolve: 0
@@ -1771,7 +1770,7 @@ Material:
     - _ClearCoatSpecularTint: {r: 1, g: 1, b: 1, a: 1}
     - _ClippingMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClothMetallicSmoothnessMapPan: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 1, b: 0.58896756, a: 1}
     - _CubeMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _CubeMapMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _CubeMapRotation: {r: 0, g: 0, b: 0, a: 0}
@@ -1825,7 +1824,7 @@ Material:
     - _EmissionAL2StrengthMod: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionAL3Multipliers: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionAL3StrengthMod: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 1, b: 0.991797, a: 1}
     - _EmissionColor1: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor3: {r: 1, g: 1, b: 1, a: 1}
@@ -1836,8 +1835,8 @@ Material:
     - _EmissionMask1Pan: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMask2Pan: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionMask3Pan: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionMaskPan: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissiveScroll_Direction: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionMaskPan: {r: -5, g: 5, b: 0, a: 0}
+    - _EmissiveScroll_Direction: {r: 1, g: 0, b: 1, a: 0}
     - _EmissiveScroll_Direction1: {r: 0, g: -10, b: 0, a: 0}
     - _EmissiveScroll_Direction2: {r: 0, g: -10, b: 0, a: 0}
     - _EmissiveScroll_Direction3: {r: 0, g: -10, b: 0, a: 0}
@@ -1846,7 +1845,7 @@ Material:
     - _FlipbookColor: {r: 1, g: 1, b: 1, a: 1}
     - _FlipbookCrossfadeRange: {r: 0.75, g: 1, b: 0, a: 1}
     - _FlipbookMaskPan: {r: 0, g: 0, b: 0, a: 0}
-    - _FlipbookScaleOffset: {r: 1, g: 1, b: 0, a: 0}
+    - _FlipbookScaleOffset: {r: 1.5, g: 1.5, b: 0, a: 0}
     - _FlipbookSideOffset: {r: 0, g: 0, b: 0, a: 0}
     - _FlipbookTexArrayPan: {r: 0, g: 0, b: 0, a: 0}
     - _GlitterColor: {r: 1, g: 1, b: 1, a: 1}
