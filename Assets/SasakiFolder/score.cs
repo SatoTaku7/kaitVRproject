@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Score : MonoBehaviour, IResultManager
+public class Score : MonoBehaviour
 {
     public GameObject score_object = null; // Textオブジェクト
     public int score_num = 0; // スコア変数

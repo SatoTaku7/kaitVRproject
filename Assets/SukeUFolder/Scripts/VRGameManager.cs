@@ -29,41 +29,45 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         if (currentState != nextState)
         {
             currentState = nextState;
-            // if (OnChangeState != null) OnChangeState.Invoke();
-            if (nextState == IStateChanger.GameState.Game)
+            if (nextState == IStateChanger.GameState.Title)
+            {
+                resultManager.DisableUI();
+                scoreSum = 0;
+                maxCombo = 0;
+                timer.ResetPlayTime();
+                timer.SetTimer(10f);
+                timer.ResetTimer();
+
+            }
+            else if (nextState == IStateChanger.GameState.Game)
             {
                 //ゲーム開始時の初期化処理はここに書く
-                Debug.Log("ゲーム始めます。");
                 gunManager.Reload();
                 targetManager.TargetInit();
-                StartCoroutine("StartInterval");
+                timer.StartPlay();
+                //StartCoroutine(StartInterval());
             }
             else if (nextState == IStateChanger.GameState.Result)
             {
                 //ゲーム終了時の処理はここに書く
                 targetManager.AllTargetDestroy();
                 timer.StopPlay();
+                resultManager.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
+                resultManager.EnableUI();
                 gunManager.PowerDown();
-                Debug.Log("リザルト状態");
             }
-            else if (nextState == IStateChanger.GameState.Title)
-            {
-                Debug.Log("タイトル戻ります。");
-                //タイトルに戻った時の処理はここに書く
-            }
+            
         }
 
     }
     void Start()
     {
         timer = GameObject.FindGameObjectWithTag("Timer").GetComponent<ITimer>();
-        if (GetComponent<IResultManager>() != null)
-        {
-            resultManager = GetComponent<IResultManager>();
-        }
+        resultManager = GetComponent<IResultManager>();
         gunManager = GameObject.FindGameObjectWithTag("Player").GetComponent<IGunManager>();
         targetManager = GetComponent<ITargetManager>();
         performanceManager = GetComponent<IPerformanceManager>();
+        comboManager = GetComponent<ICombo>();
         ChangeState(IStateChanger.GameState.Title);
     }
 
@@ -72,15 +76,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     {
         if (currentState == IStateChanger.GameState.Title)
         {
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-               
-                ChangeState(IStateChanger.GameState.Game);
-            }
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
-           // Debug.Log(scoreSum);
+            MaxCombo(comboManager.combo);
             if (scoreSum >= 22800)
             {
                 ChangeLevel(7);
@@ -128,11 +127,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         }
         else if (currentState == IStateChanger.GameState.Result)
         {
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                resultManager?.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
-                ChangeState(IStateChanger.GameState.Title);
-            }
+
         }
     }
 
