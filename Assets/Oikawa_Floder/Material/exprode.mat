@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: lazer
+  m_Name: exprode
   m_Shader: {fileID: 4800000, guid: 231d95ff7213dd74f82af136b256fb32, type: 3}
   m_ShaderKeywords: POI_LIGHT_DATA_ADDITIVE_DIRECTIONAL_ENABLE POI_LIGHT_DATA_ADDITIVE_ENABLE
     POI_VERTEXLIGHT_ON VIGNETTE_MASKED _EMISSION _LIGHTINGMODE_FLAT _RIMSTYLE_POIYOMI
@@ -2185,7 +2185,7 @@ Material:
     - m_start_emission1Options: 0
     - m_start_emission2Options: 0
     - m_start_emission3Options: 0
-    - m_start_emissionOptions: 1
+    - m_start_emissionOptions: 0
     - m_start_emissions: 1
     - m_start_flipBook: 0
     - m_start_flipbookHueShift: 0
@@ -2321,7 +2321,7 @@ Material:
     - _ClearcoatMapPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClippingMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _ClothMetallicSmoothnessMapPan: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.058823533, g: 1, b: 0.34509805, a: 1}
+    - _Color: {r: 1, g: 0.56453943, b: 0.16509432, a: 1}
     - _CubeMapColor: {r: 1, g: 1, b: 1, a: 1}
     - _CubeMapMaskPan: {r: 0, g: 0, b: 0, a: 0}
     - _CubeMapRotation: {r: 0, g: 0, b: 0, a: 0}
@@ -2379,7 +2379,7 @@ Material:
     - _EmissionAL3StrengthMod: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionCenterOutAddAudioLink: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionCenterOutAddAudioLink1: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0.0047769533, g: 1, b: 0.09758736, a: 1}
+    - _EmissionColor: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor1: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor3: {r: 1, g: 1, b: 1, a: 1}
@@ -2579,4 +2579,3 @@ Material:
     - _VertexRoundingRangeAL: {r: 0, g: 0, b: 0, a: 1}
     - _VertexWorldTranslationALMax: {r: 0, g: 0, b: 0, a: 1}
     - _VertexWorldTranslationALMin: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
