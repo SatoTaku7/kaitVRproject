@@ -24,20 +24,20 @@ public class AssistManager : MonoBehaviour
         int ran = Random.Range(0, 2);
         float posX, posY;
         if (ran == 1)
-            posX = Random.Range(-70, -35);
+            posX = Random.Range(-10, -5);
         else
-            posX = Random.Range(35, 70);
+            posX = Random.Range(5, 10);
         ran = Random.Range(0, 2);
         if (ran == 1)
-            posY = Random.Range(-10, 2.5f);
+            posY = Random.Range(-1, 1);
         else
-            posY = Random.Range(27.5f, 40);
+            posY = Random.Range(5f, 7.5f);
 
         //Ç®èïÇØìIÇÃê∂ê¨ color 3
         GameObject ins;
         TargetInformation info;
-        ins = Instantiate(AssistTargetObj, new Vector3(posX, posY, 70), Quaternion.identity, this.gameObject.transform);
-        ins.transform.localScale = new Vector3(5 * 100f, 5 * 100f, 5 * 100f);
+        ins = Instantiate(AssistTargetObj, new Vector3(posX, posY, 10), Quaternion.identity, this.gameObject.transform);
+        ins.transform.localScale = new Vector3(100f,100f,100f);
         info = ins.GetComponent<TargetInformation>();
         Debug.Log("Ç®èïÇØìIÇê∂ê¨ÅI");
     }
