@@ -25,6 +25,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
     [SerializeField] bool firstBreak2 = true;
     [SerializeField] bool firstBreak3 = true;
     [SerializeField] bool firstBreak4 = true;
+    private bool isFirstColor = false;//これがtrueなら赤が,falseなら青が最初に出る色付き的になる
 
     //ポップアップするスコアテキスト
     [SerializeField] GameObject PopUpScoreText;
@@ -35,12 +36,26 @@ public class TargetManager : MonoBehaviour,ITargetManager
     private GameObject GameManager;
     private ICombo _combo;
     private IBreakTargetChecker breakTargetChecker;
+    //UI系
+    private GameObject ComboUICanvas;
+    private ComboUIController _comboUI;
+    private GameObject currentScoreUICanvas;
+    private currentScoreText _scoreText;
 
     private void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
         _combo = GameManager.GetComponent<ICombo>();
         breakTargetChecker= GameManager.GetComponent<IBreakTargetChecker>();
+        ComboUICanvas = GameObject.FindGameObjectWithTag("comboUI");
+        _comboUI = ComboUICanvas.GetComponent<ComboUIController>();
+        currentScoreUICanvas = GameObject.FindGameObjectWithTag("currentScoreUI");
+        _scoreText = currentScoreUICanvas.GetComponent<currentScoreText>();
+        int ran = Random.Range(0, 2);
+        if (ran == 0)
+            isFirstColor = true;
+        else
+            isFirstColor = false;
     }
 
     public void TargetInit()
@@ -61,14 +76,16 @@ public class TargetManager : MonoBehaviour,ITargetManager
     }
     private void Update()
     {
+        /*デバッグ用
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             var g = GameObject.FindWithTag("Target").GetComponentsInChildren<IGunBreakTarget>();
             int ran = Random.Range(0, g.Length);
             int ranGun = Random.Range(1, 3);
             g[ran].BreakTarget(ranGun);
-        }
+        }*/
         level = 1 + breakNum / 10;
+        _comboUI.comboNum = _combo.combo;
     }
 
     public void HitTarget(int num, int color, float size,int gunColor, Vector3 pos)
@@ -77,6 +94,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
         GenerateTartget(num, color, size);
         CalculateScore(color, gunColor, pos);
         BreakEffect(pos);
+        _comboUI.breakTarget = true;
     }
 
     //当たった的と銃の情報からスコアの算出
@@ -104,6 +122,8 @@ public class TargetManager : MonoBehaviour,ITargetManager
         breakTargetChecker.BreakTarget();
         //スコアをポップアップ
         PopUpScore(color, score, pos);
+        //スコアをUIに反映
+        _scoreText.SlideToNumber(score, 1f);
     }
 
     //スコアをポップアップさせる
@@ -205,6 +225,16 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 color = 2;//灰色
                 break;
             case 2:
+                if (firstBreak1)
+                {
+                    if (isFirstColor)
+                        color = 0;
+                    else
+                        color = 1;
+                    firstBreak1 = false;
+                    Debug.Log("色付き的を1枚増やします");
+                }
+                /*
                 if (color == 0)
                     color = 1;
                 else if (color == 1)
@@ -214,9 +244,19 @@ public class TargetManager : MonoBehaviour,ITargetManager
                     color = Random.Range(0, 2);//青か赤
                     firstBreak1 = false;
                     Debug.Log("色付き的を1枚増やします");
-                }
+                }*/
                 break;
             case 3:
+                if (firstBreak2 && color == 2)
+                {
+                    if (isFirstColor)
+                        color = 1;
+                    else
+                        color = 0;
+                    firstBreak2 = false;
+                    Debug.Log("色付き的を1枚増やします");
+                }
+                /*
                 var c = GetComponentsInChildren<TargetInformation>();
                 if (firstBreak2 && color == 2)
                 {
@@ -233,17 +273,37 @@ public class TargetManager : MonoBehaviour,ITargetManager
                     }
                     firstBreak2 = false;
                     Debug.Log("色付き的を1枚増やします");
-                }
+                }*/
                 break;
             case 4:
+                if (firstBreak3 && color == 2)
+                {
+                    if (isFirstColor)
+                        color = 0;
+                    else
+                        color = 1;
+                    firstBreak3 = false;
+                    Debug.Log("色付き的を1枚増やします");
+                }
+                /*
                 if (firstBreak3 && color == 2)
                 {
                     color = Random.Range(0, 2);//青か赤
                     firstBreak3 = false;
                     Debug.Log("色付き的を1枚増やします");
-                }
+                }*/
                 break;
             case 5:
+                if (firstBreak4 && color == 2)
+                {
+                    if (isFirstColor)
+                        color = 1;
+                    else
+                        color = 0;
+                    firstBreak4 = false;
+                    Debug.Log("色付き的を1枚増やします");
+                }
+                /*
                 c = GetComponentsInChildren<TargetInformation>();
                 if (firstBreak4 && color == 2)
                 {
@@ -266,7 +326,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
                     if (red != 1 && red != 2) return;
                     firstBreak4 = false;
                     Debug.Log("色付き的を1枚増やします");
-                }
+                }*/
                 break;
             default:
                 Debug.Log(level+ "->levelの数字がおかしいです");

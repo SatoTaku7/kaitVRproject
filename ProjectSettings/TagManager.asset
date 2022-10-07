@@ -8,6 +8,8 @@ TagManager:
   - Timer
   - rankUI
   - scoreUI
+  - comboUI
+  - currentScoreUI
   layers:
   - Default
   - TransparentFX
