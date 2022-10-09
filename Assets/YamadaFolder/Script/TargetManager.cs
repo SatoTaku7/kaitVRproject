@@ -70,6 +70,23 @@ public class TargetManager : MonoBehaviour,ITargetManager
             Destroy(childObject);
         }
     }
+
+    public void Reset()
+    {
+        breakNum = 0;
+        colorLevel = 0;
+        firstBreak1 = false;
+        firstBreak2 = false;
+        firstBreak3 = false;
+        firstBreak4 = false;
+
+        int ran = Random.Range(0, 2);
+        if (ran == 0)
+            isFirstColor = true;
+        else
+            isFirstColor = false;
+    }
+
     private void Update()
     {
         /*デバッグ用

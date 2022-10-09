@@ -24,6 +24,12 @@ public class currentScoreText : MonoBehaviour
         _text.text = "0";
     }
 
+    public void Reset()
+    {
+        _text.text = "0";
+        number = 0;
+    }
+
     // ¡‚Ì’l‚©‚ç to_number ‚É™X‚ÉˆÚs
     public void SlideToNumber(int to_number, float duration)
     {

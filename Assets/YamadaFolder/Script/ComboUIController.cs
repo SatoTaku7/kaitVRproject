@@ -57,7 +57,7 @@ public class ComboUIController : MonoBehaviour
             coroutine = StartCoroutine("coolDown");
             once = false;
         }
-        waitTime = 0.3f - (comboNum / 50f);
+        waitTime = 0.4f - (comboNum / 50f);
     }
 
     private IEnumerator coolDown()
