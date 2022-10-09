@@ -102,7 +102,7 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            if (bullet_countL == 1) StartCoroutine("shoot", 0);
+           // if (bullet_countL == 1) StartCoroutine("shoot", 0);
             ButtonClicked = true;
             Ray(1);
         }
@@ -115,7 +115,7 @@ public class GunManager : MonoBehaviour, IGunManager
         {
 
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            if (bullet_countR == 1) StartCoroutine("shoot", 1);
+           // if (bullet_countL == 1) StartCoroutine("shoot", 1);
             ButtonClicked = true;
             Ray(2);
         }
@@ -186,12 +186,20 @@ public class GunManager : MonoBehaviour, IGunManager
                     bullet_countL = 1;
                     bullet_countR = 1;
                     Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
-                }//CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
-                if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
+                }
+                if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
                 {
-
+                    if (hitobj.collider.gameObject.layer == 6 )//左銃でスタート的を当てた時
+                    {
+                        StartCoroutine("shoot", 0);
+                    }
+                }
+                    //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
+                    if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
+                {
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
                     {
+                        
                         var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
                         //的の色　0が赤　1が青　2が灰色  3お助け的
                         if (TargetColor == 1)
@@ -200,8 +208,13 @@ public class GunManager : MonoBehaviour, IGunManager
                             bullet_countL = 0;
                             ResetCombo();
                         }
+                        else
+                        {
+                            StartCoroutine("shoot", 0);
+                        }
                         //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                         hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);//俺の銃の色が引数
+                        
                     }
                     else
                     {
@@ -242,17 +255,29 @@ public class GunManager : MonoBehaviour, IGunManager
                     bullet_countR = 1;
                     Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
                 }
+                if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
+                {
+                    if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
+                    {
+                        StartCoroutine("shoot", 1);
+                    }
+                }
                 //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
                     if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//右銃で的を当てた時
                     {
+                        StartCoroutine("shoot", 1);
                         var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
                         if (TargetColor == 0)
                         {
                             if (InfiniteMode) return;
                             bullet_countR = 0;
                             ResetCombo();
+                        }
+                        else
+                        {
+                            StartCoroutine("shoot", 1);
                         }
                         //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                         hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);//俺の銃の色が引数
