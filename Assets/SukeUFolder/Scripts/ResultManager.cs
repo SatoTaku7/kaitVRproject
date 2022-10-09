@@ -19,22 +19,19 @@ public class ResultManager : MonoBehaviour, IResultManager
     /// <summary>
     /// タイトルの的を撃ってからゲームオーバーまでの総合経過時間
     /// </summary>
-    public int elapsedTime { get; private set; }
+    public float elapsedTime { get; private set; }
 
     public int targetCount { get; private set; }
-    public void SetRecord(int score, int maxCombo, int elapsedTime)
+    public void SetRecord(int score, int maxCombo, float elapsedTime, int targetCount)
     {
         this.score = score;
         this.maxCombo = maxCombo;
         this.elapsedTime = elapsedTime;
         ScoreText.text = $"score:{score}";
-        DetailText.text = $"最大コンボ:{maxCombo}\n耐久時間:{elapsedTime}";
+        DetailText.text = $"最大コンボ:{maxCombo}\n耐久時間:{elapsedTime:f1}\n的破壊数:{ targetCount}\n的破壊平均時間:{ elapsedTime/(float)targetCount:f2}";
 
     }
-    public void SetTargetCount(int num)
-    {
 
-    }
     public void EnableUI()
     {
         ResultUI.SetActive(true);

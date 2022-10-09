@@ -61,6 +61,7 @@ public class CountDownTimer : MonoBehaviour,ITimer
     public void StartPlay()
     {
         IsPlaying = true;
+        ResetPlayTime();
         SetTimer(10f);
         ResetTimer();
         StartTimer();
@@ -79,6 +80,9 @@ public class CountDownTimer : MonoBehaviour,ITimer
     public void ResetPlayTime()
     {
         playTime = 0f;
+        ResetTimer();
+        text.text = $"{0.0:f1}";
+        DecreaseImage(1.0f , 1);
     }
 
 
@@ -108,9 +112,10 @@ public class CountDownTimer : MonoBehaviour,ITimer
         }
     }
 
-    public void DecreaseImage(float current, int max)
+    private void DecreaseImage(float current, int max)
     {
         //ImageというコンポーネントのfillAmountを取得して操作する
         transform.GetChild(0).GetChild(1).GetComponent<Image>().fillAmount = current / max;
     }
+
 }

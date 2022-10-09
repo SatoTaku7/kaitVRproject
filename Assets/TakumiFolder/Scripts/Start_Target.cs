@@ -44,7 +44,7 @@ public class Start_Target : MonoBehaviour,IGunBreakTarget
             var c = r.gameObject.GetComponent<MeshCollider>();
             c.isTrigger = true;
             r.isKinematic = false;
-            r.AddForce(2 * Physics.gravity, ForceMode.Impulse);
+            r.AddForce( Physics.gravity, ForceMode.Impulse);
             r.transform.SetParent(null);
             r.gameObject.AddComponent<AutoDestroy>().time = 0.2f;
             r.gameObject.layer = 8;
