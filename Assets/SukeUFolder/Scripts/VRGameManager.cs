@@ -22,6 +22,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public event System.Action OnChangeState;
     [SerializeField]AssistManager assistManager;
     [SerializeField] GameObject StartTarget;
+    [SerializeField] UIFader uiFader;
 
     private GameObject currentScoreUICanvas;
     private currentScoreText _scoreText;
@@ -38,8 +39,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
             if (nextState == IStateChanger.GameState.Title)
             {
                 resultManager.DisableUI();
+                uiFader.DisappearUI();
                 scoreSum = 0;
                 maxCombo = 0;
+                breakTargetcount = 0;
                 targetManager.Reset();
                 _scoreText.Reset();
                 timer.ResetPlayTime();
@@ -64,6 +67,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 resultManager.SetRecord(scoreSum, maxCombo, (int)timer.playTime,breakTargetcount);
                 resultManager.EnableUI();
                 gunManager.PowerDown();
+                uiFader.AppearUI();
             }
             
         }
