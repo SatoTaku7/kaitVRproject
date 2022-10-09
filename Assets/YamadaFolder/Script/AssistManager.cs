@@ -51,8 +51,8 @@ public class AssistManager : MonoBehaviour
     //‚¨•‚¯“I‚Ì‘¦Žž”j‰ó
     public void Break()
     {
-        var g = transform.GetChild(0).gameObject;
-        Destroy(g);
+        if(transform.childCount>0)
+            Destroy(transform.GetChild(0).gameObject);
 
     }
 }

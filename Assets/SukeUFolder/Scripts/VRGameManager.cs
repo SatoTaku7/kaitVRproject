@@ -16,13 +16,16 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public int scoreSum { get; private set; }
     public int maxCombo { get; private set; }
     public float countDownTimer { get; private set; }
+    public int breakTargetcount { get; private set; }
     public IStateChanger.GameState currentState { get; private set; }
     public int currentLevel { get; private set; }
     public event System.Action OnChangeState;
     [SerializeField]AssistManager assistManager;
+    [SerializeField] GameObject StartTarget;
 
     private GameObject currentScoreUICanvas;
     private currentScoreText _scoreText;
+    private Coroutine coroutine = null;
     /// <summary>
     /// ステータスを変更するときに呼び出す
     /// </summary>
@@ -37,25 +40,28 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 resultManager.DisableUI();
                 scoreSum = 0;
                 maxCombo = 0;
+                targetManager.Reset();
+                _scoreText.Reset();
                 timer.ResetPlayTime();
-                timer.SetTimer(10f);
-                timer.ResetTimer();
-
+                Instantiate(StartTarget, new Vector3(1.9f, 0, 2.5f), Quaternion.identity);
             }
             else if (nextState == IStateChanger.GameState.Game)
             {
                 //ゲーム開始時の初期化処理はここに書く
+                timer.StartPlay();
                 gunManager.Reload();
                 targetManager.TargetInit();
                 timer.StartPlay();
+
                 //StartCoroutine(StartInterval());
             }
             else if (nextState == IStateChanger.GameState.Result)
             {
                 //ゲーム終了時の処理はここに書く
                 targetManager.AllTargetDestroy();
+                assistManager.Break();
                 timer.StopPlay();
-                resultManager.SetRecord(scoreSum, maxCombo, (int)timer.playTime);
+                resultManager.SetRecord(scoreSum, maxCombo, (int)timer.playTime,breakTargetcount);
                 resultManager.EnableUI();
                 gunManager.PowerDown();
             }
@@ -173,13 +179,19 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     {
         timer.ResetTimer();
         gunManager.Reload();
+        breakTargetcount++;
     }
 
     public void ChangeLevel(int num) => currentLevel=num;
 
     public void BreakAssistTarget()
     {
-        StartCoroutine(PowerUpTime());
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        coroutine = StartCoroutine(PowerUpTime());
+        breakTargetcount++;
     }
     IEnumerator PowerUpTime()
     {
