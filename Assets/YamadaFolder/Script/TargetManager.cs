@@ -39,8 +39,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
     //UI系
     private GameObject ComboUICanvas;
     private ComboUIController _comboUI;
-    private GameObject currentScoreUICanvas;
-    private currentScoreText _scoreText;
 
     private void Start()
     {
@@ -49,8 +47,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
         breakTargetChecker= GameManager.GetComponent<IBreakTargetChecker>();
         ComboUICanvas = GameObject.FindGameObjectWithTag("comboUI");
         _comboUI = ComboUICanvas.GetComponent<ComboUIController>();
-        currentScoreUICanvas = GameObject.FindGameObjectWithTag("currentScoreUI");
-        _scoreText = currentScoreUICanvas.GetComponent<currentScoreText>();
         int ran = Random.Range(0, 2);
         if (ran == 0)
             isFirstColor = true;
@@ -122,8 +118,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
         breakTargetChecker.BreakTarget();
         //スコアをポップアップ
         PopUpScore(color, score, pos);
-        //スコアをUIに反映
-        _scoreText.SlideToNumber(score, 1f);
     }
 
     //スコアをポップアップさせる

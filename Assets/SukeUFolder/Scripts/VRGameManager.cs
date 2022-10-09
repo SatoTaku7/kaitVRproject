@@ -20,6 +20,9 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public int currentLevel { get; private set; }
     public event System.Action OnChangeState;
     [SerializeField]AssistManager assistManager;
+
+    private GameObject currentScoreUICanvas;
+    private currentScoreText _scoreText;
     /// <summary>
     /// ステータスを変更するときに呼び出す
     /// </summary>
@@ -69,6 +72,8 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         performanceManager = GetComponent<IPerformanceManager>();
         comboManager = GetComponent<ICombo>();
         ChangeState(IStateChanger.GameState.Title);
+        currentScoreUICanvas = GameObject.FindGameObjectWithTag("currentScoreUI");
+        _scoreText = currentScoreUICanvas.GetComponentInChildren<currentScoreText>();
     }
 
     // Update is called once per frame
@@ -79,6 +84,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
+
             MaxCombo(comboManager.combo);
             if (scoreSum >= 22800)
             {
@@ -160,6 +166,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public void ScoreUpdate(int addScore)
     {
         scoreSum += addScore;
+        _scoreText.SlideToNumber(scoreSum, 0.5f);
     }
 
     public void BreakTarget()

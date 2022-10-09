@@ -111,6 +111,6 @@ public class CountDownTimer : MonoBehaviour,ITimer
     public void DecreaseImage(float current, int max)
     {
         //ImageというコンポーネントのfillAmountを取得して操作する
-        transform.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = current / max;
+        transform.GetChild(0).GetChild(1).GetComponent<Image>().fillAmount = current / max;
     }
 }
