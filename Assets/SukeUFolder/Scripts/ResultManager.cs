@@ -21,6 +21,7 @@ public class ResultManager : MonoBehaviour, IResultManager
     /// </summary>
     public int elapsedTime { get; private set; }
 
+    public int targetCount { get; private set; }
     public void SetRecord(int score, int maxCombo, int elapsedTime)
     {
         this.score = score;
@@ -30,7 +31,10 @@ public class ResultManager : MonoBehaviour, IResultManager
         DetailText.text = $"Å‘åƒRƒ“ƒ{:{maxCombo}\n‘Ï‹vŠÔ:{elapsedTime}";
 
     }
+    public void SetTargetCount(int num)
+    {
 
+    }
     public void EnableUI()
     {
         ResultUI.SetActive(true);

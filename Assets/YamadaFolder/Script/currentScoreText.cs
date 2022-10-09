@@ -39,7 +39,6 @@ public class currentScoreText : MonoBehaviour
 
     private IEnumerator slideTo()
     {
-        yield return new WaitForSeconds(0.25f);
         while (true)
         {
             var delta = speed * Time.deltaTime;
