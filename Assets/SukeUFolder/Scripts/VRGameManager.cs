@@ -43,7 +43,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 scoreSum = 0;
                 maxCombo = 0;
                 breakTargetcount = 0;
-                targetManager.Reset();
+                targetManager.ManagerReset();
                 _scoreText.Reset();
                 timer.ResetPlayTime();
                 Instantiate(StartTarget, new Vector3(1.9f, 0, 2.5f), Quaternion.identity);
@@ -91,6 +91,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     {
         if (currentState == IStateChanger.GameState.Title)
         {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SoundManager.Instance.PlaySeByName("GunReload", transform.gameObject);
+            }
         }
         else if (currentState == IStateChanger.GameState.Game)
         {
