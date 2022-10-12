@@ -15,7 +15,7 @@ public class GunManager : MonoBehaviour, IGunManager
     float StartWidth, EndWidth;//レイザーポインター左右　太さ
     [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
-    private int layerMask = 1 << 7 | 1 << 6;
+    private int layerMask =   1 << 6;
     private bool InfiniteMode, LongRayMode;
     private string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
     private bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
@@ -145,16 +145,6 @@ public class GunManager : MonoBehaviour, IGunManager
         }
 
         //スティックを回したときにプレイヤーが回転する処理
-        if (OVRInput.GetDown(OVRInput.RawButton.LThumbstickLeft))
-        {
-            this.gameObject.transform.Rotate(0, -45f, 0);
-            Debug.Log("左のジョイスティックを左へ回す");
-        }
-        if (OVRInput.GetDown(OVRInput.RawButton.LThumbstickRight))
-        {
-            this.gameObject.transform.Rotate(0, 45f, 0);
-            Debug.Log("左のジョイスティックを右へ回す");
-        }
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             this.gameObject.transform.Rotate(0, -45f, 0);
@@ -197,23 +187,7 @@ public class GunManager : MonoBehaviour, IGunManager
             trajectory_lineR.SetActive(false);
         }
     }
-    IEnumerator Fire(int LorR)//撃った時の炎のパーティクル処理
-    {
-        if (LorR == 0)
-        {
-            GunFire_L.SetActive(true);
-            yield return new WaitForSeconds(0.3f);
-            GunFire_L.SetActive(false);
-        }
-        if (LorR == 1)
-        {
-            GunFire_R.SetActive(true);
-            yield return new WaitForSeconds(0.3f);
-            GunFire_R.SetActive(false);
-        }
-    }
-
-    public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
+      public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
     {
         //当たった的の種類を確認する用のスクリプト
         Ray ray_L = new Ray(LGun_trans.position, LGun_trajectory.position - LGun_trans.position);

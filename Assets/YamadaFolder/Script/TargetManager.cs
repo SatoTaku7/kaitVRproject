@@ -71,14 +71,15 @@ public class TargetManager : MonoBehaviour,ITargetManager
         }
     }
 
-    public void Reset()
+    public void ManagerReset()
     {
+        Debug.Log("aaaaaaareset");
         breakNum = 0;
         colorLevel = 0;
-        firstBreak1 = false;
-        firstBreak2 = false;
-        firstBreak3 = false;
-        firstBreak4 = false;
+        firstBreak1 = true;
+        firstBreak2 = true;
+        firstBreak3 = true;
+        firstBreak4 = true;
 
         int ran = Random.Range(0, 2);
         if (ran == 0)
@@ -151,16 +152,15 @@ public class TargetManager : MonoBehaviour,ITargetManager
     private void BreakEffect(Vector3 pos)
     {
         //コンボ数を取得
-        int combo = 0;
-
+        int combo = _combo.combo;
         //コンボ数に応じた演出
-        if (combo > 4)
-        {
-            Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
-        }
-        else if (combo > 9)
+        if (combo > 9)
         {
             Instantiate(BreakEffectObj[2], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+        }
+        else if (combo > 4)
+        {
+            Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
         else
         {
