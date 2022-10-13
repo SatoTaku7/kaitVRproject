@@ -17,11 +17,18 @@ public class GunManager : MonoBehaviour, IGunManager
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int layerMask =   1 << 6;
     private bool InfiniteMode, LongRayMode;
-    [SerializeField] float difference;
+    private float difference;
+    [SerializeField] GameObject PlayerCenter;
     [SerializeField] GameObject GunFire_L, GunFire_R;//撃った際の炎
     [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;
     [SerializeField] GameObject trajectory_line;
-    
+
+    [SerializeField] GameObject[] RedGun_Parts;
+    [SerializeField] MeshRenderer[] RedGuncolor;
+    [SerializeField] GameObject[] BlueGun_Parts;
+    [SerializeField] MeshRenderer[] BlueGuncolor;
+    [SerializeField] Material[] GunColor;
+
     void Start()
     {
         lineRenderer_L = LGun.GetComponent<LineRenderer>();
@@ -34,6 +41,7 @@ public class GunManager : MonoBehaviour, IGunManager
         combo = GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
         GunFire_L.SetActive(false);
         GunFire_R.SetActive(false);
+        difference = 17.5f;
     }
 
     void Update()
@@ -57,21 +65,42 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             lineRenderer_L.SetPosition(0, LGun_trans.position);
             lineRenderer_L.SetPosition(1, LGun_trajectory.position);
+            for (int num = 0; num < 5; num++)
+            {
+                RedGuncolor[num] = RedGun_Parts[num].GetComponent<MeshRenderer>();
+                RedGuncolor[num].material = GunColor[0];
+            }
         }
         else//左の弾がなければレイザーが出る
         {
             lineRenderer_L.SetPosition(0, LGun_trans.position);
             lineRenderer_L.SetPosition(1, LGun_trans.position);
+            
+            for(int num = 0; num < 5; num++)
+            {
+                RedGuncolor[num] = RedGun_Parts[num].GetComponent<MeshRenderer>();
+                RedGuncolor[num].material = GunColor[2];
+            }
         }
         if (bullet_countR == 1)//右の弾があればレイザーが出る
         {
             lineRenderer_R.SetPosition(0, RGun_trans.position);
             lineRenderer_R.SetPosition(1, RGun_trajectory.position);
+            for (int num = 0; num < 5; num++)
+            {
+                BlueGuncolor[num] = BlueGun_Parts[num].GetComponent<MeshRenderer>();
+                BlueGuncolor[num].material = GunColor[1];
+            }
         }
         else//右の弾がなければレイザーが出る
         {
             lineRenderer_R.SetPosition(0, RGun_trans.position);
             lineRenderer_R.SetPosition(1, RGun_trans.position);
+            for (int num = 0; num < 5; num++)
+            {
+                BlueGuncolor[num] = BlueGun_Parts[num].GetComponent<MeshRenderer>();
+                BlueGuncolor[num].material = GunColor[2];
+            }
         }
 
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
