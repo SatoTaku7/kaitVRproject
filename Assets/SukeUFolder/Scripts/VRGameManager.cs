@@ -23,6 +23,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     [SerializeField]AssistManager assistManager;
     [SerializeField] GameObject StartTarget;
     [SerializeField] UIFader uiFader;
+    [SerializeField] GameObject WakeUpSign;
 
     private GameObject currentScoreUICanvas;
     private currentScoreText _scoreText;
@@ -55,8 +56,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 gunManager.Reload();
                 targetManager.TargetInit();
                 timer.StartPlay();
-
-                //StartCoroutine(StartInterval());
+                Instantiate(WakeUpSign, new Vector3(-2.23f, -4.04f, 19.54f), Quaternion.Euler(90f, 0f, 0f));
             }
             else if (nextState == IStateChanger.GameState.Result)
             {
@@ -145,10 +145,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
             }
 
         }
-        else if (currentState == IStateChanger.GameState.Result)
-        {
-
-        }
     }
 
     public void GameStart()
@@ -165,12 +161,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public void GoTitle()
     {
         //タイトルへ移動する処理
-    }
-    IEnumerator StartInterval()
-    {
-        yield return new WaitForSeconds(3f);
-        timer.StartPlay();
-
     }
     void MaxCombo(int combo)
     {

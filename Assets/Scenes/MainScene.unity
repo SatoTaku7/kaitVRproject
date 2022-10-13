@@ -20290,6 +20290,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f29e7a5fb048ab4a90a8c21bb4ac008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1800607388 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2257097887815889076, guid: ca9f3f02586d00840952ae5d6070f087, type: 3}
+  m_PrefabInstance: {fileID: 2257097889446179896}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1830962998
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27113,7 +27124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2257097887789265041, guid: ca9f3f02586d00840952ae5d6070f087, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2257097887789265042, guid: ca9f3f02586d00840952ae5d6070f087, type: 3}
       propertyPath: m_RootOrder
@@ -65848,6 +65859,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1799342801}
     - target: {fileID: 8507953462991568101, guid: 4883996a5460aca47914fa03c1a32942, type: 3}
+      propertyPath: WakeUpSign
+      value: 
+      objectReference: {fileID: 2353687355794412196, guid: 6750f53abf9da384898c057490801064, type: 3}
+    - target: {fileID: 8507953462991568101, guid: 4883996a5460aca47914fa03c1a32942, type: 3}
       propertyPath: assistManager
       value: 
       objectReference: {fileID: 1535670040}
@@ -65907,5 +65922,9 @@ PrefabInstance:
       propertyPath: DetailText
       value: 
       objectReference: {fileID: 575415987}
+    - target: {fileID: 8507953462991568107, guid: 4883996a5460aca47914fa03c1a32942, type: 3}
+      propertyPath: RankingText
+      value: 
+      objectReference: {fileID: 1800607388}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4883996a5460aca47914fa03c1a32942, type: 3}
