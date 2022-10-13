@@ -5,6 +5,7 @@ using TMPro;
 
 public class ResultManager : MonoBehaviour, IResultManager
 {
+    int[] ranking = new int[3];
     public GameObject ResultUI;
     [SerializeField] TextMeshProUGUI ScoreText;
     [SerializeField] TextMeshProUGUI DetailText;
@@ -22,6 +23,11 @@ public class ResultManager : MonoBehaviour, IResultManager
     public float elapsedTime { get; private set; }
 
     public int targetCount { get; private set; }
+
+    private void Start()
+    {
+        //ranking=PlayerPrefs.
+    }
     public void SetRecord(int score, int maxCombo, float elapsedTime, int targetCount)
     {
         this.score = score;
@@ -29,6 +35,10 @@ public class ResultManager : MonoBehaviour, IResultManager
         this.elapsedTime = elapsedTime;
         ScoreText.text = $"score:{score}";
         DetailText.text = $"Å‘åƒRƒ“ƒ{:{maxCombo}\n‘Ï‹vŠÔ:{elapsedTime:f1}\n“I”j‰ó”:{ targetCount}\n“I”j‰ó•½‹ÏŠÔ:{ elapsedTime/(float)targetCount:f2}";
+    }
+
+    public void SetRanking()
+    {
 
     }
 

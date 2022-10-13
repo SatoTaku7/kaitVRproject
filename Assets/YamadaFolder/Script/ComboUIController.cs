@@ -79,12 +79,12 @@ public class ComboUIController : MonoBehaviour
         {
             if (breakTarget)
             {
-                minY = 0.05f + (comboNum / 50f) + (plusNum * 0.5f);
+                minY = 0.05f + (comboNum / 40f) + (plusNum * 0.5f);
                 maxY = Mathf.Min(0.225f + (comboNum / 15f) + plusNum, 1f);
             }
             else
             {
-                minY = 0.01f + (comboNum / 50f);
+                minY = 0.01f + (comboNum / 40f);
                 maxY = 0.225f + (comboNum / 15f);
             }
             

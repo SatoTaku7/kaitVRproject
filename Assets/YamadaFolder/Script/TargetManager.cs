@@ -54,8 +54,6 @@ public class TargetManager : MonoBehaviour,ITargetManager
             isFirstColor = true;
         else
             isFirstColor = false;
-
-        TargetInit();
     }
 
     public void TargetInit()
@@ -103,7 +101,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
             g[ran].BreakTarget(ranGun);
         }*/
         level = 1 + breakNum / 10;
-        //_comboUI.comboNum = _combo.combo;
+        _comboUI.comboNum = _combo.combo;
     }
 
     public void HitTarget(int num, int color, float size,int gunColor, Vector3 pos)

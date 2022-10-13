@@ -21,7 +21,7 @@
     /// <param name="maxCombo">最大コンボ数</param>
     /// <param name="elapsedTime">タイトルの的を撃ってからゲームオーバーまでの総合経過時間</param>
     void SetRecord(int score,int maxCombo,float elapsedTime,int targetCount);
-
+    void SetRanking();
     void EnableUI();
     void DisableUI();
 }
