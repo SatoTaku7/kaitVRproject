@@ -30,7 +30,9 @@ public class TargetManager : MonoBehaviour,ITargetManager
     //ポップアップするスコアテキスト
     [SerializeField] GameObject PopUpScoreText;
 
-    //ポップアップするスコアテキスト
+    //的の出現
+    [SerializeField] GameObject GenerateEffectObj;
+    //的の破壊演出
     [SerializeField] GameObject[] BreakEffectObj = new GameObject[3];
 
     private GameObject GameManager;
@@ -52,6 +54,8 @@ public class TargetManager : MonoBehaviour,ITargetManager
             isFirstColor = true;
         else
             isFirstColor = false;
+
+        TargetInit();
     }
 
     public void TargetInit()
@@ -99,7 +103,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
             g[ran].BreakTarget(ranGun);
         }*/
         level = 1 + breakNum / 10;
-        _comboUI.comboNum = _combo.combo;
+        //_comboUI.comboNum = _combo.combo;
     }
 
     public void HitTarget(int num, int color, float size,int gunColor, Vector3 pos)
@@ -343,6 +347,10 @@ public class TargetManager : MonoBehaviour,ITargetManager
                 Debug.Log(level+ "->levelの数字がおかしいです");
                 break;
         }
+
+        //的の出現エフェクト
+        var EffectPos = Transform - new Vector3(0, 0, 1.5f);
+        Instantiate(GenerateEffectObj, EffectPos, Rotation, this.gameObject.transform);
 
         //的の生成、番号の設定
         GameObject ins;
