@@ -17,28 +17,23 @@ public class GunManager : MonoBehaviour, IGunManager
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int layerMask =   1 << 6;
     private bool InfiniteMode, LongRayMode;
-    private string ButtonName;//クリックされたボタンの名前を参照　oculus標準の機能が使えなかったので別のやり方で代替
-    private bool ButtonClicked;//ボタンがクリックされたかどうか　oculus標準の機能が使えなかったので別のやり方で代替
-    private float Fire_time,Trajectory_time, Vibration_time;
+    [SerializeField] float difference;
     [SerializeField] GameObject GunFire_L, GunFire_R;//撃った際の炎
-    [SerializeField] GameObject trajectory_lineL, trajectory_lineR;//当てた時の銃の軌道
-    ParticleSystem  ParticleFire_L, ParticleFire_R, Particle_lineL, Particle_lineR;
-
+    [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;
+    [SerializeField] GameObject trajectory_line;
+    
     void Start()
     {
         lineRenderer_L = LGun.GetComponent<LineRenderer>();
         lineRenderer_R = RGun.GetComponent<LineRenderer>();
         bullet_countL = 1;
         bullet_countR = 1;
-        ButtonClicked = false;
         InfiniteMode = false;//弾無限モードになる　　　　　開発中は常にこのモードにしておく
         LongRayMode = false;//レイザーポイントを長くする
         stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
         combo = GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
         GunFire_L.SetActive(false);
         GunFire_R.SetActive(false);
-        trajectory_lineL.SetActive(false);
-        trajectory_lineR.SetActive(false);
     }
 
     void Update()
@@ -83,11 +78,15 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             textbullet_countL.text = bullet_countL.ToString();
             textbullet_countR.text = bullet_countR.ToString();
+            GunFire_L.SetActive(false);
+            GunFire_R.SetActive(false);
         }
         else//弾無限モードで無限表記
         {
             textbullet_countL.text = "∞";
             textbullet_countR.text = "∞";
+            GunFire_L.SetActive(true);
+            GunFire_R.SetActive(true);
         }
         if (LongRayMode == false)//レイザー長いモードじゃないときはレイザーの長さと太さが小さくなる
         {
@@ -116,27 +115,21 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            ButtonClicked = true;
-            StartCoroutine("Fire", 0);
             Ray(0);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))//左トリガーを戻したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            ButtonClicked = false;
         }
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
         {
 
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            ButtonClicked = true;
-            StartCoroutine("Fire", 1);
             Ray(1);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))//右トリガーを戻したとき
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            ButtonClicked = false;
         }
         //FIXME:無限モード中に両方で弾を外すと的うちゲームが終了する
         if (bullet_countL == 0 && bullet_countR == 0 && stateChanger.currentState == IStateChanger.GameState.Game)//両方の弾が0になったとき
@@ -172,21 +165,7 @@ public class GunManager : MonoBehaviour, IGunManager
         }
     }
 
-    IEnumerator Trajectory(int LorR)//当てた時の軌道処理
-    {
-        if (LorR == 0)
-        {
-            trajectory_lineL.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            trajectory_lineL.SetActive(false);
-        }
-        if (LorR == 1)
-        {
-            trajectory_lineR.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
-            trajectory_lineR.SetActive(false);
-        }
-    }
+
       public void Ray(int LorR)//トリガーが押されたとき 　引数は左か右か
     {
         //当たった的の種類を確認する用のスクリプト
@@ -231,19 +210,13 @@ public class GunManager : MonoBehaviour, IGunManager
     {
         if (LorR == 0)
         {
-            if (hitobj.collider.gameObject.layer == 7)//UIのボタンに当たったとき
-            {
-                ButtonName = hitobj.collider.gameObject.name;//UIの名前を取得
-                bullet_countL = 1;
-                bullet_countR = 1;
-                Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
-            }
             if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
             {
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
-                    StartCoroutine("Vibration", 0);
-                    StartCoroutine("Trajectory", 0);
+                    StartCoroutine(Vibration(0));
+                    Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation* Quaternion.Euler(difference,0,0));
+                    //StartCoroutine(Trajectory(0));
                 }
             }
             //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
@@ -262,8 +235,10 @@ public class GunManager : MonoBehaviour, IGunManager
                     }
                     else
                     {
-                        StartCoroutine("Vibration", 0);
-                        StartCoroutine("Trajectory", 0);
+                        StartCoroutine(Vibration(0));
+                        Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+                        // Instantiate(trajectory_line, LGun_trans.transform.position, Quaternion.Euler(LGun_trans.rotation.x, LGun_trans.rotation.y, LGun_trans.rotation.z));
+                        // StartCoroutine(Trajectory(0));
                     }
                     //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);//俺の銃の色が引数
@@ -288,19 +263,13 @@ public class GunManager : MonoBehaviour, IGunManager
         }
         else
         {
-            if (hitobj.collider.gameObject.layer == 7)//UIのボタンに当たったとき
-            {
-                ButtonName = hitobj.collider.gameObject.name;
-                bullet_countL = 1;
-                bullet_countR = 1;
-                Debug.Log("UI" + hitobj.collider.gameObject.name + "を確認。弾数を1にします。");
-            }
             if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
             {
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
-                    StartCoroutine("Vibration", 1);
-                    StartCoroutine("Trajectory", 1);
+                    StartCoroutine(Vibration(1));
+                    Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+                    // StartCoroutine(Trajectory(1));
                 }
             }
             //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
@@ -317,8 +286,9 @@ public class GunManager : MonoBehaviour, IGunManager
                     }
                     else
                     {
-                        StartCoroutine("Vibration", 1);
-                        StartCoroutine("Trajectory", 1);
+                        StartCoroutine(Vibration(1));
+                        Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+                        // StartCoroutine(Trajectory(1));
                     }
                     //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);//俺の銃の色が引数
