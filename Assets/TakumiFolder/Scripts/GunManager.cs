@@ -123,7 +123,6 @@ public class GunManager : MonoBehaviour, IGunManager
         }
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//‰EƒgƒŠƒK[‚ğ‰Ÿ‚µ‚½‚Æ‚«
         {
-
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
             Ray(1);
         }
