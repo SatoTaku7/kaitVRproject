@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class GunManager : MonoBehaviour, IGunManager
 {
+    #region 宣言の折り畳み
     IStateChanger stateChanger;
     ICombo combo;
     [SerializeField] GameObject LGun, RGun;
@@ -15,20 +16,18 @@ public class GunManager : MonoBehaviour, IGunManager
     float StartWidth, EndWidth;//レイザーポインター左右　太さ
     [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
-    private int layerMask =   1 << 6;
-    private bool InfiniteMode, LongRayMode;
-    private float difference;
-    [SerializeField] GameObject PlayerCenter;
+    private int layerMask =   1 << 6;//的にのみRayが当たるように
+    private bool InfiniteMode, LongRayMode;//パワーアップ時の処理
+    private float difference;//レイザーの出る角度調整
     [SerializeField] GameObject GunFire_L, GunFire_R;//撃った際の炎
-    [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;
-    [SerializeField] GameObject trajectory_line;
+    [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;//左右の手の回転を取得
+    [SerializeField] GameObject trajectory_line;//トレイルのプレハブをアタッチ
 
-    [SerializeField] GameObject[] RedGun_Parts;
+    //銃の色取得
     [SerializeField] MeshRenderer[] RedGuncolor;
-    [SerializeField] GameObject[] BlueGun_Parts;
     [SerializeField] MeshRenderer[] BlueGuncolor;
     [SerializeField] Material[] GunColor;
-
+    #endregion
     void Start()
     {
         lineRenderer_L = LGun.GetComponent<LineRenderer>();
@@ -51,10 +50,6 @@ public class GunManager : MonoBehaviour, IGunManager
         ///コントローラーで操作したときの処理///
         Gun_Controller();//プレイヤーの回転とトリガーを押したときの処理
     }
-
-
-
-
     public void GunMode()
     {
         lineRenderer_L.startWidth = StartWidth;
@@ -67,7 +62,6 @@ public class GunManager : MonoBehaviour, IGunManager
             lineRenderer_L.SetPosition(1, LGun_trajectory.position);
             for (int num = 0; num < 5; num++)
             {
-                RedGuncolor[num] = RedGun_Parts[num].GetComponent<MeshRenderer>();
                 RedGuncolor[num].material = GunColor[0];
             }
         }
@@ -78,7 +72,6 @@ public class GunManager : MonoBehaviour, IGunManager
             
             for(int num = 0; num < 5; num++)
             {
-                RedGuncolor[num] = RedGun_Parts[num].GetComponent<MeshRenderer>();
                 RedGuncolor[num].material = GunColor[2];
             }
         }
@@ -88,7 +81,6 @@ public class GunManager : MonoBehaviour, IGunManager
             lineRenderer_R.SetPosition(1, RGun_trajectory.position);
             for (int num = 0; num < 5; num++)
             {
-                BlueGuncolor[num] = BlueGun_Parts[num].GetComponent<MeshRenderer>();
                 BlueGuncolor[num].material = GunColor[1];
             }
         }
@@ -98,11 +90,9 @@ public class GunManager : MonoBehaviour, IGunManager
             lineRenderer_R.SetPosition(1, RGun_trans.position);
             for (int num = 0; num < 5; num++)
             {
-                BlueGuncolor[num] = BlueGun_Parts[num].GetComponent<MeshRenderer>();
                 BlueGuncolor[num].material = GunColor[2];
             }
         }
-
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
         {
             textbullet_countL.text = bullet_countL.ToString();
@@ -132,12 +122,6 @@ public class GunManager : MonoBehaviour, IGunManager
             RGun_trajectory.localPosition = new Vector3(RGun_trajectory.localPosition.x, 8420f, RGun_trajectory.localPosition.z);
         }
     }
-
-    public void Ray_Adjust()
-    {
-
-    }
-
     public void Gun_Controller()
     { 
         //トリガーを押したときの処理
@@ -165,7 +149,7 @@ public class GunManager : MonoBehaviour, IGunManager
             stateChanger.ChangeState(IStateChanger.GameState.Result);
         }
 
-        //スティックを回したときにプレイヤーが回転する処理
+        //右スティックを回したときにプレイヤーが回転する処理
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
             this.gameObject.transform.Rotate(0, -45f, 0);
@@ -247,7 +231,6 @@ public class GunManager : MonoBehaviour, IGunManager
                     //StartCoroutine(Trajectory(0));
                 }
             }
-            //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
             if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
             {
                 if (hitobj.collider.gameObject.layer == 6 && bullet_countL == 1)//左銃で的を当てた時
@@ -265,12 +248,8 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         StartCoroutine(Vibration(0));
                         Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
-                        // Instantiate(trajectory_line, LGun_trans.transform.position, Quaternion.Euler(LGun_trans.rotation.x, LGun_trans.rotation.y, LGun_trans.rotation.z));
-                        // StartCoroutine(Trajectory(0));
                     }
-                    //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);//俺の銃の色が引数
-
                 }
                 else
                 {
@@ -278,7 +257,6 @@ public class GunManager : MonoBehaviour, IGunManager
                     bullet_countL = 0;
                     ResetCombo();
                 }
-
             }
             else
             {
@@ -297,10 +275,8 @@ public class GunManager : MonoBehaviour, IGunManager
                 {
                     StartCoroutine(Vibration(1));
                     Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
-                    // StartCoroutine(Trajectory(1));
                 }
             }
-            //CHANGED:boolではなくstateChangerのcurrentStateを参照するように変更
             if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
             {
                 if (hitobj.collider.gameObject.layer == 6 && bullet_countR == 1)//右銃で的を当てた時
@@ -316,9 +292,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     {
                         StartCoroutine(Vibration(1));
                         Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
-                        // StartCoroutine(Trajectory(1));
                     }
-                    //FIXME:お助けマトを撃った時を撃った時エラーがでる　また以下のようなコードで判別するとインターフェースを利用する意味が無くなることに注意
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);//俺の銃の色が引数
                 }
                 else//的の色が青だったら弾が0になる
