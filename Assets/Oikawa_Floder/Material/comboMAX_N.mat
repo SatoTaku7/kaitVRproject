@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: comboMAX
+  m_Name: comboMAX_N
   m_Shader: {fileID: 4800000, guid: 9cdbe9241ea4aaa48944028272700834, type: 3}
   m_ShaderKeywords: POI_LIGHT_DATA_ADDITIVE_DIRECTIONAL_ENABLE POI_LIGHT_DATA_ADDITIVE_ENABLE
     POI_VERTEXLIGHT_ON POSTPROCESS VIGNETTE_MASKED _LIGHTINGMODE_FLAT _RIMSTYLE_POIYOMI

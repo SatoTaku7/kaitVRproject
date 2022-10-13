@@ -11436,8 +11436,8 @@ ParticleSystem:
     orbitalX:
       serializedVersion: 2
       minMaxState: 3
-      scalar: -5
-      minScalar: 5
+      scalar: -2.5
+      minScalar: 2.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11489,8 +11489,8 @@ ParticleSystem:
     orbitalY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: -5
+      scalar: -2.5
+      minScalar: 2.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11542,8 +11542,8 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: -5
+      scalar: -2.5
+      minScalar: 2.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -12471,7 +12471,7 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -14547,7 +14547,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 371e49f8074bd7d46a064c8a738a18a0, type: 2}
+  - {fileID: 2100000, guid: 9d675e035567afd45b4ddcfc975c953b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
