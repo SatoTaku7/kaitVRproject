@@ -48,9 +48,8 @@ MonoBehaviour:
   TartgetGray: {fileID: 572450906413194784, guid: a5d892a3e46b9ad4895731c856fd8d02, type: 3}
   d: 40
   n: 64
-  targetSize: 10
-  minusSize: 1
-  comboNum: 0
+  targetSize: 2
+  minusSize: 0.25
   level: 1
   breakNum: 0
   firstBreak1: 1
@@ -58,6 +57,7 @@ MonoBehaviour:
   firstBreak3: 1
   firstBreak4: 1
   PopUpScoreText: {fileID: 8682507335872344981, guid: 9315b06461e994f4dbbe9cc334884e89, type: 3}
+  GenerateEffectObj: {fileID: 8142024117772254768, guid: 3219517e702f81e4280cfada5432c51f, type: 3}
   BreakEffectObj:
   - {fileID: 6417756483810659471, guid: 6ea8dac7658961e45a3770f7a856e402, type: 3}
   - {fileID: 8830523559572869024, guid: 7765e39619d84ea49aec3b6384f5ffe9, type: 3}
