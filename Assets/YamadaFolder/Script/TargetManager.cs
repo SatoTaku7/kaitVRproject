@@ -42,6 +42,8 @@ public class TargetManager : MonoBehaviour,ITargetManager
     private GameObject ComboUICanvas;
     private ComboUIController _comboUI;
 
+    private GameObject Player;
+
     private void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameController");
@@ -54,6 +56,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
             isFirstColor = true;
         else
             isFirstColor = false;
+        Player = GameObject.FindGameObjectWithTag("Player");
     }
 
     public void TargetInit()
@@ -347,8 +350,7 @@ public class TargetManager : MonoBehaviour,ITargetManager
         }
 
         //的の出現エフェクト
-        var EffectPos = Transform - new Vector3(0, 0, 1.5f);
-        Instantiate(GenerateEffectObj, EffectPos, Rotation, this.gameObject.transform);
+        Instantiate(GenerateEffectObj, Transform, Rotation, this.gameObject.transform);
 
         //的の生成、番号の設定
         GameObject ins;
