@@ -274,7 +274,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e70f89e5ce39c2c42bfb7dc3afe3e73d, type: 3}
+        m_Texture: {fileID: 2800000, guid: e39cbe45e70ce2c4dba2207934088b91, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Matcap:
@@ -1617,7 +1617,7 @@ Material:
     - m_renderingCategory: 0
     - m_specialFXCategory: 0
     - m_start_ALDecalSpectrum: 0
-    - m_start_Alpha: 1
+    - m_start_Alpha: 0
     - m_start_Aniso: 0
     - m_start_BonusSliders: 0
     - m_start_CubeMap: 0
