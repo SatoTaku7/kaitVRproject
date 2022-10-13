@@ -46,7 +46,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 targetManager.ManagerReset();
                 _scoreText.Reset();
                 timer.ResetPlayTime();
-                Instantiate(StartTarget, new Vector3(1.9f, 0, 2.5f), Quaternion.identity);
+                Instantiate(StartTarget, new Vector3(1.9f, 0, 3.5f), Quaternion.identity);
             }
             else if (nextState == IStateChanger.GameState.Game)
             {
@@ -194,6 +194,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
 
     public void BreakAssistTarget()
     {
+        gunManager.Reload();
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
@@ -203,8 +204,10 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     }
     IEnumerator PowerUpTime()
     {
+        timer.StopTimer();
         gunManager.PowerUp();
         yield return new WaitForSeconds(10f);
+        timer.StartTimer();
         gunManager.PowerDown();
     }
 }

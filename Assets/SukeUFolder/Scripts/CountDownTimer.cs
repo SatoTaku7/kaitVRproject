@@ -30,8 +30,12 @@ public class CountDownTimer : MonoBehaviour,ITimer
     /// </summary>
     public void ResetTimer()
     {
-        currentStartTime = startTime;
-        timer = startTime;
+        if (IsCounting)
+        {
+            currentStartTime = startTime;
+            timer = currentStartTime;
+        }
+      
     }
     /// <summary>
     /// カウントダウンを始める
@@ -63,8 +67,8 @@ public class CountDownTimer : MonoBehaviour,ITimer
         IsPlaying = true;
         ResetPlayTime();
         SetTimer(10f);
-        ResetTimer();
         StartTimer();
+        ResetTimer();
     }
     /// <summary>
     /// ゲームの経過時間を停止する
@@ -115,7 +119,7 @@ public class CountDownTimer : MonoBehaviour,ITimer
     private void DecreaseImage(float current, int max)
     {
         //ImageというコンポーネントのfillAmountを取得して操作する
-        transform.GetChild(0).GetChild(1).GetComponent<Image>().fillAmount = current / max;
+        transform.GetChild(0).GetChild(2).GetComponent<Image>().fillAmount = current / max;
     }
 
 }
