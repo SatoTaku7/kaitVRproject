@@ -4952,6 +4952,7 @@ MonoBehaviour:
   firstBreak3: 1
   firstBreak4: 1
   PopUpScoreText: {fileID: 8682507335872344981, guid: 9315b06461e994f4dbbe9cc334884e89, type: 3}
+  GenerateEffectObj: {fileID: 0}
   BreakEffectObj:
   - {fileID: 6417756483810659471, guid: 6ea8dac7658961e45a3770f7a856e402, type: 3}
   - {fileID: 8830523559572869024, guid: 7765e39619d84ea49aec3b6384f5ffe9, type: 3}
@@ -13906,7 +13907,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b60f675018934bb4cb33a5cb34a4a440, type: 2}
+  - {fileID: 2100000, guid: 82670f047253c0248830497e5b5b9bd0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
