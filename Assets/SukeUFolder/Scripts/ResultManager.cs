@@ -5,10 +5,11 @@ using TMPro;
 
 public class ResultManager : MonoBehaviour, IResultManager
 {
-    int[] ranking = new int[3];
+    int[] ranking = new int[4];
     public GameObject ResultUI;
     [SerializeField] TextMeshProUGUI ScoreText;
     [SerializeField] TextMeshProUGUI DetailText;
+    [SerializeField] TextMeshProUGUI RankingText;
     /// <summary>
     /// “¾“_
     /// </summary>
@@ -26,19 +27,37 @@ public class ResultManager : MonoBehaviour, IResultManager
 
     private void Start()
     {
-        //ranking=PlayerPrefs.
+
+        ranking[0] = PlayerPrefs.GetInt("First", 0);
+        ranking[1] = PlayerPrefs.GetInt("Second", 0);
+        ranking[2] = PlayerPrefs.GetInt("Third", 0);
     }
     public void SetRecord(int score, int maxCombo, float elapsedTime, int targetCount)
     {
         this.score = score;
         this.maxCombo = maxCombo;
         this.elapsedTime = elapsedTime;
+        SetRanking(score);
         ScoreText.text = $"score:{score}";
         DetailText.text = $"Å‘åƒRƒ“ƒ{:{maxCombo}\n‘Ï‹vŠÔ:{elapsedTime:f1}\n“I”j‰ó”:{ targetCount}\n“I”j‰ó•½‹ÏŠÔ:{ elapsedTime/(float)targetCount:f2}";
+        RankingText.text = $"1ˆÊ:{ranking[0]}\n2ˆÊ:{ranking[1]}\n3ˆÊ:{ranking[2]}";
     }
 
-    public void SetRanking()
+    public void SetRanking(int score)
     {
+        ranking[3] = score;
+        for (int i = 0; i < ranking.Length; i++)
+        {
+            for (int j = i; j < ranking.Length; j++)
+            {
+                if (ranking[i] < ranking[j])
+                {
+                    int x = ranking[j];
+                    ranking[j] = ranking[i];
+                    ranking[i] = x;
+                }
+            }
+        }
 
     }
 

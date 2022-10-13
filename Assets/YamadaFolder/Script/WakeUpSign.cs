@@ -16,6 +16,6 @@ public class WakeUpSign : MonoBehaviour
                 Destroy(gameObject);
         }
         else
-            transform.Rotate(-0.3f, 0, 0);
+            transform.Rotate(-2f, 0, 0);
     }
 }
