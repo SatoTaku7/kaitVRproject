@@ -1326,13 +1326,13 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   intensity:
     overrideState: 1
     value: 1.5
   threshold:
     overrideState: 1
-    value: 0.6
+    value: 0.5
   softKnee:
     overrideState: 1
     value: 0.5
