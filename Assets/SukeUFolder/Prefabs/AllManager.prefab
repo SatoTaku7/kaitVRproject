@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assistManager: {fileID: 0}
   StartTarget: {fileID: 4504660785501842178, guid: 9cd59da5594bfb14fa96cde0e2034d16, type: 3}
-  uiFader: {fileID: 0}
+  WakeUpSign: {fileID: 2353687355794412196, guid: 6750f53abf9da384898c057490801064, type: 3}
 --- !u!114 &8507953462991568105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,3 +136,5 @@ MonoBehaviour:
   ResultUI: {fileID: 0}
   ScoreText: {fileID: 0}
   DetailText: {fileID: 0}
+  RankingText: {fileID: 0}
+  YourRankText: {fileID: 0}
