@@ -10,6 +10,7 @@ TagManager:
   - scoreUI
   - comboUI
   - currentScoreUI
+  - ResultUI
   layers:
   - Default
   - TransparentFX

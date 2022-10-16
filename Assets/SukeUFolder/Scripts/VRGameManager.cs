@@ -22,9 +22,9 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     public event System.Action OnChangeState;
     [SerializeField]AssistManager assistManager;
     [SerializeField] GameObject StartTarget;
-    [SerializeField] UIFader uiFader;
+    UIFader uiFader;
     [SerializeField] GameObject WakeUpSign;
-
+    float rand;
     private GameObject currentScoreUICanvas;
     private currentScoreText _scoreText;
     private Coroutine coroutine = null;
@@ -56,7 +56,23 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 gunManager.Reload();
                 targetManager.TargetInit();
                 timer.StartPlay();
-                Instantiate(WakeUpSign, new Vector3(-2.23f, -4.04f, 19.54f), Quaternion.Euler(90f, 0f, 0f));
+                rand = Random.Range(0, 4);
+                if(rand == 0)
+                {
+                    Instantiate(WakeUpSign, new Vector3(-2.23f, -4.04f, 19.54f), Quaternion.Euler(90f, 0f, 0f));
+                }else if (rand == 1)
+                {
+                    Instantiate(WakeUpSign, new Vector3(6.62f, -4.04f, 19.54f), Quaternion.Euler(90f, 0f, 0f));
+                }else if(rand == 2)
+                {
+                    Instantiate(WakeUpSign, new Vector3(1.82f, -4.04f, 11.87f), Quaternion.Euler(90f, 0f, 0f));
+                }
+                else
+                {
+                    Instantiate(WakeUpSign, new Vector3(8.89f, -4.04f, 14.25f), Quaternion.Euler(90f, 0f, 0f));
+                }
+               
+                
             }
             else if (nextState == IStateChanger.GameState.Result)
             {
@@ -84,6 +100,8 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         ChangeState(IStateChanger.GameState.Title);
         currentScoreUICanvas = GameObject.FindGameObjectWithTag("currentScoreUI");
         _scoreText = currentScoreUICanvas.GetComponentInChildren<currentScoreText>();
+        uiFader = GameObject.FindGameObjectWithTag("ResultUI").GetComponent<UIFader>();
+        Random.InitState(System.DateTime.Now.Millisecond);
     }
 
     // Update is called once per frame
@@ -154,13 +172,12 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
     }
     public void GameOver()
     {
-        //ゲームオーバーになったときの処理
         ChangeState(IStateChanger.GameState.Result);
-        //resultManager.SetRecord(0,0,0);//リザルトに受け渡す
     }
     public void GoTitle()
     {
         //タイトルへ移動する処理
+        ChangeState(IStateChanger.GameState.Title);
     }
     void MaxCombo(int combo)
     {
