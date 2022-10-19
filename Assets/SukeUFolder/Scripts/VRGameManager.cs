@@ -111,7 +111,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SoundManager.Instance.PlaySeByName("GunReload", transform.gameObject);
+                SoundManager.Instance.PlaySeByName("PopTarget", transform.gameObject);
             }
         }
         else if (currentState == IStateChanger.GameState.Game)
