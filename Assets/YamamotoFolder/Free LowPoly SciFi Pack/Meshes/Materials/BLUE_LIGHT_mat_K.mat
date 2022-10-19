@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BLUE_LIGHT_mat_K
-  m_Shader: {fileID: 4800000, guid: 231d95ff7213dd74f82af136b256fb32, type: 3}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: POI_LIGHT_DATA_ADDITIVE_DIRECTIONAL_ENABLE POI_LIGHT_DATA_ADDITIVE_ENABLE
-    POI_VERTEXLIGHT_ON POSTPROCESS VIGNETTE_MASKED _EMISSION _LIGHTINGMODE_FLAT _RIMSTYLE_POIYOMI
-    _SPECULARHIGHLIGHTS_OFF
+    POI_VERTEXLIGHT_ON POSTPROCESS VIGNETTE_MASKED _EMISSION _GLOSSYREFLECTIONS_OFF
+    _LIGHTINGMODE_FLAT _RIMSTYLE_POIYOMI _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -1228,7 +1228,7 @@ Material:
     - _MatcapTPSDepthEnabled: 0
     - _MatcapTPSMaskStrength: 1
     - _MatcapUVMode: 1
-    - _Metallic: 0
+    - _Metallic: 0.35
     - _Mirror: 0
     - _MirrorTextureUV: 0
     - _MochieBRDF: 0
@@ -1825,7 +1825,7 @@ Material:
     - _EmissionAL2StrengthMod: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionAL3Multipliers: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionAL3StrengthMod: {r: 0, g: 0, b: 0, a: 0}
-    - _EmissionColor: {r: 0, g: 1.2596959, b: 1.2069337, a: 1}
+    - _EmissionColor: {r: 0, g: 1.4980392, b: 1.4352942, a: 1}
     - _EmissionColor1: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor3: {r: 1, g: 1, b: 1, a: 1}
