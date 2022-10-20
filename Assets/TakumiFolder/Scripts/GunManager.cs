@@ -130,6 +130,7 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            if(bullet_countL==1) Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
             Ray(0);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))//左トリガーを戻したとき
@@ -139,6 +140,7 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
+            if (bullet_countR == 1) Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
             Ray(1);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))//右トリガーを戻したとき
@@ -229,8 +231,6 @@ public class GunManager : MonoBehaviour, IGunManager
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
                     StartCoroutine(Vibration(0));
-                    Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation* Quaternion.Euler(difference,0,0));
-                    //StartCoroutine(Trajectory(0));
                 }
             }
             if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
@@ -249,7 +249,6 @@ public class GunManager : MonoBehaviour, IGunManager
                     else
                     {
                         StartCoroutine(Vibration(0));
-                        Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
                     }
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(1);//俺の銃の色が引数
                 }
@@ -276,7 +275,6 @@ public class GunManager : MonoBehaviour, IGunManager
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
                     StartCoroutine(Vibration(1));
-                    Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
                 }
             }
             if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
@@ -293,7 +291,6 @@ public class GunManager : MonoBehaviour, IGunManager
                     else
                     {
                         StartCoroutine(Vibration(1));
-                        Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
                     }
                     hitobj.collider.gameObject.GetComponentInParent<IGunBreakTarget>().BreakTarget(2);//俺の銃の色が引数
                 }
