@@ -22,6 +22,7 @@ public class GunManager : MonoBehaviour, IGunManager
     [SerializeField] GameObject GunFire_L, GunFire_R;//撃った際の炎
     [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;//左右の手の回転を取得
     [SerializeField] GameObject trajectory_line;//トレイルのプレハブをアタッチ
+    private GameObject OVRCam;
 
     //銃の色取得
     [SerializeField] MeshRenderer[] RedGuncolor;
@@ -41,6 +42,7 @@ public class GunManager : MonoBehaviour, IGunManager
         GunFire_L.SetActive(false);
         GunFire_R.SetActive(false);
         difference = 17.5f;
+        OVRCam = transform.GetChild(0).gameObject;
     }
 
     void Update()
@@ -152,12 +154,12 @@ public class GunManager : MonoBehaviour, IGunManager
         //右スティックを回したときにプレイヤーが回転する処理
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickLeft))
         {
-            this.gameObject.transform.Rotate(0, -45f, 0);
+            OVRCam.transform.Rotate(0, -45f, 0);
             Debug.Log("右のジョイスティックを左へ回す");
         }
         if (OVRInput.GetDown(OVRInput.RawButton.RThumbstickRight))
         {
-            this.gameObject.transform.Rotate(0, 45f, 0);
+            OVRCam.transform.Rotate(0, 45f, 0);
             Debug.Log("右のジョイスティックを右へ回す");
         }
     }
