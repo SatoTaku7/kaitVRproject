@@ -27,7 +27,7 @@ public class TutrialController : MonoBehaviour
 
     private void Update()
     {
-        
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             goNext(false);
@@ -35,7 +35,7 @@ public class TutrialController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             goNext(true);
-        }
+        }*/
     }
 
     private IEnumerator fade()
@@ -63,7 +63,7 @@ public class TutrialController : MonoBehaviour
         if (currentDisplayNum >= explainObjs.Length)
             currentDisplayNum = 0;
 
-        pointImage.transform.localPosition = new Vector3(-0.4f + (currentDisplayNum * 0.2f), 1.3f, 0);
+        pointImage.transform.localPosition = new Vector3(-0.42f + (currentDisplayNum * 0.21f), 1.3f, 0);
 
         for (int i = 0; i < explainObjs.Length; i++)
         {
