@@ -217,6 +217,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         timer.StartTimer();
         gunManager.PowerDown();
     }
+
 }
 
 
