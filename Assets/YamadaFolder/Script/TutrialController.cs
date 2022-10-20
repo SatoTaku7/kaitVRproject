@@ -11,6 +11,8 @@ public class TutrialController : MonoBehaviour
     [SerializeField] Image nextTimer;//パネル下部のバー
     private Coroutine coroutine;
 
+    [SerializeField] GameObject pointImage;//パネル上部
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,7 @@ public class TutrialController : MonoBehaviour
 
     private void Update()
     {
-        /*デバッグ用
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             goNext(false);
@@ -33,7 +35,7 @@ public class TutrialController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             goNext(true);
-        }*/
+        }
     }
 
     private IEnumerator fade()
@@ -60,6 +62,8 @@ public class TutrialController : MonoBehaviour
             currentDisplayNum = explainObjs.Length - 1;
         if (currentDisplayNum >= explainObjs.Length)
             currentDisplayNum = 0;
+
+        pointImage.transform.localPosition = new Vector3(-0.4f + (currentDisplayNum * 0.2f), 1.3f, 0);
 
         for (int i = 0; i < explainObjs.Length; i++)
         {
