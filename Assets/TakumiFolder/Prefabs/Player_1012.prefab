@@ -218,8 +218,6 @@ MonoBehaviour:
   RGun_trans: {fileID: 385549009803643041}
   RGun_trajectory: {fileID: 385549010017404669}
   RGun_Trigger: {fileID: 385549009803544225}
-  textbullet_countL: {fileID: 385549009778423164}
-  textbullet_countR: {fileID: 385549011147093536}
   GunFire_L: {fileID: 3408531348453930133}
   GunFire_R: {fileID: 3408531348488908137}
   LeftHandAnchor: {fileID: 385549010624200044}
@@ -354,7 +352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &385549010101694489
 RectTransform:
   m_ObjectHideFlags: 0
@@ -628,7 +626,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &385549011179275585
 RectTransform:
   m_ObjectHideFlags: 0
