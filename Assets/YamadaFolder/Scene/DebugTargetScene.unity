@@ -945,10 +945,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2273325879006493336, guid: 08742a54f0771be469376e919f74b356, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 66427945}
     - target: {fileID: 2273325879224270392, guid: 08742a54f0771be469376e919f74b356, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -997,14 +993,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TutrialPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 2273325879424651793, guid: 08742a54f0771be469376e919f74b356, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 66427945}
-    - target: {fileID: 2273325879704148912, guid: 08742a54f0771be469376e919f74b356, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 66427945}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08742a54f0771be469376e919f74b356, type: 3}
 --- !u!1001 &2353687357718070045
