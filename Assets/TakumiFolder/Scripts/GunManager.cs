@@ -14,7 +14,6 @@ public class GunManager : MonoBehaviour, IGunManager
     [SerializeField] Transform RGun_trans, RGun_trajectory, RGun_Trigger;//右の銃の位置・軌道位置・トリガー
     LineRenderer lineRenderer_L, lineRenderer_R;//レイザーポインター左右
     float StartWidth, EndWidth;//レイザーポインター左右　太さ
-    [SerializeField] Text textbullet_countL, textbullet_countR;//仮の残弾数UI左右
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
     private int layerMask =   1 << 6;//的にのみRayが当たるように
     private bool InfiniteMode, LongRayMode;//パワーアップ時の処理
@@ -97,15 +96,11 @@ public class GunManager : MonoBehaviour, IGunManager
         }
         if (InfiniteMode == false)//弾無限モードじゃないときは数字を表記
         {
-            textbullet_countL.text = bullet_countL.ToString();
-            textbullet_countR.text = bullet_countR.ToString();
             GunFire_L.SetActive(false);
             GunFire_R.SetActive(false);
         }
         else//弾無限モードで無限表記
         {
-            textbullet_countL.text = "∞";
-            textbullet_countR.text = "∞";
             GunFire_L.SetActive(true);
             GunFire_R.SetActive(true);
         }
