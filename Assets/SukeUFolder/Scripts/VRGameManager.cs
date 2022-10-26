@@ -48,6 +48,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 _scoreText.Reset();
                 timer.ResetPlayTime();
                 Instantiate(StartTarget, new Vector3(1.9f, 0, 3.5f), Quaternion.identity);
+                SoundManager.Instance.PlayBgmByName("distantfuture", gameObject);
             }
             else if (nextState == IStateChanger.GameState.Game)
             {
@@ -71,8 +72,8 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 {
                     Instantiate(WakeUpSign, new Vector3(8.89f, -4.04f, 14.25f), Quaternion.Euler(90f, 0f, 0f));
                 }
-               
-                
+                SoundManager.Instance.PlayBgmByName("CUBE", gameObject);
+
             }
             else if (nextState == IStateChanger.GameState.Result)
             {
@@ -84,6 +85,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
                 resultManager.EnableUI();
                 gunManager.PowerDown();
                 uiFader.AppearUI();
+                SoundManager.Instance.PlayBgmByName("Mutant", gameObject);
             }
             
         }
@@ -102,6 +104,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         _scoreText = currentScoreUICanvas.GetComponentInChildren<currentScoreText>();
         uiFader = GameObject.FindGameObjectWithTag("ResultUI").GetComponent<UIFader>();
         Random.InitState(System.DateTime.Now.Millisecond);
+        SoundManager.Instance.PlayBgmByName("distantfuture", gameObject);
     }
 
     // Update is called once per frame
@@ -118,49 +121,7 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         {
 
             MaxCombo(comboManager.combo);
-            if (scoreSum >= 22800)
-            {
-                ChangeLevel(7);
-            }
-            else if(scoreSum >= 16800)
-            {
-                ChangeLevel(6);
-                timer.SetTimer(4);
-            }
-            else if(scoreSum >= 11600)
-            {
-                if (currentLevel != 5)
-                {
-                    assistManager.GenerateAssistTarget();
-                }
-                ChangeLevel(5);
-            }
-            else if (scoreSum >= 8800)
-            {
-                ChangeLevel(4);
-            }
-            else if(scoreSum >= 4000)
-            {
-                if (currentLevel != 3)
-                {
-                    assistManager.GenerateAssistTarget();
-                }
-                ChangeLevel(3);
-                timer.SetTimer(6);
-            }
-            else if(scoreSum >= 1450)
-            {
-                ChangeLevel(2);
-            }
-            else if (scoreSum >= 700)
-            {
-                ChangeLevel(1);
-            }
-            else
-            {
-               
-                ChangeLevel(0);
-            }
+           
 
         }
     }
@@ -195,18 +156,75 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         timer.ResetTimer();
         gunManager.Reload();
         breakTargetcount++;
+        if (scoreSum >= 22800)
+        {
+            if (currentLevel != 7) SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+            ChangeLevel(7);
+        }
+        else if (scoreSum >= 16800)
+        {
+            if (currentLevel != 6) SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+            ChangeLevel(6);
+            timer.SetTimer(4);
+        }
+        else if (scoreSum >= 11600)
+        {
+            if (currentLevel != 5)
+            {
+                SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+                assistManager.GenerateAssistTarget();
+            }
+            ChangeLevel(5);
+        }
+        else if (scoreSum >= 8800)
+        {
+            if(currentLevel!=4) SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+            ChangeLevel(4);
+        }
+        else if (scoreSum >= 4000)
+        {
+ 
+            if (currentLevel != 3)
+            {
+                SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+                assistManager.GenerateAssistTarget();
+            }
+            ChangeLevel(3);
+            timer.SetTimer(6);
+        }
+        else if (scoreSum >= 1450)
+        {
+            if (currentLevel != 2) SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+            ChangeLevel(2);
+        }
+        else if (scoreSum >= 700)
+        {
+            if (currentLevel != 1) SoundManager.Instance.PlaySeByName("LevelUP", gameObject);
+            ChangeLevel(1);
+        }
+        else
+        {
+
+            ChangeLevel(0);
+        }
     }
 
-    public void ChangeLevel(int num) => currentLevel=num;
+    public void ChangeLevel(int num)
+    {
+        currentLevel = num;
+    }
 
     public void BreakAssistTarget()
     {
+        SoundManager.Instance.PlaySeByName("Otasuke1",gameObject);
         gunManager.Reload();
         if (coroutine != null)
         {
+            SoundManager.Instance.StopSe(gameObject);
             StopCoroutine(coroutine);
         }
         coroutine = StartCoroutine(PowerUpTime());
+        SoundManager.Instance.PlaySeByName("10Countdown2",gameObject);
         breakTargetcount++;
     }
     IEnumerator PowerUpTime()

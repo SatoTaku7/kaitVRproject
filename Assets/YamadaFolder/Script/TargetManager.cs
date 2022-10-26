@@ -151,26 +151,29 @@ public class TargetManager : MonoBehaviour,ITargetManager
         ins = Instantiate(PopUpScoreText, pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         info = ins.GetComponent<PopUpTextController>();
         info.Init(score, color);
+        SoundManager.Instance.PlaySeByName("PopTarget", ins,0.2f);
     }
 
     //的が壊れた際のエフェクト
     private void BreakEffect(Vector3 pos)
     {
+        GameObject particle;
         //コンボ数を取得
         int combo = _combo.combo;
         //コンボ数に応じた演出
         if (combo > 9)
         {
-            Instantiate(BreakEffectObj[2], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+            particle=Instantiate(BreakEffectObj[2], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
         else if (combo > 4)
         {
-            Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+            particle = Instantiate(BreakEffectObj[1], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
         else
         {
-            Instantiate(BreakEffectObj[0], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
+            particle = Instantiate(BreakEffectObj[0], pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         }
+        SoundManager.Instance.PlaySeByName("Hit1", particle);
     }
 
     //新たな的の生成
