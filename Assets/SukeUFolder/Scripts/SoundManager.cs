@@ -162,6 +162,26 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
        
         seAudioSource.PlayOneShot(se[index], SeVolume * Volume);
     }
+    public void PlaySe(int index, GameObject obj,string audio)
+    {
+        index = Mathf.Clamp(index, 0, se.Length);
+        if (obj.GetComponent<AudioSource>() != null)
+        {
+            seAudioSource = obj.AddComponent<AudioSource>();
+            seAudioSource.GetComponent<AudioSource>().spatialBlend = 0;
+            seAudioSource.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
+            seAudioSource = obj.GetComponent<AudioSource>();
+        }
+        else
+        {
+            seAudioSource = obj.AddComponent<AudioSource>();
+            seAudioSource = obj.GetComponent<AudioSource>();
+            seAudioSource.GetComponent<AudioSource>().spatialBlend = 0;
+            seAudioSource.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
+        }
+
+        seAudioSource.PlayOneShot(se[index], SeVolume * Volume);
+    }
 
     public void PlaySeByName(string name,GameObject obj)
     {
@@ -170,6 +190,10 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     public void PlaySeByName(string name, GameObject obj,float time)
     {
         StartCoroutine(DelayCall(name,obj,time));
+    }
+    public void PlaySeByName(string name, GameObject obj,string audio)
+    {
+        PlaySe(GetSeIndex(name), obj,audio);
     }
 
     public void StopSe(GameObject obj)
