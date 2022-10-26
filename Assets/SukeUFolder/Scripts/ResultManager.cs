@@ -33,7 +33,7 @@ public class ResultManager : MonoBehaviour, IResultManager
         DetailText = GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(3).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         RankingText= GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         YourRankText= GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(2).GetChild(1).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
-        ranking[0] = PlayerPrefs.GetInt("First", 0);
+        ranking[0] = PlayerPrefs.GetInt("First", 48700);
         ranking[1] = PlayerPrefs.GetInt("Second", 0);
         ranking[2] = PlayerPrefs.GetInt("Third", 0);
     }
