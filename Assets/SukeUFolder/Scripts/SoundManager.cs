@@ -167,11 +167,21 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         PlaySe(GetSeIndex(name),obj);
     }
-
-    public void StopSe()
+    public void PlaySeByName(string name, GameObject obj,float time)
     {
+        StartCoroutine(DelayCall(name,obj,time));
+    }
+
+    public void StopSe(GameObject obj)
+    {
+        seAudioSource= obj.GetComponent<AudioSource>();
         seAudioSource.Stop();
         seAudioSource.clip = null;
     }
 
+    IEnumerator DelayCall(string name, GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        PlaySe(GetSeIndex(name), obj);
+    }
 }

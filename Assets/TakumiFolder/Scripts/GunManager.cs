@@ -143,9 +143,14 @@ public class GunManager : MonoBehaviour, IGunManager
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         //FIXME:無限モード中に両方で弾を外すと的うちゲームが終了する
-        if (bullet_countL == 0 && bullet_countR == 0 && stateChanger.currentState == IStateChanger.GameState.Game)//両方の弾が0になったとき
+        if (bullet_countL == 0 && bullet_countR == 0 )//両方の弾が0になったとき
         {
-            stateChanger.ChangeState(IStateChanger.GameState.Result);
+            SoundManager.Instance.PlaySeByName("se_gun_Dont02", gameObject);
+            if(stateChanger.currentState == IStateChanger.GameState.Game)
+            {
+                stateChanger.ChangeState(IStateChanger.GameState.Result);
+            }
+            
         }
 
         //右スティックを回したときにプレイヤーが回転する処理
@@ -237,6 +242,7 @@ public class GunManager : MonoBehaviour, IGunManager
                                                                                                                  //的の色　0が赤　1が青　2が灰色  3お助け的
                     if (TargetColor == 1)
                     {
+                        SoundManager.Instance.PlaySeByName("se_nogood11", gameObject);
                         if (InfiniteMode) return;
                         bullet_countL = 0;
                         ResetCombo();
@@ -279,6 +285,7 @@ public class GunManager : MonoBehaviour, IGunManager
                     var TargetColor = hitobj.collider.gameObject.GetComponentInParent<TargetInformation>().color;//ターゲットの色
                     if (TargetColor == 0)
                     {
+                        SoundManager.Instance.PlaySeByName("se_nogood11", gameObject);
                         if (InfiniteMode) return;
                         bullet_countR = 0;
                         ResetCombo();
@@ -317,7 +324,7 @@ public class GunManager : MonoBehaviour, IGunManager
     {
         InfiniteMode = true;
         LongRayMode = true;
-
+        SoundManager.Instance.PlaySeByName("GunReload", gameObject);
     }
     public void PowerDown()
     {

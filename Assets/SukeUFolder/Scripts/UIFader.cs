@@ -21,6 +21,7 @@ public class UIFader : MonoBehaviour
     public void AppearUI()
     {
        coroutine= StartCoroutine(FadeOut());
+        SoundManager.Instance.PlaySeByName("Result_display2", gameObject);
     }
     public void DisappearUI()
     {
