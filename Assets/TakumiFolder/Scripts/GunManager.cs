@@ -15,9 +15,9 @@ public class GunManager : MonoBehaviour, IGunManager
     LineRenderer lineRenderer_L, lineRenderer_R;//レイザーポインター左右
     float StartWidth, EndWidth;//レイザーポインター左右　太さ
     private int bullet_countL, bullet_countR;//左右それぞれの残弾数
-    private int layerMask =   1 << 6;//的にのみRayが当たるように
+    private int layerMask =   1 << 6|1<<5;//的にのみRayが当たるように
     private bool InfiniteMode, LongRayMode;//パワーアップ時の処理
-    private float difference;//レイザーの出る角度調整
+    //private float difference;//レイザーの出る角度調整
     [SerializeField] GameObject GunFire_L, GunFire_R;//撃った際の炎
     [SerializeField] GameObject LeftHandAnchor, RightHandAnchor;//左右の手の回転を取得
     [SerializeField] GameObject trajectory_line;//トレイルのプレハブをアタッチ
@@ -27,7 +27,9 @@ public class GunManager : MonoBehaviour, IGunManager
     [SerializeField] MeshRenderer[] RedGuncolor;
     [SerializeField] MeshRenderer[] BlueGuncolor;
     [SerializeField] Material[] GunColor;
+    [SerializeField]float difference;
     #endregion
+
     void Start()
     {
         lineRenderer_L = LGun.GetComponent<LineRenderer>();
@@ -40,12 +42,12 @@ public class GunManager : MonoBehaviour, IGunManager
         combo = GameObject.FindGameObjectWithTag("GameController").GetComponent<ICombo>();
         GunFire_L.SetActive(false);
         GunFire_R.SetActive(false);
-        difference = 17.5f;
         OVRCam = transform.GetChild(0).gameObject;
     }
 
     void Update()
     {
+       // LongRayMode = true;
         //レイザーの出る条件や、パワーアップ状態で弾数とレイザーの長さが変化する処理
         GunMode();
         ///コントローラーで操作したときの処理///
@@ -199,6 +201,8 @@ public class GunManager : MonoBehaviour, IGunManager
         Ray ray_L = new Ray(LGun_trans.position, LGun_trajectory.position - LGun_trans.position);
         Ray ray_R = new Ray(RGun_trans.position, RGun_trajectory.position - RGun_trans.position);
         RaycastHit hitobj;
+        Debug.DrawRay(LGun_trans.position, LGun_trajectory.position - LGun_trans.position, Color.red, 1.0f);
+        Debug.DrawRay(RGun_trans.position, RGun_trajectory.position - RGun_trans.position, Color.blue, 1.0f);
         if (LorR == 0)//左トリガーを押したとき(左銃を撃った時)
         {
             if (Physics.Raycast(ray_L, out hitobj, 200, layerMask))//左が的またはスタートボタンのUIに当たったとき
@@ -239,8 +243,12 @@ public class GunManager : MonoBehaviour, IGunManager
     {
         if (LorR == 0)
         {
-            if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
+            if (stateChanger.currentState == IStateChanger.GameState.Title)//
             {
+                if (hitobj.collider.gameObject.layer == 5)//銃でチュートリアルパネルを当てた時
+                {
+                    hitobj.collider.gameObject.GetComponent<ChangePanelCubeCollider>().hitCube();
+                }
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
                     StartCoroutine(Vibration(0));
@@ -286,6 +294,11 @@ public class GunManager : MonoBehaviour, IGunManager
         {
             if (stateChanger.currentState == IStateChanger.GameState.Title)//プレイモードだったとき
             {
+                if (hitobj.collider.gameObject.layer == 5)//銃でチュートリアルパネルを当てた時
+                {
+                    hitobj.collider.gameObject.GetComponent<ChangePanelCubeCollider>().hitCube();
+                    Debug.Log("Hit!");
+                }
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
                     StartCoroutine(Vibration(1));
