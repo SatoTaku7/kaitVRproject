@@ -103,7 +103,6 @@ public class VRGameManager : MonoBehaviour, IStateChanger, ILevelState, IBreakTa
         _scoreText = currentScoreUICanvas.GetComponentInChildren<currentScoreText>();
         uiFader = GameObject.FindGameObjectWithTag("ResultUI").GetComponent<UIFader>();
         Random.InitState(System.DateTime.Now.Millisecond);
-        SoundManager.Instance.PlayBgmByName("distantfuture");
     }
 
     // Update is called once per frame
