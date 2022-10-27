@@ -47,7 +47,6 @@ public class GunManager : MonoBehaviour, IGunManager
 
     void Update()
     {
-       // LongRayMode = true;
         //レイザーの出る条件や、パワーアップ状態で弾数とレイザーの長さが変化する処理
         GunMode();
         ///コントローラーで操作したときの処理///
@@ -297,7 +296,6 @@ public class GunManager : MonoBehaviour, IGunManager
                 if (hitobj.collider.gameObject.layer == 5)//銃でチュートリアルパネルを当てた時
                 {
                     hitobj.collider.gameObject.GetComponent<ChangePanelCubeCollider>().hitCube();
-                    Debug.Log("Hit!");
                 }
                 if (hitobj.collider.gameObject.layer == 6)//左銃でスタート的を当てた時
                 {
