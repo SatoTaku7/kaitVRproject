@@ -6,6 +6,8 @@ public class AssistManager : MonoBehaviour
 {
     IBreakTargetChecker breakTargetChecker;
     [SerializeField] GameObject AssistTargetObj;
+
+    [SerializeField] GameObject BreakEffectObj;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +45,9 @@ public class AssistManager : MonoBehaviour
     }
 
     //‚¨•‚¯“I‚ª”j‰ó‚³‚ê‚½
-    public void HitTarget()
+    public void HitTarget(Vector3 pos)
     {
+        Instantiate(BreakEffectObj, pos, new Quaternion(0, 0, 0, 0), this.gameObject.transform);
         GameObject.FindGameObjectWithTag("GameController").GetComponent<IBreakTargetChecker>().BreakAssistTarget();
     }
 

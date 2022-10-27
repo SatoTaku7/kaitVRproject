@@ -58,7 +58,7 @@ public class AssistTarget : MonoBehaviour, IGunBreakTarget
         {
             Hit = true;
             Debug.Log("AssistTargetHit");
-            _manager.HitTarget();
+            _manager.HitTarget(transform.position);
         }
         Destroy(gameObject);
     }
