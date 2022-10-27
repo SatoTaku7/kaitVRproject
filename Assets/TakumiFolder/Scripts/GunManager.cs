@@ -125,7 +125,14 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger))//左トリガーを押したとき
         {
             LGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            if(bullet_countL==1) Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+            if (bullet_countL == 1)
+            {
+                Instantiate(trajectory_line, LGun_trans.transform.position, LeftHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+            }
+            else
+            {
+                    SoundManager.Instance.PlaySeByName("se_gun_Dont02", transform.GetChild(0).GetChild(0).GetChild(4).gameObject);
+            }
             Ray(0);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))//左トリガーを戻したとき
@@ -135,17 +142,21 @@ public class GunManager : MonoBehaviour, IGunManager
         if (OVRInput.GetDown(OVRInput.RawButton.RIndexTrigger))//右トリガーを押したとき
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(-27f, 0, 0);
-            if (bullet_countR == 1) Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0));
+            if (bullet_countR == 1) { Instantiate(trajectory_line, RGun_trans.transform.position, RightHandAnchor.transform.rotation * Quaternion.Euler(difference, 0, 0)); }
+            else
+            {
+                SoundManager.Instance.PlaySeByName("se_gun_Dont02", transform.GetChild(0).GetChild(0).GetChild(4).gameObject);
+            }
             Ray(1);
         }
         if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))//右トリガーを戻したとき
         {
             RGun_Trigger.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
-        //FIXME:無限モード中に両方で弾を外すと的うちゲームが終了する
+
+
         if (bullet_countL == 0 && bullet_countR == 0 )//両方の弾が0になったとき
         {
-            SoundManager.Instance.PlaySeByName("se_gun_Dont02", gameObject);
             if(stateChanger.currentState == IStateChanger.GameState.Game)
             {
                 stateChanger.ChangeState(IStateChanger.GameState.Result);
@@ -199,6 +210,7 @@ public class GunManager : MonoBehaviour, IGunManager
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
                     if (InfiniteMode) return;
+                   SoundManager.Instance.PlaySeByName("se_gun_Dont02", transform.GetChild(0).GetChild(0).GetChild(4).gameObject);
                     bullet_countL = 0;
                     ResetCombo();
                 }
@@ -216,6 +228,7 @@ public class GunManager : MonoBehaviour, IGunManager
                 if (stateChanger.currentState == IStateChanger.GameState.Game)//プレイモードだったとき
                 {
                     if (InfiniteMode) return;
+                    SoundManager.Instance.PlaySeByName("se_gun_Dont02", transform.GetChild(0).GetChild(0).GetChild(5).gameObject);
                     bullet_countR = 0;
                     ResetCombo();
                 }
@@ -242,7 +255,7 @@ public class GunManager : MonoBehaviour, IGunManager
                                                                                                                  //的の色　0が赤　1が青　2が灰色  3お助け的
                     if (TargetColor == 1)
                     {
-                        SoundManager.Instance.PlaySeByName("se_nogood11", gameObject);
+                        SoundManager.Instance.PlaySeByName("se_nogood11");
                         if (InfiniteMode) return;
                         bullet_countL = 0;
                         ResetCombo();

@@ -129,10 +129,32 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         bgmAudioSource.volume = BgmVolume * Volume;
         bgmAudioSource.Play();
     }
+    public void PlayBgm(int index)
+    {
+        if (GetComponent<AudioSource>() == null)
+        {
+            bgmAudioSource =gameObject.AddComponent<AudioSource>();
+            bgmAudioSource = gameObject.GetComponent<AudioSource>();
+        }
+        else
+        {
+            bgmAudioSource = gameObject.GetComponent<AudioSource>();
+        }
+        index = Mathf.Clamp(index, 0, bgm.Length);
+        bgmAudioSource.clip = bgm[index];
+        bgmAudioSource.loop = true;
+        bgmAudioSource.volume = BgmVolume * Volume;
+        bgmAudioSource.Play();
+    }
+
 
     public void PlayBgmByName(string name, GameObject obj)
     {
         PlayBgm(GetBgmIndex(name),obj);
+    }
+    public void PlayBgmByName(string name)
+    {
+        PlayBgm(GetBgmIndex(name));
     }
 
     public void StopBgm()
@@ -147,10 +169,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
         index = Mathf.Clamp(index, 0, se.Length);
         if (obj.GetComponent<AudioSource>() != null)
         {
-            seAudioSource = obj.AddComponent<AudioSource>();
+            seAudioSource = obj.GetComponent<AudioSource>();
             seAudioSource.GetComponent<AudioSource>().spatialBlend = 1;
             seAudioSource.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
-            seAudioSource = obj.GetComponent<AudioSource>();
         }
         else
         {
@@ -162,24 +183,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
        
         seAudioSource.PlayOneShot(se[index], SeVolume * Volume);
     }
-    public void PlaySe(int index, GameObject obj,string audio)
+    public void PlaySe(int index)
     {
         index = Mathf.Clamp(index, 0, se.Length);
-        if (obj.GetComponent<AudioSource>() != null)
-        {
-            seAudioSource = obj.AddComponent<AudioSource>();
-            seAudioSource.GetComponent<AudioSource>().spatialBlend = 0;
-            seAudioSource.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
-            seAudioSource = obj.GetComponent<AudioSource>();
-        }
-        else
-        {
-            seAudioSource = obj.AddComponent<AudioSource>();
-            seAudioSource = obj.GetComponent<AudioSource>();
-            seAudioSource.GetComponent<AudioSource>().spatialBlend = 0;
-            seAudioSource.GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
-        }
-
         seAudioSource.PlayOneShot(se[index], SeVolume * Volume);
     }
 
@@ -191,9 +197,9 @@ public class SoundManager : SingletonMonoBehaviour<SoundManager>
     {
         StartCoroutine(DelayCall(name,obj,time));
     }
-    public void PlaySeByName(string name, GameObject obj,string audio)
+    public void PlaySeByName(string name)
     {
-        PlaySe(GetSeIndex(name), obj,audio);
+        PlaySe(GetSeIndex(name));
     }
 
     public void StopSe(GameObject obj)

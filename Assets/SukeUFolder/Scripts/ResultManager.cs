@@ -10,6 +10,7 @@ public class ResultManager : MonoBehaviour, IResultManager
     public GameObject ResultUI;
     TextMeshProUGUI ScoreText;
     TextMeshProUGUI DetailText;
+    TextMeshProUGUI GradeText;
     TextMeshProUGUI RankingText;
     TextMeshProUGUI YourRankText;
     /// <summary>
@@ -31,7 +32,8 @@ public class ResultManager : MonoBehaviour, IResultManager
     {
         ScoreText=GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         DetailText = GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(3).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
-        RankingText= GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
+        GradeText = GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(3).GetChild(0).GetChild(2).GetComponent<TextMeshProUGUI>();
+        RankingText = GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         YourRankText= GameObject.FindGameObjectWithTag("ResultUI").transform.GetChild(2).GetChild(1).GetChild(0).GetChild(1).GetComponent<TextMeshProUGUI>();
         ranking[0] = PlayerPrefs.GetInt("First", 48700);
         ranking[1] = PlayerPrefs.GetInt("Second", 0);
@@ -53,7 +55,8 @@ public class ResultManager : MonoBehaviour, IResultManager
         }
         
         SetRanking(score);
-        ScoreText.text = $"score:{score}";
+        SetGrade(score);
+        ScoreText.text = $"ÉXÉRÉA:{score}";
         DetailText.text = $"ç≈ëÂÉRÉìÉ{:{maxCombo}\nëœãvéûä‘:{elapsedTime:f1}\nìIîjâÛêî:{ targetCount}\nìIîjâÛïΩãœéûä‘:{ breakAverage:f2}";
         RankingText.text = $"1à :{ranking[0]}\n2à :{ranking[1]}\n3à :{ranking[2]}";
         YourRankText.text = $"Ç†Ç»ÇΩÇÃèáà {yourRank}";
@@ -86,6 +89,28 @@ public class ResultManager : MonoBehaviour, IResultManager
                 break;
             }
             else { yourRank = "ÉâÉìÉNäO"; }
+        }
+
+    }
+
+    public void SetGrade(int score)
+    {
+       
+       if(score> 22800)
+        {
+            GradeText.text= $"ï]âøÅFS";
+        }
+        else if(score> 11600)
+        {
+            GradeText.text = $"ï]âøÅFA";
+        }
+        else if(score> 4000)
+        {
+            GradeText.text = $"ï]âøÅFB";
+        }
+        else
+        {
+            GradeText.text = $"ï]âøÅFC";
         }
 
     }
