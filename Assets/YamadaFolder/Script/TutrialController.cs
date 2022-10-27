@@ -13,10 +13,16 @@ public class TutrialController : MonoBehaviour
 
     [SerializeField] GameObject pointImage;//パネル上部
 
+    [SerializeField] GameObject RightCube;//チュートリアルパネルの左右の矢印
+    [SerializeField] GameObject LeftCube;
+
+    private IStateChanger stateChanger;
+
     // Start is called before the first frame update
     void Start()
     {
-        for(int i=0; i < explainObjs.Length; i++)
+        stateChanger = GameObject.FindGameObjectWithTag("GameController").GetComponent<IStateChanger>();
+        for (int i=0; i < explainObjs.Length; i++)
         {
             explainObjs[i].SetActive(false);
         }
@@ -27,6 +33,16 @@ public class TutrialController : MonoBehaviour
 
     private void Update()
     {
+        if (stateChanger.currentState == IStateChanger.GameState.Title)
+        {
+            RightCube.SetActive(true);
+            LeftCube.SetActive(true);
+        }
+        else
+        {
+            RightCube.SetActive(false);
+            LeftCube.SetActive(false);
+        }
         /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
