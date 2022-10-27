@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AssistTargetObj: {fileID: 2987484892344519008, guid: 8ed382d2c56c5c244aa59b21df1f1527, type: 3}
+  BreakEffectObj: {fileID: 8921722629840748422, guid: 9faed95f5ff1c034c9635d609284bd03, type: 3}
